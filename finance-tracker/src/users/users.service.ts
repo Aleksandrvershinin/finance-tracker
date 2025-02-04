@@ -22,8 +22,8 @@ export class UsersService {
     //   })
     // }
 
-    // // Получение всех пользователей
-    // async findAll() {
-    //   return this.prisma.user.findMany()
-    // }
+    // Получение всех пользователей
+    async findAll() {
+        return this.prisma.user.findMany()
+    }
 }

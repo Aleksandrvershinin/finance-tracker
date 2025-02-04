@@ -19,11 +19,11 @@ export class UsersController {
     //   return this.usersService.create(createUserDto)
     // }
 
-    // // GET-запрос для получения всех пользователей
-    // @Get()
-    // async findAll() {
-    //   return this.usersService.findAll()
-    // }
+    // GET-запрос для получения всех пользователей
+    @Get()
+    async findAll() {
+        return this.usersService.findAll()
+    }
 
     // Защищаем маршрут, чтобы только авторизованные пользователи могли получить доступ
     @UseGuards(JwtAuthGuard)

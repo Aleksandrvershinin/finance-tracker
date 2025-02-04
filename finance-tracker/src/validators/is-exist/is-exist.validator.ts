@@ -13,7 +13,9 @@ export class IsExistConstraint implements ValidatorConstraintInterface {
 
     async validate(value: any, args: ValidationArguments) {
         const [tableName, fieldName] = args.constraints
-
+        if (value === '' || value === null || value === undefined) {
+            throw new Error(`${fieldName} не валидно`)
+        }
         // Получаем модель через PrismaService
         const model = this.prisma[tableName] // Используем динамическое получение модели
 
