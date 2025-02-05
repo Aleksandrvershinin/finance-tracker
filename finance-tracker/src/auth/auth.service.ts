@@ -7,10 +7,13 @@ import { getJwtSecret } from 'src/config/jwt.config'
 import { LoginUserDto } from './dto/login-user.dto'
 import { UserOutputDto } from 'src/users/dto/user-output.dto'
 import { plainToClass } from 'class-transformer'
+import { PrismaService } from 'src/prisma/prisma.service'
+import { SignupUserDto } from './dto/signup-user.dto'
 
 @Injectable()
 export class AuthService {
     constructor(
+        private readonly prisma: PrismaService,
         private readonly usersService: UsersService, // Инжектируем сервис пользователей
         private readonly jwtService: JwtService, // Инжектируем JWT сервис
     ) {}
@@ -37,6 +40,30 @@ export class AuthService {
             sub: validatedUser.id,
         }
         const userDto = plainToClass(UserOutputDto, validatedUser)
+        return {
+            accessToken: this.jwtService.sign(payload, {
+                secret: getJwtSecret(),
+            }),
+            user: userDto,
+        }
+    }
+
+    async signup(user: SignupUserDto) {
+        // Хешируем пароль перед сохранением
+        const hashedPassword = await bcrypt.hash(user.password, 10)
+
+        // Создаём пользователя в базе
+        const newUser = await this.prisma.user.create({
+            data: {
+                name: user.name,
+                email: user.email,
+                password: hashedPassword,
+            },
+        })
+        const payload = {
+            sub: newUser.id,
+        }
+        const userDto = plainToClass(UserOutputDto, newUser)
         return {
             accessToken: this.jwtService.sign(payload, {
                 secret: getJwtSecret(),

@@ -1,5 +1,5 @@
 import { useAuthStore } from '@/entities/auth/lib/useAuthStore'
-import Login from '@/entities/auth/ui/Login'
+import AuthController from '@/entities/auth/ui/AuthController'
 import Loading from '@/shared/components/ui/Loading'
 import { useEffect } from 'react'
 
@@ -18,9 +18,8 @@ function AuthProvider({ children }: Props) {
 
     return (
         <>
-            {!isLoading && isAuth && children}
+            {isAuth ? children : <AuthController />}
             <Loading isShow={isLoading}></Loading>
-            <Login isShow={!isLoading && !isAuth} />
         </>
     )
 }

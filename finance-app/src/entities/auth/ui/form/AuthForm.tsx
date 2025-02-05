@@ -4,9 +4,10 @@ type Props = {
     title: string
     onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
     error?: string
+    footer?: React.ReactNode
 }
 
-function AuthForm({ buttons, fields, title, onSubmit, error }: Props) {
+function AuthForm({ buttons, fields, title, onSubmit, error, footer }: Props) {
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-2xl w-96">
@@ -26,6 +27,7 @@ function AuthForm({ buttons, fields, title, onSubmit, error }: Props) {
                         <div key={index}>{btn}</div>
                     ))}
                 </form>
+                {footer && footer}
             </div>
         </div>
     )

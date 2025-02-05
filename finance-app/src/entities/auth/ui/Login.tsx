@@ -4,12 +4,9 @@ import { useAuthStore } from '../lib/useAuthStore'
 import { authFormSchema, TAuthForm } from '../types/auth.types'
 import FormItem from '@/shared/components/ui/FormInput'
 import Button from '@/shared/components/ui/Button/Button'
-import Portal from '@/shared/components/Portal'
-import ModalOpacity from '@/shared/components/ModalOpacity'
-import Loading from '@/shared/components/ui/Loading'
 import AuthForm from './form/AuthForm'
 
-const Login = ({ isShow = true }: { isShow?: boolean }) => {
+const Login = () => {
     const {
         handleSubmit,
         control,
@@ -19,7 +16,7 @@ const Login = ({ isShow = true }: { isShow?: boolean }) => {
         defaultValues: { email: '', password: '' },
     })
     const login = useAuthStore((state) => state.login)
-    const isLoading = useAuthStore((state) => state.isLoadingLogin)
+    const setComponent = useAuthStore((state) => state.setComponent)
     const errorLogin = useAuthStore((state) => state.errorLogin)
     const onSubmit = async (data: TAuthForm) => {
         await login(data)
@@ -27,31 +24,39 @@ const Login = ({ isShow = true }: { isShow?: boolean }) => {
 
     return (
         <>
-            <Portal>
-                <ModalOpacity isOpen={isShow}>
-                    <AuthForm
-                        buttons={[<Button className="w-full">Войти</Button>]}
-                        onSubmit={handleSubmit(onSubmit)}
-                        title="Авторизация"
-                        error={errorLogin || undefined}
-                        fields={[
-                            <FormItem
-                                error={errors.email}
-                                control={control}
-                                placeholder="email"
-                                name="email"
-                            />,
-                            <FormItem
-                                error={errors.password}
-                                control={control}
-                                placeholder="password"
-                                name="password"
-                            />,
-                        ]}
-                    />
-                </ModalOpacity>
-            </Portal>
-            <Loading isShow={isLoading} />
+            <AuthForm
+                footer={
+                    <div className="flex gap-x-2 justify-center">
+                        <p>Нет аккаунта?</p>
+                        <button
+                            onClick={() => {
+                                setComponent('signup')
+                            }}
+                            className="text-blue-500"
+                        >
+                            Зарегистрироваться
+                        </button>
+                    </div>
+                }
+                buttons={[<Button className="w-full">Войти</Button>]}
+                onSubmit={handleSubmit(onSubmit)}
+                title="Авторизация"
+                error={errorLogin || undefined}
+                fields={[
+                    <FormItem
+                        error={errors.email}
+                        control={control}
+                        placeholder="email"
+                        name="email"
+                    />,
+                    <FormItem
+                        error={errors.password}
+                        control={control}
+                        placeholder="password"
+                        name="password"
+                    />,
+                ]}
+            />
         </>
     )
 }
