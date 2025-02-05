@@ -1,53 +1,74 @@
 import { useUserStore } from '@/entities/user/lib/useUserStore'
 import { accessToken } from '@/shared/api/accessToken.api'
-import { apiAxios, apiAxiosWithAuthToken } from '@/shared/api/axiosInstance'
 import { create } from 'zustand'
+import { TAuthForm } from '../types/auth.types'
+import { authApi } from '../api/auth.api'
+import { userApi } from '@/entities/user/api/user.api'
+import { getErrorMessage } from '@/shared/lib/getErrorMessage'
 
 interface AuthState {
-    token: string | null
+    errorSignup: null | string
+    isLoadingSignup: boolean
+    errorLogin: null | string
+    isLoadingLogin: boolean
+    isLoadingCheckAuth: boolean
     isAuth: boolean
-    login: (email: string, password: string) => Promise<boolean>
+    login: (payload: TAuthForm) => Promise<boolean>
     logout: () => void
     checkAuth: () => Promise<void>
+    setIsAuth: (payload: boolean) => void
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-    token: accessToken.getToken(),
+    errorSignup: null,
+    isLoadingSignup: false,
+    errorLogin: null,
     isAuth: false,
+    isLoadingLogin: false,
+    isLoadingCheckAuth: false,
+    login: async (data) => {
+        set({ isLoadingLogin: true, errorLogin: null })
 
-    login: async (email, password) => {
         try {
-            const response = await apiAxios.post('/auth/login', {
-                email,
-                password,
-            })
-            const token = response.data.accessToken
-            accessToken.setToken(token)
-            set({ token, isAuth: true })
+            const response = await authApi.login(data)
+            accessToken.setToken(response.accessToken)
+            useUserStore.getState().setUser(response.user)
+            set({ isAuth: true })
             return true
         } catch (error) {
-            console.error('Ошибка входа', error)
+            const errorMessage = getErrorMessage(error)
+            set({ errorLogin: errorMessage })
+            console.error(error)
             return false
+        } finally {
+            set({ isLoadingLogin: false })
         }
     },
 
     logout: () => {
+        authApi.logout()
         accessToken.removeToken()
-        set({ token: null, isAuth: false })
+        set({ isAuth: false })
     },
 
     checkAuth: async () => {
+        set({ isLoadingCheckAuth: true })
         try {
-            const response = await apiAxiosWithAuthToken.get('/users/profile')
-            if (response.data) {
-                useUserStore.getState().setUser(response.data.user)
+            const user = await userApi.getProfile()
+            if (user) {
+                useUserStore.getState().setUser(user)
                 set({ isAuth: true })
             } else {
                 set({ isAuth: false })
             }
         } catch (error) {
-            console.error('Ошибка проверки авторизации', error)
+            console.error(error)
             set({ isAuth: false })
+        } finally {
+            set({ isLoadingCheckAuth: false })
         }
+    },
+    setIsAuth(isAuth) {
+        set({ isAuth })
     },
 }))

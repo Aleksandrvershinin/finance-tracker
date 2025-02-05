@@ -1,13 +1,32 @@
-import { ValidationPipe } from '@nestjs/common'
+import { BadRequestException, ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { useContainer } from 'class-validator'
+import { VALIDATION_MESSAGES } from './validators/validation-messages'
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule)
     app.setGlobalPrefix('api')
     // Включаем глобальную валидацию для всех запросов
-    app.useGlobalPipes(new ValidationPipe({ stopAtFirstError: true }))
+    app.useGlobalPipes(
+        new ValidationPipe({
+            stopAtFirstError: true,
+            exceptionFactory: (errors) => {
+                console.error('Ошибки валидации:', errors) // Логируем ошибки
+                throw new BadRequestException(
+                    errors.flatMap((err) =>
+                        err.constraints
+                            ? Object.entries(err.constraints).map(
+                                  ([key, value]) =>
+                                      VALIDATION_MESSAGES[key.toUpperCase()] ||
+                                      value,
+                              )
+                            : ['Неизвестная ошибка'],
+                    ),
+                )
+            },
+        }),
+    )
     useContainer(app.select(AppModule), { fallbackOnErrors: true })
     // Включаем CORS с определенным источником
     app.enableCors({

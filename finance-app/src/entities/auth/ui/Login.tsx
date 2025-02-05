@@ -1,42 +1,58 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useAuthStore } from '../lib/useAuthStore'
+import { authFormSchema, TAuthForm } from '../types/auth.types'
+import FormItem from '@/shared/components/ui/FormInput'
+import Button from '@/shared/components/ui/Button/Button'
+import Portal from '@/shared/components/Portal'
+import ModalOpacity from '@/shared/components/ModalOpacity'
+import Loading from '@/shared/components/ui/Loading'
+import AuthForm from './form/AuthForm'
 
-const Login = () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+const Login = ({ isShow = true }: { isShow?: boolean }) => {
+    const {
+        handleSubmit,
+        control,
+        formState: { errors },
+    } = useForm<TAuthForm>({
+        resolver: zodResolver(authFormSchema),
+        defaultValues: { email: '', password: '' },
+    })
     const login = useAuthStore((state) => state.login)
-    const navigate = useNavigate()
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-        const success = await login(email, password)
-        if (success) navigate('/')
+    const isLoading = useAuthStore((state) => state.isLoadingLogin)
+    const errorLogin = useAuthStore((state) => state.errorLogin)
+    const onSubmit = async (data: TAuthForm) => {
+        await login(data)
     }
 
     return (
-        <div className="flex flex-col items-center justify-center h-screen">
-            <h2 className="text-2xl mb-4">Авторизация</h2>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="p-2 border"
-                />
-                <input
-                    type="password"
-                    placeholder="Пароль"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="p-2 border"
-                />
-                <button type="submit" className="p-2 bg-blue-500 text-white">
-                    Войти
-                </button>
-            </form>
-        </div>
+        <>
+            <Portal>
+                <ModalOpacity isOpen={isShow}>
+                    <AuthForm
+                        buttons={[<Button className="w-full">Войти</Button>]}
+                        onSubmit={handleSubmit(onSubmit)}
+                        title="Авторизация"
+                        error={errorLogin || undefined}
+                        fields={[
+                            <FormItem
+                                error={errors.email}
+                                control={control}
+                                placeholder="email"
+                                name="email"
+                            />,
+                            <FormItem
+                                error={errors.password}
+                                control={control}
+                                placeholder="password"
+                                name="password"
+                            />,
+                        ]}
+                    />
+                </ModalOpacity>
+            </Portal>
+            <Loading isShow={isLoading} />
+        </>
     )
 }
 

@@ -5,6 +5,8 @@ import { UsersService } from '../users/users.service' // Модуль польз
 import * as bcrypt from 'bcrypt'
 import { getJwtSecret } from 'src/config/jwt.config'
 import { LoginUserDto } from './dto/login-user.dto'
+import { UserOutputDto } from 'src/users/dto/user-output.dto'
+import { plainToClass } from 'class-transformer'
 
 @Injectable()
 export class AuthService {
@@ -20,26 +22,26 @@ export class AuthService {
             foundUser &&
             (await bcrypt.compare(user.password, foundUser.password))
         ) {
-            const { password, ...result } = foundUser // Возвращаем пользователя без пароля
-            return result
+            return foundUser
         }
-        return null // Возвращаем null в случае неудачи
+        return null
     }
 
     async login(user: LoginUserDto) {
         const validatedUser = await this.validateUser(user) // Передаем пользователя в validateUser
         if (!validatedUser) {
-            throw new UnauthorizedException('Invalid credentials') // Ошибка при неправильных данных
+            throw new UnauthorizedException('Invalid password') // Ошибка при неправильных данных
         }
 
         const payload = {
             sub: validatedUser.id,
         }
-
+        const userDto = plainToClass(UserOutputDto, validatedUser)
         return {
             accessToken: this.jwtService.sign(payload, {
                 secret: getJwtSecret(),
             }),
+            user: userDto,
         }
     }
 }
