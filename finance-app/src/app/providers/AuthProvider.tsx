@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/entities/auth/lib/useAuthStore'
 import AuthController from '@/entities/auth/ui/AuthController'
-import Loading from '@/shared/components/ui/Loading'
+import Loading from '@/shared/components/Loading'
 import { useEffect } from 'react'
 
 type Props = {

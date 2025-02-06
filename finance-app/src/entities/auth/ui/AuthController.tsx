@@ -1,18 +1,17 @@
 import Portal from '@/shared/components/Portal'
 import { TTypeComponent } from '../types/auth.types'
-import ModalOpacity from '@/shared/components/ModalOpacity'
-import Loading from '@/shared/components/ui/Loading'
+import ModalOpacity from '@/shared/components/ui/ModalOpacity'
+import Loading from '@/shared/components/Loading'
 import { useAuthStore } from '../lib/useAuthStore'
 import { useEffect } from 'react'
 import Login from './Login'
 import Signup from './Signup'
 
 type Props = {
-    isShow?: boolean
     commponent?: TTypeComponent
 }
 
-function AuthController({ isShow = true, commponent = 'login' }: Props) {
+function AuthController({ commponent = 'login' }: Props) {
     const isLoadingLogin = useAuthStore((state) => state.isLoadingLogin)
     const isLoadingSignup = useAuthStore((state) => state.isLoadingSignup)
     const typeCommponent = useAuthStore((state) => state.typeComponent)
@@ -34,7 +33,7 @@ function AuthController({ isShow = true, commponent = 'login' }: Props) {
     return (
         <>
             <Portal>
-                <ModalOpacity isOpen={isShow}>{render()}</ModalOpacity>
+                <ModalOpacity>{render()}</ModalOpacity>
             </Portal>
             <Loading isShow={isLoading} />
         </>

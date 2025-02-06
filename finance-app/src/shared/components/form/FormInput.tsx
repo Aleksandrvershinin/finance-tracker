@@ -1,6 +1,6 @@
 import type { FieldValues, Path, FieldError, Control } from 'react-hook-form'
 import { Controller } from 'react-hook-form'
-import MyInput from './inputs/MyInput/MyInput'
+import MyInput from '../ui/inputs/MyInput/MyInput'
 
 interface PropsFormItem<T extends FieldValues> {
     control: Control<T>
@@ -12,7 +12,7 @@ interface PropsFormItem<T extends FieldValues> {
     id?: string
 }
 
-function FormItem<T extends FieldValues>(props: PropsFormItem<T>) {
+function FormIput<T extends FieldValues>(props: PropsFormItem<T>) {
     const {
         error,
         control,
@@ -34,6 +34,7 @@ function FormItem<T extends FieldValues>(props: PropsFormItem<T>) {
                         type={type}
                         myColor={error ? 'error' : 'primary'}
                         {...(placeholder && { placeholder })}
+                        {...(id && { id })}
                         {...field}
                     />
                 )}
@@ -43,4 +44,4 @@ function FormItem<T extends FieldValues>(props: PropsFormItem<T>) {
     )
 }
 
-export default FormItem
+export default FormIput

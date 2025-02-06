@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Currency` ADD COLUMN `symbol` VARCHAR(191) NOT NULL DEFAULT '';

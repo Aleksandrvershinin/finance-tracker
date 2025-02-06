@@ -9,6 +9,7 @@ import { User } from '@prisma/client'
 import { RolesGuard } from 'src/auth/role.guard'
 import { Roles } from 'src/auth/roles.decorator'
 
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}

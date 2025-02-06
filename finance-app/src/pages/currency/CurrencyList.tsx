@@ -24,7 +24,7 @@ const CurrencyList = () => {
             <MyTable
                 headers={currencyHeaders}
                 renderRow={renderCurrenciesRow}
-                data={[...currencies, ...currencies, ...currencies]}
+                data={[...currencies]}
             />
         </div>
     )

@@ -37,6 +37,6 @@ export class IsUniqueConstraint implements ValidatorConstraintInterface {
     }
 
     defaultMessage(args: ValidationArguments) {
-        return `${args.property} ${args.value} уже существует`
+        return `${args.value} уже существует`
     }
 }

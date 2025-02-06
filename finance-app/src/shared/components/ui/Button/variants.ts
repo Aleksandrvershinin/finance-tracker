@@ -6,8 +6,8 @@ export const variants = cva(
         variants: {
             myColor: {
                 blue500: ['bg-blue-500', 'text-white'],
-                green500: ['bg-[--green-500]', 'text-white'],
-                red500: ['bg-[--red-500]', 'text-white'],
+                green500: ['bg-green-500', 'text-white'],
+                red500: ['bg-red-500', 'text-white'],
             },
             rounded: {
                 rounded: ['rounded'],

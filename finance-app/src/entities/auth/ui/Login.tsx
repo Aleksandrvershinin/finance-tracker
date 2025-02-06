@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAuthStore } from '../lib/useAuthStore'
 import { authFormSchema, TAuthForm } from '../types/auth.types'
-import FormItem from '@/shared/components/ui/FormInput'
+import FormItem from '@/shared/components/form/FormInput'
 import Button from '@/shared/components/ui/Button/Button'
 import AuthForm from './form/AuthForm'
 
@@ -38,7 +38,7 @@ const Login = () => {
                         </button>
                     </div>
                 }
-                buttons={[<Button className="w-full">Войти</Button>]}
+                buttons={<Button className="w-full">Войти</Button>}
                 onSubmit={handleSubmit(onSubmit)}
                 title="Авторизация"
                 error={errorLogin || undefined}

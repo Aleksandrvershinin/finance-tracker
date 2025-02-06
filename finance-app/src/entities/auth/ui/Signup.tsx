@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { signupFormSchema, TSignupForm } from '../types/auth.types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAuthStore } from '../lib/useAuthStore'
-import FormItem from '@/shared/components/ui/FormInput'
+import FormItem from '@/shared/components/form/FormInput'
 
 function Signup() {
     const {
@@ -38,9 +38,7 @@ function Signup() {
                         </button>
                     </div>
                 }
-                buttons={[
-                    <Button className="w-full">Зарегистрироваться</Button>,
-                ]}
+                buttons={<Button className="w-full">Зарегистрироваться</Button>}
                 onSubmit={handleSubmit(onSubmit)}
                 title="Регистрация"
                 error={errorSignup || undefined}
