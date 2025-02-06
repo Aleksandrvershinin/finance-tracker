@@ -5,10 +5,18 @@ import { PrismaModule } from './prisma/prisma.module'
 import { CurrencyModule } from './currency/currncy.module'
 import { AccountsModule } from './accounts/accounts.module'
 import { IsExistConstraint } from './validators/is-exist/is-exist.validator'
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/auth.module'
+import { CategoriesModule } from './categories/categories.module'
 
 @Module({
-    imports: [PrismaModule, UsersModule, CurrencyModule, AccountsModule, AuthModule],
+    imports: [
+        PrismaModule,
+        UsersModule,
+        CurrencyModule,
+        AccountsModule,
+        AuthModule,
+        CategoriesModule,
+    ],
     providers: [IsUniqueConstraint, IsExistConstraint],
 })
 export class AppModule {}

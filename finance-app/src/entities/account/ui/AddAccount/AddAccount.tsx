@@ -8,6 +8,7 @@ import { useCurrencyStore } from '@/entities/currency/lib/useCurrencyStore'
 import MyForm from '@/shared/components/form/MyForm/MyForm'
 import { useFetch } from '@/shared/lib/hooks/useFetch'
 import { accountApi } from '../../api/account.api'
+import { useAccountStore } from '../../lib/useAccountStore'
 
 interface Props {
     handleClose: () => void
@@ -16,6 +17,7 @@ interface Props {
 function AddAccount({ handleClose }: Props) {
     const { error, fetchFunction, isLoading } = useFetch()
     const currencies = useCurrencyStore((state) => state.currencies)
+    const loadAccounts = useAccountStore((state) => state.load)
     const {
         handleSubmit,
         control,
@@ -32,7 +34,10 @@ function AddAccount({ handleClose }: Props) {
         const res = await fetchFunction(async () => {
             return await accountApi.store(data)
         })
-        console.log(res)
+        if (res) {
+            loadAccounts()
+            handleClose()
+        }
     }
     return (
         <>

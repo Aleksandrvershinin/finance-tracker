@@ -15,14 +15,12 @@ function Accounts() {
         setShowForm(false)
     }
     return (
-        <div>
-            <div className="flex gap-x-10 mb-10 items-center">
-                <p className="text-xl">Счета</p>
-                <Button onClick={handleOpen} myColor="green500">
-                    Добавить
-                </Button>
-            </div>
+        <div className="w-72 flex flex-col gap-y-5">
+            <h2 className="text-2xl font-bold">Счета</h2>
             <AccountList />
+            <Button onClick={handleOpen} myColor="green500">
+                Добавить
+            </Button>
             <AnimatePresence>
                 {showForm && (
                     <Portal>

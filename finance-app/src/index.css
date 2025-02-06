@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --soft-shadow: 0px 6px 34px 0px rgba(0, 0, 0, 0.12);
+}

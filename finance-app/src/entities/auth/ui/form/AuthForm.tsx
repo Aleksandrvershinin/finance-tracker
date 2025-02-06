@@ -11,7 +11,7 @@ type Props = {
 
 function AuthForm({ buttons, fields, title, onSubmit, error, footer }: Props) {
     return (
-        <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+        <div className="flex flex-col items-center pt-20 h-screen bg-gray-100">
             <MyForm
                 buttons={buttons}
                 fields={fields}
