@@ -1,29 +1,35 @@
 import Button from '@/shared/components/ui/Button/Button'
-import AccountList from './AccountList'
 import { useState } from 'react'
+import CategoryList from './CategoryList'
 import { AnimatePresence } from 'framer-motion'
 import Portal from '@/shared/components/Portal'
 import ModalOpacity from '@/shared/components/ui/ModalOpacity'
-import AddAccount from './AddAccount/AddAccount'
+import CategoryForm from './CategoryForm'
+import { TCategory } from '../types/category.types'
 
-function Accounts() {
+function Categories() {
     const [showForm, setShowForm] = useState(false)
+    const [category, setCategory] = useState<TCategory | undefined>(undefined)
+    const handleEditClick = (category: TCategory) => {
+        setCategory(category)
+        setShowForm(true)
+    }
     const handleOpen = () => {
         setShowForm(true)
     }
     const handleClose = () => {
         setShowForm(false)
+        setCategory(undefined)
     }
     return (
-        <div className="w-72 flex flex-col gap-y-5">
-            <h2 className="text-2xl font-bold">Счета</h2>
-            <AccountList />
-            <Button onClick={handleOpen} myColor="green500">
-                Добавить счет
+        <>
+            <Button className="mb-4" onClick={handleOpen} myColor="green500">
+                Добавить
             </Button>
-            <Button onClick={handleOpen} myColor="softPurple">
-                Добавить операцию
-            </Button>
+            <CategoryList
+                handleClose={handleClose}
+                handleEditClick={handleEditClick}
+            ></CategoryList>
             <AnimatePresence>
                 {showForm && (
                     <Portal>
@@ -32,14 +38,17 @@ function Accounts() {
                                 className="w-fit mx-auto mt-10"
                                 onClick={(e) => e.stopPropagation()}
                             >
-                                <AddAccount handleClose={handleClose} />
+                                <CategoryForm
+                                    data={category}
+                                    handleClose={handleClose}
+                                />
                             </div>
                         </ModalOpacity>
                     </Portal>
                 )}
             </AnimatePresence>
-        </div>
+        </>
     )
 }
 
-export default Accounts
+export default Categories

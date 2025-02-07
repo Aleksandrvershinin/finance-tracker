@@ -7,6 +7,9 @@ import { AccountsModule } from './accounts/accounts.module'
 import { IsExistConstraint } from './validators/is-exist/is-exist.validator'
 import { AuthModule } from './auth/auth.module'
 import { CategoriesModule } from './categories/categories.module'
+import { TransactionService } from './transaction/transaction.service';
+import { TransactionController } from './transaction/transaction.controller';
+import { TransactionModule } from './transaction/transaction.module';
 
 @Module({
     imports: [
@@ -16,7 +19,9 @@ import { CategoriesModule } from './categories/categories.module'
         AccountsModule,
         AuthModule,
         CategoriesModule,
+        TransactionModule,
     ],
-    providers: [IsUniqueConstraint, IsExistConstraint],
+    providers: [IsUniqueConstraint, IsExistConstraint, TransactionService],
+    controllers: [TransactionController],
 })
 export class AppModule {}

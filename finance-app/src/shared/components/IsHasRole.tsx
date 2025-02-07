@@ -2,7 +2,7 @@ import { useUserStore } from '@/entities/user/lib/useUserStore'
 import { TUser } from '@/entities/user/types/user.types'
 
 type Props = {
-    children: React.ReactNode
+    children?: React.ReactNode
     userRole: TUser['role']
 }
 

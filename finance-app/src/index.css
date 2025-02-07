@@ -3,5 +3,17 @@
 @tailwind utilities;
 
 :root {
-  --soft-shadow: 0px 6px 34px 0px rgba(0, 0, 0, 0.12);
+    --soft-shadow: 0px 6px 34px 0px rgba(0, 0, 0, 0.12);
+    --red-50: #ffe2e4;
+    --red-100: #ffbac2;
+    --red-200: #df0613;
+    --red-300: #dc3545;
+    --red-500: #e0001a;
+    --red-600: #d9001b;
+    --red-700: #b80016;
+    --soft-purple: #aa66cc;
+}
+.container {
+    margin-left: auto;
+    margin-right: auto;
 }

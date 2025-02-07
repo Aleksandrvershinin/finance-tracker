@@ -7,8 +7,10 @@ export const categorySchema = z.object({
 })
 
 export const categoryFormSchema = z.object({
-    name: z.string().nonempty({ message: 'Название обязательно' }),
-    type: z.enum(['INCOME', 'EXPENSE']),
+    name: z
+        .string({ message: 'Название обязательно' })
+        .nonempty({ message: 'Название обязательно' }),
+    type: z.enum(['INCOME', 'EXPENSE'], { message: 'Поле обязательно' }),
 })
 
 export type TCategory = z.infer<typeof categorySchema>

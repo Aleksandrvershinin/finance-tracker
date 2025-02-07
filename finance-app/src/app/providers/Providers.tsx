@@ -1,12 +1,12 @@
 import AuthProvider from './AuthProvider'
-import CurrencyStoreProvider from './CurrencyStoreProvider'
+import DataProvider from './DataProvider'
 
 type Props = { children: React.ReactNode }
 
 function Providers({ children }: Props) {
     return (
         <AuthProvider>
-            <CurrencyStoreProvider>{children}</CurrencyStoreProvider>
+            <DataProvider>{children}</DataProvider>
         </AuthProvider>
     )
 }
