@@ -49,17 +49,20 @@ function AddAccount({ handleClose }: Props) {
                     handlerSubmit={handleSubmit(onSubmit)}
                     buttons={
                         <div className="flex flex-col gap-y-4">
-                            <Button disabled={isLoading} className="w-full">
-                                Сохранить
-                            </Button>
                             <Button
-                                type="button"
-                                onClick={handleClose}
-                                myColor={'red500'}
+                                myColor={'green500'}
+                                disabled={isLoading}
                                 className="w-full"
                             >
-                                Отменить
+                                Сохранить
                             </Button>
+                            <button
+                                className="text-blue-500 w-fit mx-auto"
+                                type="button"
+                                onClick={handleClose}
+                            >
+                                Отменить
+                            </button>
                         </div>
                     }
                     fields={[

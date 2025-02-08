@@ -12,10 +12,9 @@ import { JwtStrategy } from './jwt.strategy'
         PassportModule, // Импортируем Passport для аутентификации
         JwtModule.register({
             secret: process.env.JWT_SECRET || 'super-secret-key', // Настройки JWT
-            signOptions: { expiresIn: '1h' }, // Токен будет действовать 1 час
         }),
     ],
     controllers: [AuthController], // Контроллер авторизации
-    providers: [AuthService, JwtStrategy, JwtService], // Сервис и стратегия для авторизации
+    providers: [AuthService, JwtStrategy, JwtService],
 })
 export class AuthModule {}

@@ -1,3 +1,4 @@
+import { useAccountStore } from '@/entities/account/lib/useAccountStore'
 import { useCategoriesStore } from '@/entities/category/lib/useCategoriesStore'
 import { useCurrencyStore } from '@/entities/currency/lib/useCurrencyStore'
 import Loading from '@/shared/components/Loading'
@@ -8,15 +9,19 @@ type Props = {
 }
 
 function DataProvider({ children }: Props) {
+    const loadAccounts = useAccountStore((state) => state.load)
+    const isLoadingAccounts = useAccountStore((state) => state.isLoading)
     const loadCurrencies = useCurrencyStore((state) => state.loadCurrencies)
     const isLoadingCurrencies = useCurrencyStore((state) => state.isLoading)
     const isLoadingCategories = useCategoriesStore((state) => state.isLoading)
     const loadCategories = useCategoriesStore((state) => state.load)
-    const isLoading = isLoadingCurrencies && isLoadingCategories
+    const isLoading =
+        isLoadingCurrencies && isLoadingCategories && isLoadingAccounts
     useEffect(() => {
         loadCurrencies()
         loadCategories()
-    }, [loadCurrencies, loadCategories])
+        loadAccounts()
+    }, [loadCurrencies, loadCategories, loadAccounts])
 
     return (
         <>

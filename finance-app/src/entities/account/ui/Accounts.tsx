@@ -15,14 +15,11 @@ function Accounts() {
         setShowForm(false)
     }
     return (
-        <div className="w-72 flex flex-col gap-y-5">
+        <div className="flex flex-col gap-y-5">
             <h2 className="text-2xl font-bold">Счета</h2>
             <AccountList />
             <Button onClick={handleOpen} myColor="green500">
                 Добавить счет
-            </Button>
-            <Button onClick={handleOpen} myColor="softPurple">
-                Добавить операцию
             </Button>
             <AnimatePresence>
                 {showForm && (

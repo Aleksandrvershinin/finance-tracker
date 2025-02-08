@@ -9,7 +9,10 @@ interface ModalOpacityProps extends HTMLMotionProps<'div'> {
 
 const ModalOpacity = (props: ModalOpacityProps) => {
     const { children, className, duration = 0.3, ...rest } = props
-    const classes = clsx(className, 'fixed inset-0 bg-black bg-opacity-50 z-10')
+    const classes = clsx(
+        className,
+        'fixed inset-0 bg-black bg-opacity-50 z-10 overflow-auto',
+    )
     return (
         <motion.div
             {...rest}

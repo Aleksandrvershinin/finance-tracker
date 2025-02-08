@@ -43,6 +43,7 @@ export class AuthService {
         return {
             accessToken: this.jwtService.sign(payload, {
                 secret: getJwtSecret(),
+                expiresIn: '60m',
             }),
             user: userDto,
         }

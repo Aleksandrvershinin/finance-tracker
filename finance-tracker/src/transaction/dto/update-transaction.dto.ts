@@ -6,7 +6,6 @@ import {
     IsEnum,
     IsISO8601,
 } from 'class-validator'
-import { TransactionType } from '@prisma/client'
 import { IsExist } from 'src/validators/is-exist/is-exist.decorator'
 
 export class UpdateTransactionDto {
@@ -23,9 +22,6 @@ export class UpdateTransactionDto {
 
     @IsISO8601()
     date: string
-
-    @IsEnum(TransactionType)
-    type: TransactionType
 
     @IsOptional()
     @IsString()

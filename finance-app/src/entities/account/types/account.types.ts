@@ -1,26 +1,26 @@
 import { currencySchema } from '@/entities/currency/types/currency.types'
+import { validationMessages } from '@/shared/configs/validationMessages'
 import { z } from 'zod'
 
+export const accountIdSchema = z.number({ message: 'Поле обязательно' })
+
 export const accountSchema = z.object({
-    id: z.number(),
+    id: accountIdSchema,
     balance: z.number(),
     name: z.string(),
     currency: currencySchema,
 })
 
 export const accountFormSchema = z.object({
-    name: z.string().nonempty({ message: 'Название обязательно' }),
-    balance: z
-        .number()
-        .transform((val) => Number(val))
-        .refine((val) => !isNaN(val), {
-            message: 'Должно быть числом',
-        }),
+    name: z.string().nonempty({ message: validationMessages.required }),
+    balance: z.coerce
+        .number({ message: validationMessages.mustNumber })
+        .min(0, { message: validationMessages.minLengthNumber(0) }),
     currencyId: z
-        .number({ message: 'Обязательное поле' })
+        .number({ message: validationMessages.required })
         .transform((val) => Number(val))
         .refine((val) => !isNaN(val), {
-            message: 'Выберете валюту',
+            message: validationMessages.required,
         }),
 })
 

@@ -21,6 +21,7 @@ interface Props<T extends FieldValues> {
     placeholder?: string
     id?: string
     isClearable?: boolean
+    readonly?: boolean
 }
 
 function FormSelect<T extends FieldValues>(props: Props<T>) {
@@ -33,6 +34,7 @@ function FormSelect<T extends FieldValues>(props: Props<T>) {
         label,
         placeholder,
         isClearable,
+        readonly,
     } = props
     return (
         <div className="flex flex-col gap-y-2">
@@ -43,6 +45,7 @@ function FormSelect<T extends FieldValues>(props: Props<T>) {
                 render={({ field }) => (
                     <Select
                         {...field}
+                        isDisabled={readonly}
                         options={options}
                         value={
                             options.find(

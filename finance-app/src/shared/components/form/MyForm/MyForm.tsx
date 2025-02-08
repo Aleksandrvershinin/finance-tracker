@@ -3,7 +3,7 @@ import clsx from 'clsx'
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
     buttons: React.ReactNode
     fields: React.ReactNode[]
-    title: string
+    title?: string
     handlerSubmit: (event: React.FormEvent<HTMLFormElement>) => void
     error?: string | null
     footer?: React.ReactNode

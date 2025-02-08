@@ -1,16 +1,20 @@
 import { z } from 'zod'
 
+export const categoryIdSchema = z.number({ message: 'Поле обязательно' })
+export const TransactionTypeSchema = z.enum(['INCOME', 'EXPENSE'], {
+    message: 'Поле обязательно',
+})
 export const categorySchema = z.object({
-    id: z.number(),
+    id: categoryIdSchema,
     name: z.string(),
-    type: z.enum(['INCOME', 'EXPENSE']),
+    type: TransactionTypeSchema,
 })
 
 export const categoryFormSchema = z.object({
     name: z
         .string({ message: 'Название обязательно' })
         .nonempty({ message: 'Название обязательно' }),
-    type: z.enum(['INCOME', 'EXPENSE'], { message: 'Поле обязательно' }),
+    type: TransactionTypeSchema,
 })
 
 export type TCategory = z.infer<typeof categorySchema>

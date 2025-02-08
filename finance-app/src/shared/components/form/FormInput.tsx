@@ -31,11 +31,11 @@ function FormIput<T extends FieldValues>(props: PropsFormItem<T>) {
                 control={control}
                 render={({ field }) => (
                     <MyInput
+                        {...field}
                         type={type}
                         myColor={error ? 'error' : 'primary'}
                         {...(placeholder && { placeholder })}
                         {...(id && { id })}
-                        {...field}
                     />
                 )}
             />

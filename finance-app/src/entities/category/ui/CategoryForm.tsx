@@ -3,6 +3,7 @@ import {
     categoryFormSchema,
     TCategory,
     TCategoryForm,
+    TransactionTypeSchema,
 } from '../types/category.types'
 import { useCategoriesStore } from '../lib/useCategoriesStore'
 import { useForm } from 'react-hook-form'
@@ -18,7 +19,7 @@ type Props = {
     handleClose: () => void
     data?: TCategory
 }
-const categoryTypes = Object.values(categoryFormSchema.shape.type.enum)
+const categoryTypes = Object.values(TransactionTypeSchema.enum)
 
 function CategoryForm({ handleClose, data }: Props) {
     const { error, fetchFunction, isLoading } = useFetch()
