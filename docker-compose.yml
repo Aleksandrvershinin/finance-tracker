@@ -1,0 +1,67 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: finance-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: finance_tracker
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+    ports:
+      - "3306:3306"
+    volumes:
+      - finance_mysql_data:/var/lib/mysql
+    networks:
+      - finance-network
+
+  finance-phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: finance-phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - finance-network
+
+  nestjs:
+    build:
+      context: ./backend # Путь к папке с приложением NestJS
+    container_name: finance-nestjs
+    ports:
+      - "3000:3000" # Порт, на котором будет доступно приложение
+    environment:
+      - NODE_ENV=development # Для работы в дев-режиме
+    volumes:
+      - ./backend:/usr/src/app # Монтируем локальные файлы для разработки
+      - /usr/src/app/node_modules # Чтобы не перезаписывать node_modules в контейнере
+    depends_on:
+      - mysql # NestJS зависит от MySQL
+    networks:
+      - finance-network # Сеть для взаимодействия с другими контейнерами
+
+  vite:
+    image: node:20 # Теперь используем Node.js 20
+    container_name: finance-vite
+    working_dir: /usr/src/app
+    ports:
+      - "5173:5173" # Порт для Vite в дев-режиме (по умолчанию Vite использует 3000)
+    volumes:
+      - ./frontend:/usr/src/app # Монтируем фронтенд в контейнер
+      - /usr/src/app/node_modules # Чтобы не перезаписывать node_modules в контейнере
+    environment:
+      - NODE_ENV=development
+    command: /bin/bash -c "npm install && npm run dev"
+    networks:
+      - finance-network # Сеть для взаимодействия с другими контейнерами
+
+volumes:
+  finance_mysql_data:
+    driver: local
+
+networks:
+  finance-network:
+    driver: bridge
