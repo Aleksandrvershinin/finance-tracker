@@ -1,14 +1,13 @@
 import MyTable from '@/shared/components/ui/MyTable/MyTable'
 import { useCategoriesStore } from '../lib/useCategoriesStore'
 import { TCategory } from '../types/category.types'
-import EditIcon from '@/shared/components/ui/icons/EditIcon'
-import DeleteIcon from '@/shared/components/ui/icons/DeleteIcon'
 import { getCategoryType } from '@/shared/lib/getCategoryType'
 import { useFetch } from '@/shared/lib/hooks/useFetch'
 import { categoryApi } from '../api/category.api'
 import { AnimatePresence } from 'framer-motion'
 import Loading from '@/shared/components/Loading'
 import MyAlert from '@/shared/components/MyAlert/MyAlert'
+import { FaEdit, FaTrash } from 'react-icons/fa'
 
 interface Props {
     handleEditClick: (category: TCategory) => void
@@ -19,7 +18,7 @@ const headers = [<>Название</>, <>Тип</>, <>Действия</>]
 
 function CategoryList({ handleEditClick, handleClose }: Props) {
     const loadCategories = useCategoriesStore((state) => state.load)
-    const { error, fetchFunction, isLoading } = useFetch()
+    const { error, fetchFunction, isLoading, resetError } = useFetch()
     const categories = useCategoriesStore((state) => state.categories)
     const handleDelete = async (category: TCategory) => {
         const conf = confirm(`Подтвердите удаление категории ${category.name}`)
@@ -37,18 +36,20 @@ function CategoryList({ handleEditClick, handleClose }: Props) {
         <>{getCategoryType(category.type)}</>,
         <div className="space-x-4">
             <button
+                title="Редактировать"
                 onClick={() => {
                     handleEditClick(category)
                 }}
             >
-                <EditIcon />
+                <FaEdit className="text-blue-500" color="" size={30} />
             </button>
             <button
+                title="Удалить"
                 onClick={() => {
                     handleDelete(category)
                 }}
             >
-                <DeleteIcon />
+                <FaTrash className="text-red-500" color="" size={28} />
             </button>
         </div>,
     ]
@@ -63,7 +64,13 @@ function CategoryList({ handleEditClick, handleClose }: Props) {
                 />
             </div>
             <AnimatePresence>{isLoading && <Loading />}</AnimatePresence>
-            {error && <MyAlert type="error" text={error} />}
+            {error && (
+                <MyAlert
+                    onCloseCallback={resetError}
+                    type="error"
+                    text={error}
+                />
+            )}
         </>
     )
 }

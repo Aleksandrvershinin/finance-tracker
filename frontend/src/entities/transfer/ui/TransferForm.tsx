@@ -66,7 +66,7 @@ function TransferForm({
             hadleClose={handleClose}
             error={error}
             className="min-w-[500px]"
-            title={title}
+            myTitle={title}
             handlerSubmit={handleSubmit(onSubmit)}
             buttons={
                 <div className="flex flex-col gap-y-4">

@@ -4,11 +4,11 @@ import { JwtService } from '@nestjs/jwt'
 import { UsersService } from '../users/users.service' // Модуль пользователей
 import { getJwtSecret } from 'src/config/jwt.config'
 import { LoginUserDto } from './dto/login-user.dto'
-import { UserOutputDto } from 'src/users/dto/user-output.dto'
 import { plainToClass } from 'class-transformer'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { SignupUserDto } from './dto/signup-user.dto'
 import * as bcrypt from 'bcrypt'
+import { UserDto } from 'src/users/dto/user.dto'
 
 @Injectable()
 export class AuthService {
@@ -39,7 +39,11 @@ export class AuthService {
         const payload = {
             sub: validatedUser.id,
         }
-        const userDto = plainToClass(UserOutputDto, validatedUser)
+        const userProfile = await this.prisma.user.findUnique({
+            where: { id: validatedUser.id },
+            include: { currency: true },
+        })
+        const userDto = plainToClass(UserDto, userProfile)
         return {
             accessToken: this.jwtService.sign(payload, {
                 secret: getJwtSecret(),
@@ -49,22 +53,27 @@ export class AuthService {
         }
     }
 
-    async signup(user: SignupUserDto) {
+    async signup(signupUserDto: SignupUserDto) {
         // Хешируем пароль перед сохранением
-        const hashedPassword = bcrypt.hashSync(user.password, 10)
+        const hashedPassword = bcrypt.hashSync(signupUserDto.password, 10)
 
         // Создаём пользователя в базе
         const newUser = await this.prisma.user.create({
             data: {
-                name: user.name,
-                email: user.email,
+                currencyId: signupUserDto.currencyId,
+                name: signupUserDto.name,
+                email: signupUserDto.email,
                 password: hashedPassword,
             },
         })
         const payload = {
             sub: newUser.id,
         }
-        const userDto = plainToClass(UserOutputDto, newUser)
+        const userProfile = await this.prisma.user.findUnique({
+            where: { id: newUser.id },
+            include: { currency: true },
+        })
+        const userDto = plainToClass(UserDto, userProfile)
         return {
             accessToken: this.jwtService.sign(payload, {
                 secret: getJwtSecret(),

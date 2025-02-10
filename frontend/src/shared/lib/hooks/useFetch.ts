@@ -5,7 +5,9 @@ export function useFetch<T>(initialData: T | undefined = {} as T) {
     const [data, setData] = useState<T>(initialData)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
-
+    const resetError = () => {
+        setError(null)
+    }
     const fetchFunction = useCallback(
         async (fetchFunction: () => Promise<T>) => {
             setIsLoading(true)
@@ -23,5 +25,5 @@ export function useFetch<T>(initialData: T | undefined = {} as T) {
         [],
     )
 
-    return { data, isLoading, error, fetchFunction }
+    return { data, isLoading, error, fetchFunction, resetError }
 }

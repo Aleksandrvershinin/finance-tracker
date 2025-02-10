@@ -3,11 +3,11 @@ import {
     Get,
     Post,
     Body,
-    Patch,
     Param,
     Delete,
     ParseIntPipe,
     UseGuards,
+    Put,
 } from '@nestjs/common'
 import { TransactionService } from './transaction.service'
 import { CreateTransactionDto } from './dto/create-transaction.dto'
@@ -36,28 +36,40 @@ export class TransactionController {
     }
 
     @Get()
-    findAll(@GetUser() user: User) {
+    async findAll(@GetUser() user: User): Promise<TransactionDto> {
         const transactions = this.transactionService.findAllForUser(user.id)
         return plainToInstance(TransactionDto, transactions)
     }
 
     @Get(':id')
-    findOne(@GetUser() user: User, id: Transaction['id']) {
-        const transaction = this.transactionService.findOne(user.id, id)
+    async findOne(
+        @GetUser() user: User,
+        id: Transaction['id'],
+    ): Promise<TransactionDto> {
+        const transaction = await this.transactionService.findOne(user.id, id)
         return plainToInstance(TransactionDto, transaction)
     }
 
-    @Patch(':id')
-    update(
+    @Put(':id')
+    async update(
         @GetUser() user: User,
-        id: Transaction['id'],
+        @Param('id', ParseIntPipe) id: Transaction['id'],
         @Body() updateTransactionDto: UpdateTransactionDto,
-    ) {
-        return this.transactionService.update(user.id, id, updateTransactionDto)
+    ): Promise<TransactionDto> {
+        const transaction = await this.transactionService.update(
+            user.id,
+            id,
+            updateTransactionDto,
+        )
+        return plainToInstance(TransactionDto, transaction)
     }
 
     @Delete(':id')
-    remove(@GetUser() user: User, @Param('id', ParseIntPipe) id: number) {
-        return this.transactionService.remove(user.id, id)
+    async remove(
+        @GetUser() user: User,
+        @Param('id', ParseIntPipe) id: number,
+    ): Promise<TransactionDto> {
+        const transaction = await this.transactionService.remove(user.id, id)
+        return plainToInstance(TransactionDto, transaction)
     }
 }

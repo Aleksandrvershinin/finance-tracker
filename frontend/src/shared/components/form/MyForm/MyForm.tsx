@@ -6,7 +6,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
     fields: React.ReactNode[]
     handlerSubmit: (event: React.FormEvent<HTMLFormElement>) => void
     error?: string | null
-    title?: string
+    myTitle?: React.ReactNode
     footer?: React.ReactNode
     hadleClose?: () => void
 }
@@ -15,7 +15,7 @@ function MyForm(props: Props) {
     const {
         buttons,
         fields,
-        title,
+        myTitle,
         handlerSubmit,
         error,
         footer,
@@ -31,7 +31,7 @@ function MyForm(props: Props) {
             </button>
             <div className="p-4">
                 <h2 className="mt- text-3xl font-semibold mb-6 text-center">
-                    {title}
+                    {myTitle}
                 </h2>
                 {error && (
                     <p className="text-red-500 text-center mb-6">{error}</p>

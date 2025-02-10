@@ -1,5 +1,4 @@
 import Accounts from '@/entities/account/ui/Accounts'
-import TransactionsTable from '@/entities/transaction/ui/TransactionsTable'
 // import AddTransaction from '@/entities/transaction/ui/AddTransaction'
 import FinancialReport from '@/widgets/FinancialReport'
 
@@ -15,7 +14,7 @@ function MainPage() {
                 </div>
                 <div className="flex-1 space-y-10">
                     <FinancialReport></FinancialReport>
-                    <TransactionsTable></TransactionsTable>
+                    {/* <TransactionsTable></TransactionsTable> */}
                 </div>
             </div>
         </div>

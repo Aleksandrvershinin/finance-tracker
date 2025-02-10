@@ -52,7 +52,7 @@ function CategoryForm({ handleClose, data }: Props) {
             hadleClose={handleClose}
             error={error}
             className="min-w-[500px]"
-            title={title}
+            myTitle={title}
             handlerSubmit={handleSubmit(onSubmit)}
             buttons={
                 <div className="flex flex-col gap-y-4">
@@ -76,16 +76,20 @@ function CategoryForm({ handleClose, data }: Props) {
                     placeholder="Название"
                     name="name"
                 />,
-                <FormSelect<TCategoryForm>
-                    options={categoryTypes.map((type) => ({
-                        value: type,
-                        label: getCategoryType(type),
-                    }))}
-                    label="Тип категории"
-                    error={errors.type}
-                    control={control}
-                    name="type"
-                />,
+                <>
+                    {!data && (
+                        <FormSelect<TCategoryForm>
+                            options={categoryTypes.map((type) => ({
+                                value: type,
+                                label: getCategoryType(type),
+                            }))}
+                            label="Тип категории"
+                            error={errors.type}
+                            control={control}
+                            name="type"
+                        />
+                    )}
+                </>,
             ]}
         />
     )

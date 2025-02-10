@@ -5,11 +5,32 @@ import {
 } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateTransferDto } from './dto/create-transfer.dto'
-import { User } from '@prisma/client'
+import { Transfer, User } from '@prisma/client'
 
 @Injectable()
 export class TransfersService {
     constructor(private readonly prisma: PrismaService) {}
+
+    async findAllForUser(userId: User['id']): Promise<Transfer[]> {
+        // Получаем все accountId, принадлежащие пользователю
+        const accounts = await this.prisma.account.findMany({
+            where: { userId },
+            select: { id: true },
+        })
+        // Массив accountId
+        const accountIds = accounts.map((account) => account.id)
+        if (accountIds.length === 0) {
+            return [] // Если у пользователя нет аккаунтов, возвращаем пустой массив
+        }
+        return await this.prisma.transfer.findMany({
+            where: {
+                OR: [
+                    { fromAccountId: { in: accountIds } },
+                    { toAccountId: { in: accountIds } },
+                ],
+            },
+        })
+    }
 
     async createTransfer(
         createTransferDto: CreateTransferDto,

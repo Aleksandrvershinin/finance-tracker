@@ -1,17 +1,24 @@
 // src/categories/categories.service.ts
-import { Injectable } from '@nestjs/common'
+import {
+    ForbiddenException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common'
 import { CreateCategoryDto } from './dto/create-category.dto'
 import { UpdateCategoryDto } from './dto/update-category.dto'
-import { Category } from '@prisma/client'
+import { Category, User } from '@prisma/client'
 import { PrismaService } from 'src/prisma/prisma.service'
 
 @Injectable()
 export class CategoriesService {
     constructor(private prisma: PrismaService) {}
 
-    async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
+    async create(
+        createCategoryDto: CreateCategoryDto,
+        user: User,
+    ): Promise<Category> {
         return this.prisma.category.create({
-            data: createCategoryDto,
+            data: { ...createCategoryDto, userId: user.id },
         })
     }
 
@@ -19,25 +26,51 @@ export class CategoriesService {
         return this.prisma.category.findMany()
     }
 
-    async findOne(id: number): Promise<Category | null> {
-        return this.prisma.category.findUnique({
-            where: { id },
+    async findAllForUser(user: User): Promise<Category[]> {
+        return this.prisma.category.findMany({
+            where: { userId: user.id },
         })
     }
 
+    async findOne(
+        categoryId: Category['id'],
+        user: User,
+    ): Promise<Category | null> {
+        return this.validateUserCategory(user.id, categoryId)
+    }
+
     async update(
-        id: number,
+        categoryId: Category['id'],
         updateCategoryDto: UpdateCategoryDto,
+        user: User,
     ): Promise<Category> {
+        const category = await this.validateUserCategory(user.id, categoryId)
         return this.prisma.category.update({
-            where: { id },
+            where: { id: category.id },
             data: updateCategoryDto,
         })
     }
 
-    async remove(id: number): Promise<Category> {
+    async remove(categoryId: Category['id'], user: User): Promise<Category> {
+        const category = await this.validateUserCategory(user.id, categoryId)
         return this.prisma.category.delete({
-            where: { id },
+            where: { id: category.id },
         })
+    }
+
+    async validateUserCategory(userId: User['id'], categoryId: Category['id']) {
+        const category = await this.prisma.category.findUnique({
+            where: { id: categoryId },
+        })
+
+        if (!category) {
+            throw new NotFoundException('Категория не найдена')
+        }
+
+        if (category.userId !== userId) {
+            throw new ForbiddenException('Нет доступа к данной категории')
+        }
+
+        return category
     }
 }

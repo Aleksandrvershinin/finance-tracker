@@ -5,9 +5,9 @@ type Props = { children: React.ReactNode }
 
 function Providers({ children }: Props) {
     return (
-        <AuthProvider>
-            <DataProvider>{children}</DataProvider>
-        </AuthProvider>
+        <DataProvider>
+            <AuthProvider>{children}</AuthProvider>
+        </DataProvider>
     )
 }
 

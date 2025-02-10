@@ -2,6 +2,7 @@ import {
     Body,
     Controller,
     Delete,
+    Get,
     Param,
     Post,
     UseGuards,
@@ -10,7 +11,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { PrismaService } from 'src/prisma/prisma.service'
 import { TransfersService } from './transfers.service'
 import { GetUser } from 'src/auth/user.decorator'
-import { User } from '@prisma/client'
+import { Transfer, User } from '@prisma/client'
 import { CreateTransferDto } from './dto/create-transfer.dto'
 
 @UseGuards(JwtAuthGuard)
@@ -18,13 +19,21 @@ import { CreateTransferDto } from './dto/create-transfer.dto'
 export class TransfersController {
     constructor(private readonly transferService: TransfersService) {}
 
+    @Get()
+    async findAll(@GetUser() user: User): Promise<Transfer[]> {
+        return await this.transferService.findAllForUser(user.id)
+    }
+
     // Создание перевода
     @Post()
     async createTransfer(
         @Body() createTransferDto: CreateTransferDto,
-        @GetUser() user: User, // Получаем пользователя
-    ) {
-        return this.transferService.createTransfer(createTransferDto, user)
+        @GetUser() user: User,
+    ): Promise<Transfer> {
+        return await this.transferService.createTransfer(
+            createTransferDto,
+            user,
+        )
     }
 
     // Удаление перевода
@@ -32,7 +41,7 @@ export class TransfersController {
     async deleteTransfer(
         @Param('id') transferId: number,
         @GetUser() user: User, // Получаем пользователя
-    ) {
-        return this.transferService.deleteTransfer(transferId, user)
+    ): Promise<Transfer> {
+        return await this.transferService.deleteTransfer(transferId, user)
     }
 }

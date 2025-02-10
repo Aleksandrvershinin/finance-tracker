@@ -1,9 +1,15 @@
 import MyTable from '@/shared/components/ui/MyTable/MyTable'
-import { useTransactionsStore } from '../lib/useTransactionStore'
 import { TTransaction } from '../types/transaction.types'
 import { useAccountStore } from '@/entities/account/lib/useAccountStore'
 import { getCategoryType } from '@/shared/lib/getCategoryType'
 import { useCategoriesStore } from '@/entities/category/lib/useCategoriesStore'
+import { FaEdit } from 'react-icons/fa'
+import { AnimatePresence } from 'framer-motion'
+import Portal from '@/shared/components/Portal'
+import ModalOpacity from '@/shared/components/ui/ModalOpacity'
+import TransactionForm from './TransactionForm'
+import { useState } from 'react'
+import DeleteTransaction from './DeleteTransaction'
 
 const headers = [
     <>Счет</>,
@@ -12,11 +18,23 @@ const headers = [
     <>Дата</>,
     <>Тип</>,
     <>Коментарий</>,
+    <>Действия</>,
 ]
-const TransactionsTable: React.FC = () => {
-    const transactions = useTransactionsStore((state) => state.transactions)
+
+interface Props {
+    transactions: TTransaction[]
+}
+
+const TransactionsTable: React.FC<Props> = ({ transactions }) => {
+    const [transaction, setTransaction] = useState<TTransaction | null>(null)
     const accounts = useAccountStore((state) => state.accounts)
     const categories = useCategoriesStore((state) => state.categories)
+    const handleClose = () => {
+        setTransaction(null)
+    }
+    const handleOpen = (transaction: TTransaction) => {
+        setTransaction(transaction)
+    }
     const renderCurrenciesRow = (t: TTransaction) => [
         <>
             {accounts.find((acc) => acc.id === t.accountId)?.name ||
@@ -27,21 +45,54 @@ const TransactionsTable: React.FC = () => {
                 'Не найдено'}
         </>,
         <>{t.amount.toLocaleString()}</>,
-        <>{t.date}</>,
+        <>{t.date.split('T')[0]}</>,
         <>{getCategoryType(t.type)}</>,
         <>{t.comment}</>,
+        <div className="flex gap-x-2">
+            <button title="Редактировать" onClick={() => handleOpen(t)}>
+                <FaEdit className="text-blue-500" color="" size={30} />
+            </button>
+            <DeleteTransaction transactionId={t.id}></DeleteTransaction>
+        </div>,
     ]
     return (
-        <div>
-            <h2 className="text-2xl font-bold mb-4">Транзакции</h2>
-            <div className="p-4 rounded-2xl shadow-my-soft bg-white">
-                <MyTable
-                    headers={headers}
-                    renderRow={renderCurrenciesRow}
-                    data={[...transactions]}
-                />
+        <>
+            <div>
+                <h3 className="text-xl font-semibold mb-4">Транзакции</h3>
+                <div className="p-4 rounded-2xl shadow-my-soft bg-white">
+                    <MyTable
+                        headers={headers}
+                        renderRow={renderCurrenciesRow}
+                        data={[...transactions]}
+                    />
+                </div>
             </div>
-        </div>
+            <AnimatePresence>
+                {transaction && (
+                    <Portal>
+                        <ModalOpacity onClick={handleClose}>
+                            <div
+                                className="w-fit mx-auto mt-10"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <TransactionForm
+                                    transactionId={transaction.id}
+                                    transactionType={transaction.type}
+                                    transactionAccountId={transaction.accountId}
+                                    transactionAmount={transaction.amount}
+                                    transactionCategoryId={
+                                        transaction.categoryId
+                                    }
+                                    transactionDate={transaction.date}
+                                    transactionComment={transaction.comment}
+                                    handleClose={handleClose}
+                                />
+                            </div>
+                        </ModalOpacity>
+                    </Portal>
+                )}
+            </AnimatePresence>
+        </>
     )
 }
 

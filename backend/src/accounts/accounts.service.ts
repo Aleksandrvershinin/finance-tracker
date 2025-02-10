@@ -8,7 +8,6 @@ import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateAccountDto } from './dto/create-account.dto'
 import { UpdateAccountDto } from './dto/update-account.dto'
 import { User } from '@prisma/client'
-import { IsUnique } from 'src/validators/is-unique/is-unique.decorator'
 
 @Injectable()
 export class AccountsService {
@@ -27,7 +26,12 @@ export class AccountsService {
 
     async create(data: CreateAccountDto, user: User) {
         return this.prisma.account.create({
-            data: { userId: user.id, balance: data.initialBalance, ...data },
+            data: {
+                userId: user.id,
+                balance: data.initialBalance,
+                currencyId: user.id,
+                ...data,
+            },
         })
     }
 

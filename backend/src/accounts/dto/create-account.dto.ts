@@ -7,10 +7,6 @@ export class CreateAccountDto {
     @IsString()
     name: string
 
-    @IsExist('currency', 'id')
-    @IsNumber()
-    currencyId: number
-
     @IsNumber()
     initialBalance?: number
 }

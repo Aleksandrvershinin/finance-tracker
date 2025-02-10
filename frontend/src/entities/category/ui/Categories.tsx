@@ -33,11 +33,8 @@ function Categories() {
             <AnimatePresence>
                 {showForm && (
                     <Portal>
-                        <ModalOpacity onClick={handleClose}>
-                            <div
-                                className="w-fit mx-auto mt-10"
-                                onClick={(e) => e.stopPropagation()}
-                            >
+                        <ModalOpacity>
+                            <div className="w-fit mx-auto mt-10">
                                 <CategoryForm
                                     data={category}
                                     handleClose={handleClose}

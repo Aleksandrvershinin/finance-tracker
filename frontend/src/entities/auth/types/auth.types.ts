@@ -1,4 +1,5 @@
 import { userSchema } from '@/entities/user/types/user.types'
+import { validationMessages } from '@/shared/configs/validationMessages'
 import { z } from 'zod'
 
 const MIN_PASSWORD_LENGTH = 4
@@ -27,6 +28,12 @@ export const signupFormSchema = z.object({
             MIN_PASSWORD_LENGTH,
             `Пароль должен содержать минимум ${MIN_PASSWORD_LENGTH} символов`,
         ),
+    currencyId: z
+        .number({ message: validationMessages.required })
+        .transform((val) => Number(val))
+        .refine((val) => !isNaN(val), {
+            message: validationMessages.required,
+        }),
 })
 
 export type TAuthForm = z.infer<typeof authFormSchema>

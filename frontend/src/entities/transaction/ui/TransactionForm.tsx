@@ -17,6 +17,7 @@ import { getCategoryType } from '@/shared/lib/getCategoryType'
 import { TransactionTypeSchema } from '@/entities/category/types/category.types'
 import FormIput from '@/shared/components/form/FormInput'
 import { useTransactionsStore } from '../lib/useTransactionStore'
+import clsx from 'clsx'
 
 const categoryTypes = Object.values(TransactionTypeSchema.enum)
 
@@ -25,7 +26,7 @@ interface Props {
     transactionId?: TTransaction['id']
     transactionCategoryId?: TTransactionForm['categoryId']
     transactionAmount?: TTransactionForm['amount']
-    transactionDate?: TTransactionForm['date']
+    transactionDate?: TTransaction['date']
     transactionComment?: TTransactionForm['comment']
     transactionAccountId?: TTransactionForm['accountId']
     transactionType?: TTransactionForm['type']
@@ -46,7 +47,7 @@ function TransactionForm({
     const categories = useCategoriesStore((state) => state.categories)
     const { error, fetchFunction, isLoading } = useFetch()
     const defaultDate = transactionDate
-        ? transactionDate
+        ? new Date(transactionDate).toISOString().split('T')[0]
         : new Date().toISOString().split('T')[0]
     const {
         handleSubmit,
@@ -70,6 +71,7 @@ function TransactionForm({
         (category) => category.type === selectedCategory,
     )
     const title = 'Создание новой транзакции'
+    const titleType = transactionType ? getCategoryType(transactionType) : null
     const onSubmit = async (dataForm: TTransactionForm) => {
         const res = await fetchFunction(async () => {
             return await (transactionId
@@ -87,7 +89,21 @@ function TransactionForm({
             hadleClose={handleClose}
             error={error}
             className="min-w-[500px]"
-            title={title}
+            myTitle={
+                <>
+                    <p>{title}</p>
+                    {titleType && (
+                        <p
+                            className={clsx({
+                                'text-red-500': titleType === 'Расход',
+                                'text-green-500': titleType === 'Доход',
+                            })}
+                        >
+                            {titleType}
+                        </p>
+                    )}
+                </>
+            }
             handlerSubmit={handleSubmit(onSubmit)}
             buttons={
                 <div className="flex flex-col gap-y-4">

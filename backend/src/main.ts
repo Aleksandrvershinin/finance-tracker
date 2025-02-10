@@ -10,6 +10,8 @@ async function bootstrap() {
     // Включаем глобальную валидацию для всех запросов
     app.useGlobalPipes(
         new ValidationPipe({
+            whitelist: true, // Удаляет лишние поля
+            transform: true, // Автоматически преобразует входные данные в DTO-класс
             stopAtFirstError: true,
             exceptionFactory: (errors) => {
                 console.error('Ошибки валидации:', errors) // Логируем ошибки

@@ -17,12 +17,12 @@ export const accountFormSchema = z.object({
     initialBalance: z.coerce
         .number({ message: validationMessages.mustNumber })
         .min(0, { message: validationMessages.minLengthNumber(0) }),
-    currencyId: z
-        .number({ message: validationMessages.required })
-        .transform((val) => Number(val))
-        .refine((val) => !isNaN(val), {
-            message: validationMessages.required,
-        }),
+    // currencyId: z
+    //     .number({ message: validationMessages.required })
+    //     .transform((val) => Number(val))
+    //     .refine((val) => !isNaN(val), {
+    //         message: validationMessages.required,
+    //     }),
 })
 
 export type TAccount = z.infer<typeof accountSchema>

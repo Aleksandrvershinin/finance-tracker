@@ -29,12 +29,12 @@ export class TransactionService {
         }
 
         // Проверка наличия средств для расходных транзакций
-        if (
-            dto.type === TransactionType.EXPENSE &&
-            account.balance < dto.amount
-        ) {
-            throw new BadRequestException('Недостаточно средств на счете')
-        }
+        // if (
+        //     dto.type === TransactionType.EXPENSE &&
+        //     account.balance < dto.amount
+        // ) {
+        //     throw new BadRequestException('Недостаточно средств на счете')
+        // }
 
         // Начинаем транзакцию
         const transaction = await this.prisma.$transaction(async (prisma) => {
@@ -119,18 +119,18 @@ export class TransactionService {
                 let balanceUpdate = 0
 
                 // Проверяем, достаточно ли средств на счете, если тип транзакции - расход
-                if (
-                    dto.amount &&
-                    existingTransaction.type === TransactionType.EXPENSE
-                ) {
-                    amountToCheck = dto.amount - existingTransaction.amount
+                // if (
+                //     dto.amount &&
+                //     existingTransaction.type === TransactionType.EXPENSE
+                // ) {
+                //     amountToCheck = dto.amount - existingTransaction.amount
 
-                    if (amountToCheck > 0 && account.balance < amountToCheck) {
-                        throw new ForbiddenException(
-                            'Недостаточно средств на счете',
-                        )
-                    }
-                }
+                //     if (amountToCheck > 0 && account.balance < amountToCheck) {
+                //         throw new ForbiddenException(
+                //             'Недостаточно средств на счете',
+                //         )
+                //     }
+                // }
 
                 // Вычисляем разницу баланса
                 if (existingTransaction.amount !== dto.amount) {
@@ -198,14 +198,14 @@ export class TransactionService {
                 }
 
                 // Проверка, что баланс не станет отрицательным
-                if (existingTransaction.type === TransactionType.EXPENSE) {
-                    const newBalance = account.balance + balanceChange
-                    if (newBalance < 0) {
-                        throw new ForbiddenException(
-                            'Баланс не может быть отрицательным после удаления транзакции',
-                        )
-                    }
-                }
+                // if (existingTransaction.type === TransactionType.EXPENSE) {
+                //     const newBalance = account.balance + balanceChange
+                //     if (newBalance < 0) {
+                //         throw new ForbiddenException(
+                //             'Баланс не может быть отрицательным после удаления транзакции',
+                //         )
+                //     }
+                // }
 
                 // Обновляем баланс счета
                 if (balanceChange !== 0) {

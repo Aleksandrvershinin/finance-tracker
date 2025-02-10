@@ -1,13 +1,7 @@
 // src/categories/dto/update-category.dto.ts
-import { IsString, IsEnum, IsOptional } from 'class-validator'
-import { TransactionType } from '@prisma/client'
+import { IsString } from 'class-validator'
 
 export class UpdateCategoryDto {
-    @IsOptional()
     @IsString()
-    name?: string
-
-    @IsOptional()
-    @IsEnum(TransactionType)
-    type?: TransactionType
+    name: string
 }

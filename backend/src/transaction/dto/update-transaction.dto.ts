@@ -10,10 +10,6 @@ import {
 import { IsExist } from 'src/validators/is-exist/is-exist.decorator'
 
 export class UpdateTransactionDto {
-    @IsExist('account', 'id')
-    @IsInt()
-    accountId: number
-
     @IsExist('category', 'id')
     @IsInt()
     categoryId: number

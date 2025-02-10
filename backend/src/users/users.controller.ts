@@ -1,13 +1,10 @@
-import { Controller, Get, Post, Body, UseGuards, Req } from '@nestjs/common'
+import { Controller, Get, UseGuards } from '@nestjs/common'
 import { UsersService } from './users.service'
-import { CreateUserDto } from './dto/create-user.dto'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { plainToClass } from 'class-transformer'
-import { UserOutputDto } from './dto/user-output.dto'
 import { GetUser } from 'src/auth/user.decorator'
 import { User } from '@prisma/client'
-import { RolesGuard } from 'src/auth/role.guard'
-import { Roles } from 'src/auth/roles.decorator'
+import { UserDto } from './dto/user.dto'
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
@@ -21,23 +18,17 @@ export class UsersController {
     // }
 
     // GET-запрос для получения всех пользователей
-    @Get()
-    async findAll() {
-        return this.usersService.findAll()
-    }
+    // @Get()
+    // async findAll() {
+    //     return this.usersService.findAll()
+    // }
 
     // Защищаем маршрут, чтобы только авторизованные пользователи могли получить доступ
     @UseGuards(JwtAuthGuard)
     @Get('profile')
-    getUserProfile(@GetUser() user: User) {
-        const userDto = plainToClass(UserOutputDto, user)
+    async getUserProfile(@GetUser() user: User) {
+        const userWithCurrency = await this.usersService.getUserProfile(user)
+        const userDto = plainToClass(UserDto, userWithCurrency)
         return { message: 'User profile', user: userDto }
-    }
-
-    @UseGuards(JwtAuthGuard, RolesGuard) // Применяем оба Guard: JWT и проверку ролей
-    @Roles('admin') // Указываем, что только администратор может получить доступ
-    @Get('admin')
-    getAdminData() {
-        return { message: 'Admin data' }
     }
 }

@@ -25,7 +25,7 @@ function EditBtn({ account }: Props) {
                 onClick={handleOpen}
                 title="Редактировать счет"
             >
-                <FaEdit color="blue" size={20} />
+                <FaEdit className="text-blue-500" size={23} />
             </button>
             <AnimatePresence>
                 {isOpen && (

@@ -1,11 +1,10 @@
 import { useAccountStore } from '@/entities/account/lib/useAccountStore'
-import { TransactionTypeSchema } from '@/entities/category/types/category.types'
 import { useTransactionsStore } from '@/entities/transaction/lib/useTransactionStore'
-import { getCategoryType } from '@/shared/lib/getCategoryType'
 import { useState } from 'react'
 import Select from 'react-select'
+import ReportAmounts from './ReportAmounts'
+import TransactionsTable from '@/entities/transaction/ui/TransactionsTable'
 
-const transactionTypes = TransactionTypeSchema.enum
 // Формируем массив месяцев для Select
 const months = Array.from({ length: 12 }, (_, index) => {
     const currentDate = new Date()
@@ -39,12 +38,7 @@ function FinancialReport() {
             : true
         return isCorrectMonth && isCorrectAccount
     })
-    const totalIncome = filteredTransactions
-        .filter((t) => t.type === transactionTypes.INCOME)
-        .reduce((sum, t) => sum + t.amount, 0)
-    const totalExpense = filteredTransactions
-        .filter((t) => t.type === transactionTypes.EXPENSE)
-        .reduce((sum, t) => sum + t.amount, 0)
+
     return (
         <div>
             <h2 className="text-2xl font-bold mb-4">Финансовый отчет</h2>
@@ -85,19 +79,13 @@ function FinancialReport() {
                         />
                     </div>
                 </div>
-
-                {/* Итоги */}
-                <div className="mt-4">
-                    <p className="text-green-600 text-lg font-semibold">
-                        {getCategoryType('INCOME')}:{' '}
-                        {totalIncome.toLocaleString()}{' '}
-                        {accounts[0]?.currency.symbol}
-                    </p>
-                    <p className="text-red-600 text-lg font-semibold">
-                        {getCategoryType('EXPENSE')}:{' '}
-                        {totalExpense.toLocaleString()}{' '}
-                        {accounts[0]?.currency.symbol}
-                    </p>
+                <div className="space-y-10">
+                    <ReportAmounts
+                        transactions={filteredTransactions}
+                    ></ReportAmounts>
+                    <TransactionsTable
+                        transactions={filteredTransactions}
+                    ></TransactionsTable>
                 </div>
             </div>
         </div>

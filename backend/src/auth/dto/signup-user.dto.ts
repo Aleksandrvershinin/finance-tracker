@@ -1,4 +1,11 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator'
+import {
+    IsEmail,
+    IsInt,
+    IsNotEmpty,
+    IsString,
+    MinLength,
+} from 'class-validator'
+import { IsExist } from 'src/validators/is-exist/is-exist.decorator'
 import { IsUnique } from 'src/validators/is-unique/is-unique.decorator'
 
 export class SignupUserDto {
@@ -16,4 +23,9 @@ export class SignupUserDto {
     @IsString()
     @IsNotEmpty()
     name: string
+
+    @IsNotEmpty()
+    @IsInt()
+    @IsExist('currency', 'id')
+    currencyId: number
 }

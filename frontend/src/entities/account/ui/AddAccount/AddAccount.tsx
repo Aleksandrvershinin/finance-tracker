@@ -32,9 +32,9 @@ function AddAccount({ handleClose, account }: Props) {
         defaultValues: {
             initialBalance: account?.initialBalance || 0,
             name: account?.name || '',
-            currencyId:
-                account?.currency.id ||
-                (currencies ? currencies[0]?.id : undefined),
+            // currencyId:
+            //     account?.currency.id ||
+            //     (currencies ? currencies[0]?.id : undefined),
         },
     })
     const onSubmit = async (data: TAccountForm) => {
@@ -55,7 +55,7 @@ function AddAccount({ handleClose, account }: Props) {
                     hadleClose={handleClose}
                     error={error}
                     className="min-w-[500px]"
-                    title="Создание нового счета"
+                    myTitle="Создание нового счета"
                     handlerSubmit={handleSubmit(onSubmit)}
                     buttons={
                         <div className="flex flex-col gap-y-4">
