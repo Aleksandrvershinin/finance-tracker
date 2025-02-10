@@ -2,8 +2,8 @@ import clsx from 'clsx'
 
 interface Props<T> extends React.TableHTMLAttributes<HTMLTableElement> {
     data: T[]
-    headers: JSX.Element[]
-    renderRow: (item: T, index: number) => JSX.Element[]
+    headers: React.ReactNode[]
+    renderRow: (item: T, index: number) => React.ReactNode[]
     headerRowProps?: React.HTMLAttributes<HTMLTableRowElement>
     bodyRowProps?: React.HTMLAttributes<HTMLTableRowElement>
 }

@@ -83,6 +83,9 @@ export class TransactionService {
             where: {
                 accountId: { in: accountIds }, // Фильтруем по accountId
             },
+            orderBy: {
+                date: 'desc', // Сортировка по убыванию (от новых к старым)
+            },
         })
     }
     async findOne(userId: User['id'], id: Transaction['id']) {

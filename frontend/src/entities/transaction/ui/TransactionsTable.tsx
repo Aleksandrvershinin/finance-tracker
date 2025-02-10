@@ -10,15 +10,17 @@ import ModalOpacity from '@/shared/components/ui/ModalOpacity'
 import TransactionForm from './TransactionForm'
 import { useState } from 'react'
 import DeleteTransaction from './DeleteTransaction'
+import clsx from 'clsx'
+import Accordion from '@/shared/components/Accordion'
 
 const headers = [
-    <>Счет</>,
-    <>Категория</>,
-    <>Сумма</>,
-    <>Дата</>,
-    <>Тип</>,
-    <>Коментарий</>,
-    <>Действия</>,
+    'Дата',
+    'Тип',
+    'Счет',
+    'Категория',
+    'Сумма',
+    'Коментарий',
+    'Действия',
 ]
 
 interface Props {
@@ -35,37 +37,44 @@ const TransactionsTable: React.FC<Props> = ({ transactions }) => {
     const handleOpen = (transaction: TTransaction) => {
         setTransaction(transaction)
     }
-    const renderCurrenciesRow = (t: TTransaction) => [
-        <>
-            {accounts.find((acc) => acc.id === t.accountId)?.name ||
-                'Не найдено'}
-        </>,
-        <>
-            {categories.find((ct) => ct.id === t.categoryId)?.name ||
-                'Не найдено'}
-        </>,
-        <>{t.amount.toLocaleString()}</>,
-        <>{t.date.split('T')[0]}</>,
-        <>{getCategoryType(t.type)}</>,
-        <>{t.comment}</>,
-        <div className="flex gap-x-2">
-            <button title="Редактировать" onClick={() => handleOpen(t)}>
-                <FaEdit className="text-blue-500" color="" size={30} />
-            </button>
-            <DeleteTransaction transactionId={t.id}></DeleteTransaction>
-        </div>,
-    ]
+    const renderCurrenciesRow = (t: TTransaction) => {
+        const account = accounts.find((acc) => acc.id === t.accountId)
+        const category = categories.find((ct) => ct.id === t.categoryId)
+        return [
+            t.date.split('T')[0],
+            <p
+                className={clsx({
+                    'text-red-500': t.type === 'EXPENSE',
+                    'text-green-500': t.type === 'INCOME',
+                })}
+            >
+                {getCategoryType(t.type)}
+            </p>,
+            account?.name || 'Не найдено',
+            category?.name || 'Не найдено',
+            t.amount.toLocaleString(),
+            t.comment,
+            <div className="flex gap-x-2">
+                <button title="Редактировать" onClick={() => handleOpen(t)}>
+                    <FaEdit className="text-blue-500" color="" size={30} />
+                </button>
+                <DeleteTransaction transactionId={t.id}></DeleteTransaction>
+            </div>,
+        ]
+    }
     return (
         <>
             <div>
                 <h3 className="text-xl font-semibold mb-4">Транзакции</h3>
-                <div className="p-4 rounded-2xl shadow-my-soft bg-white">
-                    <MyTable
-                        headers={headers}
-                        renderRow={renderCurrenciesRow}
-                        data={[...transactions]}
-                    />
-                </div>
+                <Accordion title="Транзакции">
+                    <div className="p-4 rounded-2xl shadow-my-soft bg-white">
+                        <MyTable
+                            headers={headers}
+                            renderRow={renderCurrenciesRow}
+                            data={transactions}
+                        />
+                    </div>
+                </Accordion>
             </div>
             <AnimatePresence>
                 {transaction && (
