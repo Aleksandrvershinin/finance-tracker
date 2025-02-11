@@ -7,6 +7,8 @@ import { useAuthStore } from '../lib/useAuthStore'
 import FormItem from '@/shared/components/form/FormInput'
 import FormSelect from '@/shared/components/form/FormSelect'
 import { useCurrencyStore } from '@/entities/currency/lib/useCurrencyStore'
+import { useEffect } from 'react'
+import Loading from '@/shared/components/Loading'
 
 function Signup() {
     const {
@@ -17,16 +19,31 @@ function Signup() {
         resolver: zodResolver(signupFormSchema),
         defaultValues: { email: '', password: '', name: '' },
     })
+    const loadCurrencies = useCurrencyStore((state) => state.loadCurrencies)
+    const isLoading = useCurrencyStore((state) => state.isLoading)
+    const errorCurrency = useCurrencyStore((state) => state.error)
     const currencies = useCurrencyStore((state) => state.currencies)
     const setComponent = useAuthStore((state) => state.setComponent)
     const errorSignup = useAuthStore((state) => state.errorSignup)
     const signup = useAuthStore((state) => state.signup)
 
+    useEffect(() => {
+        loadCurrencies()
+    }, [loadCurrencies])
+
     const onSubmit = (data: TSignupForm) => {
         signup(data)
     }
+    if (errorCurrency) {
+        return (
+            <p className="text-red-500 text-xl font-bold fixed inset-0 overflow-auto flex flex-col items-center pt-20 bg-gray-100">
+                Произошла неизвестная ошибка, попробуйте обновить страницу
+            </p>
+        )
+    }
     return (
         <>
+            {isLoading && <Loading />}
             <AuthForm
                 footer={
                     <div className="flex gap-x-2 justify-center">

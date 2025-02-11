@@ -14,16 +14,16 @@ type Props = {
 function AuthController({ commponent = 'login' }: Props) {
     const isLoadingLogin = useAuthStore((state) => state.isLoadingLogin)
     const isLoadingSignup = useAuthStore((state) => state.isLoadingSignup)
-    const typeCommponent = useAuthStore((state) => state.typeComponent)
+    const typeComponent = useAuthStore((state) => state.typeComponent)
     const setComponent = useAuthStore((state) => state.setComponent)
     useEffect(() => {
         setComponent(commponent)
     }, [setComponent, commponent])
     const isLoading = isLoadingSignup || isLoadingLogin
     const render = () => {
-        if (typeCommponent === 'login') {
+        if (typeComponent === 'login') {
             return <Login></Login>
-        } else if (typeCommponent === 'signup') {
+        } else if (typeComponent === 'signup') {
             return <Signup></Signup>
         } else {
             return null

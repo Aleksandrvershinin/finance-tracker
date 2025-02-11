@@ -66,8 +66,21 @@ const TransactionsTable: React.FC<Props> = ({ transactions }) => {
         <>
             <div>
                 <h3 className="text-xl font-semibold mb-4">Транзакции</h3>
-                <Accordion title="Транзакции">
-                    <div className="p-4 rounded-2xl shadow-my-soft bg-white">
+                <Accordion
+                    className="p-4 rounded-2xl shadow-my-soft bg-white"
+                    renderTitle={(handleSwitch, icon) => (
+                        <div
+                            onClick={handleSwitch}
+                            className="flex justify-between items-center cursor-pointer"
+                        >
+                            <h4 className="font-semibold text-xl">
+                                Транзакции
+                            </h4>
+                            {icon}
+                        </div>
+                    )}
+                >
+                    <div className="mt-4 rounded-2xl shadow-my-soft bg-white">
                         <MyTable
                             headers={headers}
                             renderRow={renderCurrenciesRow}
