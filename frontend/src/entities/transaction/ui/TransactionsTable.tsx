@@ -37,7 +37,7 @@ const TransactionsTable: React.FC<Props> = ({ transactions }) => {
     const handleOpen = (transaction: TTransaction) => {
         setTransaction(transaction)
     }
-    const renderCurrenciesRow = (t: TTransaction) => {
+    const renderRow = (t: TTransaction) => {
         const account = accounts.find((acc) => acc.id === t.accountId)
         const category = categories.find((ct) => ct.id === t.categoryId)
         return [
@@ -83,7 +83,7 @@ const TransactionsTable: React.FC<Props> = ({ transactions }) => {
                     <div className="mt-4 rounded-2xl shadow-my-soft bg-white">
                         <MyTable
                             headers={headers}
-                            renderRow={renderCurrenciesRow}
+                            renderRow={renderRow}
                             data={transactions}
                         />
                     </div>

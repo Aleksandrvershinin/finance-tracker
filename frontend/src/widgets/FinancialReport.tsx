@@ -4,6 +4,8 @@ import { useState } from 'react'
 import Select from 'react-select'
 import ReportAmounts from './ReportAmounts'
 import TransactionsTable from '@/entities/transaction/ui/TransactionsTable'
+import { useTransfersStore } from '@/entities/transfer/lib/useTransfersStore'
+import TrasfersTable from '@/entities/transfer/ui/TrasfersTable'
 
 // Формируем массив месяцев для Select
 const months = Array.from({ length: 12 }, (_, index) => {
@@ -19,6 +21,7 @@ const months = Array.from({ length: 12 }, (_, index) => {
 
 function FinancialReport() {
     const transactions = useTransactionsStore((state) => state.transactions)
+    const transfers = useTransfersStore((state) => state.transfers)
     const accounts = useAccountStore((state) => state.accounts)
     const [selectedAccounId, setselectedAccounId] = useState<string | null>(
         null,
@@ -35,6 +38,14 @@ function FinancialReport() {
         const isCorrectMonth = t.date.startsWith(selectedMonth)
         const isCorrectAccount = selectedAccounId
             ? t.accountId.toString() === selectedAccounId
+            : true
+        return isCorrectMonth && isCorrectAccount
+    })
+    const filteredTransfers = transfers.filter((t) => {
+        const isCorrectMonth = t.date.startsWith(selectedMonth)
+        const isCorrectAccount = selectedAccounId
+            ? t.fromAccountId.toString() === selectedAccounId ||
+              t.toAccountId.toString() === selectedAccounId
             : true
         return isCorrectMonth && isCorrectAccount
     })
@@ -86,6 +97,9 @@ function FinancialReport() {
                     <TransactionsTable
                         transactions={filteredTransactions}
                     ></TransactionsTable>
+                    <TrasfersTable
+                        transfers={filteredTransfers}
+                    ></TrasfersTable>
                 </div>
             </div>
         </div>
