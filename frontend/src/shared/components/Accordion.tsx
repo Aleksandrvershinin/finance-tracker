@@ -8,6 +8,7 @@ interface AccordionProps {
     renderTitle: (
         handleSwitch: () => void,
         icon: React.ReactNode,
+        isOpen: boolean,
     ) => React.ReactNode
     className?: string
 }
@@ -32,6 +33,7 @@ const Accordion: React.FC<AccordionProps> = ({
                         isOpen ? 'rotate-180' : ''
                     }`}
                 />,
+                isOpen,
             )}
 
             <motion.div

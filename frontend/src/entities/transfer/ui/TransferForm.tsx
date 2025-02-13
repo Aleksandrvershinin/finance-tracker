@@ -13,6 +13,7 @@ import MyForm from '@/shared/components/form/MyForm/MyForm'
 import Button from '@/shared/components/ui/Button/Button'
 import FormSelect from '@/shared/components/form/FormSelect'
 import FormIput from '@/shared/components/form/FormInput'
+import { useTransfersStore } from '../lib/useTransfersStore'
 
 interface Props {
     handleClose: () => void
@@ -34,6 +35,7 @@ function TransferForm({
 }: Props) {
     const accounts = useAccountStore((state) => state.accounts)
     const loadAccounts = useAccountStore((state) => state.load)
+    const loadTransfers = useTransfersStore((state) => state.load)
     const { error, fetchFunction, isLoading } = useFetch()
     const defaultDate = date ? date : new Date().toISOString().split('T')[0]
     const {
@@ -58,6 +60,7 @@ function TransferForm({
         })
         if (res) {
             loadAccounts()
+            loadTransfers()
             handleClose()
         }
     }
@@ -65,7 +68,7 @@ function TransferForm({
         <MyForm
             hadleClose={handleClose}
             error={error}
-            className="min-w-[500px]"
+            className="lg:min-w-[500px]"
             myTitle={title}
             handlerSubmit={handleSubmit(onSubmit)}
             buttons={

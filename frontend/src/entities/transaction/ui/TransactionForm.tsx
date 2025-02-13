@@ -88,7 +88,7 @@ function TransactionForm({
         <MyForm
             hadleClose={handleClose}
             error={error}
-            className="min-w-[500px]"
+            className="lg:min-w-[500px]"
             myTitle={
                 <>
                     <p>{title}</p>

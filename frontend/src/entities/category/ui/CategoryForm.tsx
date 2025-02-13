@@ -51,7 +51,7 @@ function CategoryForm({ handleClose, data }: Props) {
         <MyForm
             hadleClose={handleClose}
             error={error}
-            className="min-w-[500px]"
+            className="lg:min-w-[500px]"
             myTitle={title}
             handlerSubmit={handleSubmit(onSubmit)}
             buttons={

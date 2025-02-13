@@ -1,13 +1,11 @@
 import { useAccountStore } from '@/entities/account/lib/useAccountStore'
 import { useTransactionsStore } from '@/entities/transaction/lib/useTransactionStore'
-import { useState } from 'react'
-import Select from 'react-select'
-import ReportAmounts from './ReportAmounts'
 import TransactionsTable from '@/entities/transaction/ui/TransactionsTable'
 import { useTransfersStore } from '@/entities/transfer/lib/useTransfersStore'
 import TrasfersTable from '@/entities/transfer/ui/TrasfersTable'
+import { useState } from 'react'
+import Select from 'react-select'
 
-// Формируем массив месяцев для Select
 const months = Array.from({ length: 12 }, (_, index) => {
     const currentDate = new Date()
     currentDate.setMonth(currentDate.getMonth() - index) // Отнимаем months от текущей даты
@@ -19,7 +17,7 @@ const months = Array.from({ length: 12 }, (_, index) => {
     }
 })
 
-function FinancialReport() {
+export default function TransactionsWidget() {
     const transactions = useTransactionsStore((state) => state.transactions)
     const transfers = useTransfersStore((state) => state.transfers)
     const accounts = useAccountStore((state) => state.accounts)
@@ -49,11 +47,10 @@ function FinancialReport() {
             : true
         return isCorrectMonth && isCorrectAccount
     })
-
     return (
         <div className="flex flex-col">
-            <h2 className="text-2xl font-bold mb-4">Финансовый отчет</h2>
-            <div className="p-4 rounded-2xl shadow-my-soft bg-whit">
+            <h1 className="text-2xl font-bold mb-4">Операции по счетам</h1>
+            <div className="space-y-4 lg:p-4 lg:rounded-2xl lg:shadow-my-soft lg:bg-white">
                 <div className="flex flex-col gap-4">
                     <div className="flex-1">
                         <label className="block mb-2 font-medium">
@@ -91,9 +88,6 @@ function FinancialReport() {
                     </div>
                 </div>
                 <div className="space-y-10">
-                    <ReportAmounts
-                        transactions={filteredTransactions}
-                    ></ReportAmounts>
                     <TransactionsTable
                         transactions={filteredTransactions}
                     ></TransactionsTable>
@@ -105,5 +99,3 @@ function FinancialReport() {
         </div>
     )
 }
-
-export default FinancialReport

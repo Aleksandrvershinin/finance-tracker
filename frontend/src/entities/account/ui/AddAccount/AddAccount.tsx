@@ -54,7 +54,7 @@ function AddAccount({ handleClose, account }: Props) {
                 <MyForm
                     hadleClose={handleClose}
                     error={error}
-                    className="min-w-[500px]"
+                    className="lg:min-w-[500px]"
                     myTitle="Создание нового счета"
                     handlerSubmit={handleSubmit(onSubmit)}
                     buttons={

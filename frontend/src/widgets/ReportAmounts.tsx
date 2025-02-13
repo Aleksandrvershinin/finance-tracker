@@ -18,7 +18,7 @@ function ReportAmounts({ transactions }: Props) {
         .filter((t) => t.type === transactionTypes.EXPENSE)
         .reduce((sum, t) => sum + t.amount, 0)
     return (
-        <div className="flex gap-x-4 mt-4">
+        <div className="flex flex-col gap-4 mt-4">
             <p className="text-green-600 text-lg font-semibold">
                 {getCategoryType('INCOME')}: {totalIncome.toLocaleString()}{' '}
                 {user?.currency.symbol}

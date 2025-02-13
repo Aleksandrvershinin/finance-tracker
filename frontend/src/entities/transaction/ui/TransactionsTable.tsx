@@ -1,17 +1,20 @@
-import MyTable from '@/shared/components/ui/MyTable/MyTable'
 import { TTransaction } from '../types/transaction.types'
-import { useAccountStore } from '@/entities/account/lib/useAccountStore'
-import { getCategoryType } from '@/shared/lib/getCategoryType'
-import { useCategoriesStore } from '@/entities/category/lib/useCategoriesStore'
-import { FaEdit } from 'react-icons/fa'
 import { AnimatePresence } from 'framer-motion'
 import Portal from '@/shared/components/Portal'
 import ModalOpacity from '@/shared/components/ui/ModalOpacity'
 import TransactionForm from './TransactionForm'
 import { useState } from 'react'
-import DeleteTransaction from './DeleteTransaction'
-import clsx from 'clsx'
 import Accordion from '@/shared/components/Accordion'
+import TransactionCard from './TransactionCard'
+import useWindowSize from '@/shared/lib/useWindowSize'
+import breakpoints from '@/shared/configs/mediaBreakpoints'
+import MyTable from '@/shared/components/ui/MyTable/MyTable'
+import { FaEdit } from 'react-icons/fa'
+import DeleteTransaction from './DeleteTransaction'
+import { getCategoryType } from '@/shared/lib/getCategoryType'
+import clsx from 'clsx'
+import { useAccountStore } from '@/entities/account/lib/useAccountStore'
+import { useCategoriesStore } from '@/entities/category/lib/useCategoriesStore'
 
 const headers = [
     'Дата',
@@ -28,9 +31,10 @@ interface Props {
 }
 
 const TransactionsTable: React.FC<Props> = ({ transactions }) => {
-    const [transaction, setTransaction] = useState<TTransaction | null>(null)
+    const { width } = useWindowSize()
     const accounts = useAccountStore((state) => state.accounts)
     const categories = useCategoriesStore((state) => state.categories)
+    const [transaction, setTransaction] = useState<TTransaction | null>(null)
     const handleClose = () => {
         setTransaction(null)
     }
@@ -41,7 +45,7 @@ const TransactionsTable: React.FC<Props> = ({ transactions }) => {
         const account = accounts.find((acc) => acc.id === t.accountId)
         const category = categories.find((ct) => ct.id === t.categoryId)
         return [
-            t.date.split('T')[0],
+            <p className="text-nowrap">{t.date.split('T')[0]}</p>,
             <p
                 className={clsx({
                     'text-red-500': t.type === 'EXPENSE',
@@ -53,10 +57,10 @@ const TransactionsTable: React.FC<Props> = ({ transactions }) => {
             account?.name || 'Не найдено',
             category?.name || 'Не найдено',
             t.amount.toLocaleString(),
-            t.comment,
+            <p className="break-all">{t.comment}</p>,
             <div className="flex gap-x-2">
                 <button title="Редактировать" onClick={() => handleOpen(t)}>
-                    <FaEdit className="text-blue-500" color="" size={30} />
+                    <FaEdit className="text-blue-500" size={23} />
                 </button>
                 <DeleteTransaction transactionId={t.id}></DeleteTransaction>
             </div>,
@@ -65,28 +69,40 @@ const TransactionsTable: React.FC<Props> = ({ transactions }) => {
     return (
         <>
             <div>
-                <h3 className="text-xl font-semibold mb-4">Транзакции</h3>
                 <Accordion
-                    className="p-4 rounded-2xl shadow-my-soft bg-white"
+                    className="lg:p-4 lg:rounded-2xl lg:shadow-my-soft lg:bg-white"
                     renderTitle={(handleSwitch, icon) => (
                         <div
                             onClick={handleSwitch}
                             className="flex justify-between items-center cursor-pointer"
                         >
-                            <h4 className="font-semibold text-xl">
+                            <h3 className="font-semibold text-xl">
                                 Транзакции
-                            </h4>
+                            </h3>
                             {icon}
                         </div>
                     )}
                 >
-                    <div className="mt-4 rounded-2xl shadow-my-soft bg-white">
-                        <MyTable
-                            headers={headers}
-                            renderRow={renderRow}
-                            data={transactions}
-                        />
-                    </div>
+                    {width < breakpoints.xl ? (
+                        <div className="mt-4">
+                            {transactions.map((t) => (
+                                <div key={t.id}>
+                                    <TransactionCard
+                                        transaction={t}
+                                        handleClickEdit={handleOpen}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="mt-4 rounded-2xl shadow-my-soft bg-white">
+                            <MyTable
+                                headers={headers}
+                                renderRow={renderRow}
+                                data={transactions}
+                            />
+                        </div>
+                    )}
                 </Accordion>
             </div>
             <AnimatePresence>
