@@ -5,6 +5,7 @@ import { useTransfersStore } from '@/entities/transfer/lib/useTransfersStore'
 import TrasfersTable from '@/entities/transfer/ui/TrasfersTable'
 import { useState } from 'react'
 import Select from 'react-select'
+import ReportAmounts from './ReportAmounts'
 
 const months = Array.from({ length: 12 }, (_, index) => {
     const currentDate = new Date()
@@ -16,8 +17,14 @@ const months = Array.from({ length: 12 }, (_, index) => {
         })} ${currentDate.getFullYear()}`, // Название месяца
     }
 })
-
-export default function TransactionsWidget() {
+interface Props {
+    showReportAmounts: boolean
+    isFilterigAccounts: boolean
+}
+export default function TransactionsWidget({
+    showReportAmounts,
+    isFilterigAccounts,
+}: Props) {
     const transactions = useTransactionsStore((state) => state.transactions)
     const transfers = useTransfersStore((state) => state.transfers)
     const accounts = useAccountStore((state) => state.accounts)
@@ -39,6 +46,7 @@ export default function TransactionsWidget() {
             : true
         return isCorrectMonth && isCorrectAccount
     })
+
     const filteredTransfers = transfers.filter((t) => {
         const isCorrectMonth = t.date.startsWith(selectedMonth)
         const isCorrectAccount = selectedAccounId
@@ -48,28 +56,27 @@ export default function TransactionsWidget() {
         return isCorrectMonth && isCorrectAccount
     })
     return (
-        <div className="flex flex-col">
-            <h1 className="text-2xl font-bold mb-4">Операции по счетам</h1>
-            <div className="space-y-4 lg:p-4 lg:rounded-2xl lg:shadow-my-soft lg:bg-white">
-                <div className="flex flex-col gap-4">
-                    <div className="flex-1">
-                        <label className="block mb-2 font-medium">
-                            Выберите месяц:
-                        </label>
-                        <Select
-                            isClearable
-                            options={months}
-                            value={months.find(
-                                (month) => month.value === selectedMonth,
-                            )}
-                            onChange={(selectedOption) =>
-                                setSelectedMonth(selectedOption?.value || '')
-                            }
-                            getOptionLabel={(e) => e.label}
-                            getOptionValue={(e) => e.value}
-                        />
-                    </div>
-                    <div className="flex-1">
+        <div className="space-y-10 p-4 rounded-2xl shadow-my-soft bg-white">
+            <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1 max-w-[400px]">
+                    <label className="block mb-2 font-medium">
+                        Выберите месяц:
+                    </label>
+                    <Select
+                        isClearable
+                        options={months}
+                        value={months.find(
+                            (month) => month.value === selectedMonth,
+                        )}
+                        onChange={(selectedOption) =>
+                            setSelectedMonth(selectedOption?.value || '')
+                        }
+                        getOptionLabel={(e) => e.label}
+                        getOptionValue={(e) => e.value}
+                    />
+                </div>
+                {isFilterigAccounts && (
+                    <div className="flex-1 max-w-[400px]">
                         <label className="block mb-2 font-medium">
                             Выберите счет:
                         </label>
@@ -86,15 +93,18 @@ export default function TransactionsWidget() {
                             getOptionValue={(e) => e.value}
                         />
                     </div>
-                </div>
-                <div className="space-y-10">
-                    <TransactionsTable
+                )}
+            </div>
+            <div className="space-y-10">
+                {showReportAmounts && (
+                    <ReportAmounts
                         transactions={filteredTransactions}
-                    ></TransactionsTable>
-                    <TrasfersTable
-                        transfers={filteredTransfers}
-                    ></TrasfersTable>
-                </div>
+                    ></ReportAmounts>
+                )}
+                <TransactionsTable
+                    transactions={filteredTransactions}
+                ></TransactionsTable>
+                <TrasfersTable transfers={filteredTransfers}></TrasfersTable>
             </div>
         </div>
     )

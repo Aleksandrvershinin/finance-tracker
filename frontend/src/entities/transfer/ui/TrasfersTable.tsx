@@ -21,8 +21,12 @@ function TrasfersTable({ transfers }: Props) {
         const toAccount = accounts.find((acc) => acc.id === t.toAccountId)
         return [
             <p className="text-nowrap">{t.date.split('T')[0]}</p>,
-            fromAccount?.name || 'Не найдено',
-            toAccount?.name || 'Не найдено',
+            <p className="text-red-500 font-semibold">
+                {fromAccount?.name || 'Не найдено'}
+            </p>,
+            <p className="text-green-500 font-semibold">
+                {toAccount?.name || 'Не найдено'}
+            </p>,
             t.amount.toLocaleString(),
             t.comment,
             <div className="flex gap-x-2">

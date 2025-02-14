@@ -47,10 +47,13 @@ const TransactionsTable: React.FC<Props> = ({ transactions }) => {
         return [
             <p className="text-nowrap">{t.date.split('T')[0]}</p>,
             <p
-                className={clsx({
-                    'text-red-500': t.type === 'EXPENSE',
-                    'text-green-500': t.type === 'INCOME',
-                })}
+                className={clsx(
+                    {
+                        'text-red-500': t.type === 'EXPENSE',
+                        'text-green-500': t.type === 'INCOME',
+                    },
+                    'font-semibold',
+                )}
             >
                 {getCategoryType(t.type)}
             </p>,

@@ -25,19 +25,19 @@ function TransferCard({ transfer }: Props) {
                 </div>
                 <div className="flex-1 space-y-2">
                     <div className="font-semibold text-sm flex flex-wrap items-center gap-x-2">
-                        <p className="">{accountFrom?.name}</p>
+                        <p className="text-red-500">{accountFrom?.name}</p>
                         <div>
                             <ArrowIcon direction="right" size={20} />
                         </div>
-                        <p className="">{accountTo?.name}</p>
+                        <p className="text-green-500">{accountTo?.name}</p>
                     </div>
                     <p className="break-all text-sm text-gray-700">
                         {transfer.comment}
                     </p>
                 </div>
                 <div className="space-y-2">
-                    <p className="text-green-500 font-semibold text-right">
-                        {transfer.amount}
+                    <p className="font-semibold text-right">
+                        {transfer.amount.toLocaleString()}
                     </p>
                     <div className="text-right">
                         <TransferDelete transferId={transfer.id} />

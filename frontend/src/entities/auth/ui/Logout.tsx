@@ -1,8 +1,14 @@
 import { useAuthStore } from '../lib/useAuthStore'
 
-function Logout() {
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement>
+
+function Logout({ ...rest }: Props) {
     const logout = useAuthStore((state) => state.logout)
-    return <button onClick={logout}>Выход</button>
+    return (
+        <button {...rest} onClick={logout}>
+            Выход
+        </button>
+    )
 }
 
 export default Logout

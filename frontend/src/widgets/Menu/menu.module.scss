@@ -1,0 +1,11 @@
+.menuLinkDefault {
+    @apply font-semibold transition-colors duration-300 ease-in-out;
+}
+
+.menuLink {
+    @apply menuLinkDefault hover:text-blue-400;
+}
+
+.menuLinkLogout {
+    @apply menuLinkDefault hover:text-red-400 ml-auto;
+}
