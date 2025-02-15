@@ -32,8 +32,8 @@ async function bootstrap() {
     useContainer(app.select(AppModule), { fallbackOnErrors: true })
     // Включаем CORS с определенным источником
     app.enableCors({
-        origin: 'http://localhost:5173', // Указываете адрес вашего фронтенда
-        methods: 'GET,POST,PUT,DELETE', // Указываете разрешенные методы
+        origin: ['http://localhost', 'http://localhost:5173'], // Указываете разрешенные источники
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
         allowedHeaders: 'Content-Type, Authorization', // Разрешенные заголовки
     })
     await app.listen(3000)

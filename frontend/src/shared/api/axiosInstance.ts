@@ -5,7 +5,7 @@ import { useAuthStore } from '@/entities/auth/lib/useAuthStore'
 // import { accessToken } from './accessToken.api'
 
 const axiosDefault = {
-    baseURL: 'http://localhost:3000/api', // Указываем базовый URL для всех запросов
+    baseURL: 'http://92.38.49.200/api', // Указываем базовый URL для всех запросов
     timeout: 5000, // Таймаут для запросов
     headers: { 'Content-Type': 'application/json' },
 }
