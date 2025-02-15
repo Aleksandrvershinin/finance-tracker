@@ -47,7 +47,7 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - nestjs
+      - nest
     networks:
       - finance-network
     restart: ${RESTART_POLICY}
