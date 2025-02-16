@@ -84,8 +84,9 @@ function AddAccount({ handleClose, account }: Props) {
                             name="name"
                         />,
                         <FormItem<TAccountForm>
+                            toLocaleStr
+                            removeZero
                             label="Начальный баланс"
-                            type="number"
                             error={errors.initialBalance}
                             control={control}
                             placeholder="Введите начальный баланс"

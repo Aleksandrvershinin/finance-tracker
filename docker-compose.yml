@@ -14,6 +14,8 @@ services:
   finance-phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: finance-phpmyadmin
+    env_file:
+      - .env
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306

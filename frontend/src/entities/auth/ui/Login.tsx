@@ -53,6 +53,7 @@ const Login = () => {
                         error={errors.password}
                         control={control}
                         placeholder="password"
+                        type="password"
                         name="password"
                     />,
                 ]}

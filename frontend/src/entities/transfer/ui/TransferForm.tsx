@@ -109,7 +109,8 @@ function TransferForm({
                     name="toAccountId"
                 />,
                 <FormIput<TTransferForm>
-                    type="number"
+                    removeZero
+                    toLocaleStr
                     label="Сумма"
                     error={errors.amount}
                     control={control}

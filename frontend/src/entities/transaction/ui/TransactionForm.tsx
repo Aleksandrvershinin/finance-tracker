@@ -162,7 +162,8 @@ function TransactionForm({
                     name="categoryId"
                 />,
                 <FormIput<TTransactionForm>
-                    type="number"
+                    toLocaleStr
+                    removeZero
                     label="Сумма"
                     error={errors.amount}
                     control={control}
