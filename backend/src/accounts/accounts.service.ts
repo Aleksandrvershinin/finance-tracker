@@ -25,6 +25,15 @@ export class AccountsService {
     }
 
     async create(data: CreateAccountDto, user: User) {
+        const uniqueAccount = await this.prisma.account.findFirst({
+            where: {
+                userId: user.id,
+                name: data.name,
+            },
+        })
+        if (uniqueAccount) {
+            throw new BadRequestException(`${data.name} уже существует`)
+        }
         return this.prisma.account.create({
             data: {
                 userId: user.id,
@@ -52,6 +61,7 @@ export class AccountsService {
                 id: {
                     not: id,
                 },
+                userId: user.id,
                 name: data.name,
             },
         })
