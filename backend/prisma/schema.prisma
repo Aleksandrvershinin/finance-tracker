@@ -55,7 +55,7 @@ model Currency {
 
 model Account {
   id                   Int           @id @default(autoincrement())
-  name                 String        @unique
+  name                 String
   userId               Int
   user                 User          @relation(fields: [userId], references: [id])
   currencyId           Int
