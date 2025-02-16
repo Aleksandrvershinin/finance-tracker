@@ -38,7 +38,7 @@ export class AccountsService {
             data: {
                 userId: user.id,
                 balance: data.initialBalance,
-                currencyId: user.id,
+                currencyId: user.currencyId,
                 ...data,
             },
         })

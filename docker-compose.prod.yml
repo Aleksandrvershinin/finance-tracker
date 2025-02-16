@@ -1,7 +1,7 @@
 services:
   mysql:
     image: mysql:8.0
-    container_name: finance-mysql
+    container_name: finance-mysql-${NODE_ENV}
     env_file:
       - .env
     volumes:
@@ -11,7 +11,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: finance-phpmyadmin
+    container_name: finance-phpmyadmin-${NODE_ENV}
     environment:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -28,7 +28,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.prod
-    container_name: finance-nest
+    container_name: finance-nest-${NODE_ENV}
     env_file:
       - .env
     ports:
@@ -43,7 +43,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
-    container_name: finance-vite
+    container_name: finance-vite-${NODE_ENV}
     ports:
       - "80:80"
     depends_on:
