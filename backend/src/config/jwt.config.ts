@@ -1,3 +1,6 @@
 export const getJwtSecret = (): string => {
-    return process.env.JWT_SECRET || 'super-secret-key'
+    if (!process.env.JWT_SECRET) {
+        throw new Error('JWT_SECRET is not defined in environment variables.')
+    }
+    return process.env.JWT_SECRET
 }

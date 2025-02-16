@@ -1,0 +1,60 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: finance-mysql
+    env_file:
+      - .env
+    volumes:
+      - finance_mysql_data:/var/lib/mysql
+    networks:
+      - finance-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: finance-phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - finance-network
+    restart: ${RESTART_POLICY}
+
+
+  nest:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    container_name: finance-nest
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+    networks:
+      - finance-network
+    restart: ${RESTART_POLICY}
+
+  vite:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    container_name: finance-vite
+    ports:
+      - "80:80"
+    depends_on:
+      - nest
+    networks:
+      - finance-network
+    restart: ${RESTART_POLICY}
+
+volumes:
+  finance_mysql_data:
+
+networks:
+  finance-network:
+    driver: bridge

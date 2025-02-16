@@ -2,11 +2,8 @@ services:
   mysql:
     image: mysql:8.0
     container_name: finance-mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: finance_tracker
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user
+    env_file:
+      - .env
     ports:
       - "3306:3306"
     volumes:
@@ -27,14 +24,14 @@ services:
     networks:
       - finance-network
 
-  nestjs:
+  nest:
     build:
       context: ./backend # Путь к папке с приложением NestJS
-    container_name: finance-nestjs
+    container_name: finance-nest
     ports:
       - "3000:3000" # Порт, на котором будет доступно приложение
-    environment:
-      - NODE_ENV=development # Для работы в дев-режиме
+    env_file:
+      - .env
     volumes:
       - ./backend:/usr/src/app # Монтируем локальные файлы для разработки
       - /usr/src/app/node_modules # Чтобы не перезаписывать node_modules в контейнере
@@ -54,7 +51,7 @@ services:
       - /usr/src/app/node_modules # Чтобы не перезаписывать node_modules в контейнере
     environment:
       - NODE_ENV=development
-    command: /bin/bash -c "npm install && npm run dev"
+    command: /bin/bash -c "npm ci && npm run dev"
     networks:
       - finance-network # Сеть для взаимодействия с другими контейнерами
 
