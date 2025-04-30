@@ -1,4 +1,5 @@
 import { useAccountStore } from '@/entities/account/lib/useAccountStore'
+import { useAccountTagsStore } from '@/entities/accountTags/lib/useAccountTagsStore'
 import { useCategoriesStore } from '@/entities/category/lib/useCategoriesStore'
 import { useCurrencyStore } from '@/entities/currency/lib/useCurrencyStore'
 import { useTransactionsStore } from '@/entities/transaction/lib/useTransactionStore'
@@ -23,24 +24,29 @@ function DataProvider({ children }: Props) {
     const loadCategories = useCategoriesStore((state) => state.load)
     const loadTransfers = useTransfersStore((state) => state.load)
     const isLoadingTransfers = useTransfersStore((state) => state.isLoading)
+    const loadAccountTags = useAccountTagsStore((state) => state.load)
+    const isLoadingAccountTags = useAccountTagsStore((state) => state.isLoading)
     const isLoading =
         isLoadingCurrencies &&
         isLoadingCategories &&
         isLoadingAccounts &&
         isLoadingTransactions &&
-        isLoadingTransfers
+        isLoadingTransfers &&
+        isLoadingAccountTags
     useEffect(() => {
         loadCurrencies()
         loadCategories()
         loadAccounts()
         loadTransactions()
         loadTransfers()
+        loadAccountTags()
     }, [
         loadCurrencies,
         loadCategories,
         loadAccounts,
         loadTransactions,
         loadTransfers,
+        loadAccountTags,
     ])
 
     return (

@@ -20,6 +20,7 @@ export class AccountsService {
             },
             include: {
                 currency: true,
+                accountTag: true,
             },
         })
     }
@@ -36,7 +37,7 @@ export class AccountsService {
         }
         return this.prisma.account.create({
             data: {
-                userId: user.id,
+                userId: 1,
                 balance: data.initialBalance,
                 currencyId: user.currencyId,
                 ...data,

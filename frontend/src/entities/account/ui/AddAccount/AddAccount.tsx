@@ -13,6 +13,8 @@ import MyForm from '@/shared/components/form/MyForm/MyForm'
 import { useFetch } from '@/shared/lib/hooks/useFetch'
 import { accountApi } from '../../api/account.api'
 import { useAccountStore } from '../../lib/useAccountStore'
+import FormSelect from '@/shared/components/form/FormSelect'
+import { useAccountTagsStore } from '@/entities/accountTags/lib/useAccountTagsStore'
 
 interface Props {
     handleClose: () => void
@@ -20,6 +22,7 @@ interface Props {
 }
 
 function AddAccount({ handleClose, account }: Props) {
+    const accountTags = useAccountTagsStore((state) => state.accountTags)
     const { error, fetchFunction, isLoading } = useFetch()
     const currencies = useCurrencyStore((state) => state.currencies)
     const loadAccounts = useAccountStore((state) => state.load)
@@ -32,6 +35,7 @@ function AddAccount({ handleClose, account }: Props) {
         defaultValues: {
             initialBalance: account?.initialBalance || 0,
             name: account?.name || '',
+            accountTagId: account?.accountTag?.id,
             // currencyId:
             //     account?.currency.id ||
             //     (currencies ? currencies[0]?.id : undefined),
@@ -55,7 +59,11 @@ function AddAccount({ handleClose, account }: Props) {
                     hadleClose={handleClose}
                     error={error}
                     className="lg:min-w-[500px]"
-                    myTitle="Создание нового счета"
+                    myTitle={
+                        account
+                            ? 'Редактирование нового счета'
+                            : 'Создание нового счета'
+                    }
                     handlerSubmit={handleSubmit(onSubmit)}
                     buttons={
                         <div className="flex flex-col gap-y-4">
@@ -91,6 +99,18 @@ function AddAccount({ handleClose, account }: Props) {
                             control={control}
                             placeholder="Введите начальный баланс"
                             name="initialBalance"
+                        />,
+                        <FormSelect<TAccountForm>
+                            isClearable
+                            placeholder="Tag"
+                            options={accountTags.map((tag) => ({
+                                value: tag.id,
+                                label: tag.name,
+                            }))}
+                            label="Tag"
+                            error={errors.accountTagId}
+                            control={control}
+                            name="accountTagId"
                         />,
                         // <>
                         //     {!account && (

@@ -1,3 +1,4 @@
+import { accountTagSchema } from '@/entities/accountTags/types/accountTags.types'
 import { currencySchema } from '@/entities/currency/types/currency.types'
 import { validationMessages } from '@/shared/configs/validationMessages'
 import { z } from 'zod'
@@ -10,6 +11,7 @@ export const accountSchema = z.object({
     initialBalance: z.number(),
     name: z.string(),
     currency: currencySchema,
+    accountTag: accountTagSchema.optional().nullable(),
 })
 
 export const accountFormSchema = z.object({
@@ -17,6 +19,7 @@ export const accountFormSchema = z.object({
     initialBalance: z.coerce
         .number({ message: validationMessages.mustNumber })
         .min(0, { message: validationMessages.minLengthNumber(0) }),
+    accountTagId: z.number().optional().nullable(),
     // currencyId: z
     //     .number({ message: validationMessages.required })
     //     .transform((val) => Number(val))

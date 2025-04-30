@@ -12,6 +12,9 @@ function Menu() {
                 <Link to="/categories" className={styles.menuLink}>
                     Категории
                 </Link>
+                <Link to="/account-tags" className={styles.menuLink}>
+                    Tags
+                </Link>
                 <Link
                     to="/transactions-and-transfers"
                     className={styles.menuLink}
