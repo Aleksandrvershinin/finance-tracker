@@ -5,7 +5,7 @@ import styles from './menu.module.scss'
 function Menu() {
     return (
         <div className="text-white lg:text-lg mb-5 lg:gap-x-8 mx-auto bg-green-800 p-4 shadow-md">
-            <div className="container flex items-center gap-x-4">
+            <div className="container flex items-center gap-x-4 text-sm sm:text-base">
                 <Link to="/" className={styles.menuLink}>
                     Домой
                 </Link>

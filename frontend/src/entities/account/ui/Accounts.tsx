@@ -27,7 +27,6 @@ function Accounts() {
                     Добавить счет
                 </Button>
             </div>
-
             <AnimatePresence>
                 {showForm && (
                     <Portal>

@@ -11,7 +11,7 @@ export const accountSchema = z.object({
     initialBalance: z.number(),
     name: z.string(),
     currency: currencySchema,
-    accountTag: accountTagSchema.optional().nullable(),
+    accountTag: accountTagSchema.nullable(),
 })
 
 export const accountFormSchema = z.object({
