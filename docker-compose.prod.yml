@@ -8,20 +8,22 @@ services:
       - finance_mysql_data:/var/lib/mysql
     networks:
       - finance-network
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: finance-phpmyadmin-${NODE_ENV}
-    environment:
-      PMA_HOST: mysql
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
-      - "8080:80"
-    depends_on:
-      - mysql
-    networks:
-      - finance-network
-    restart: ${RESTART_POLICY}
+      - "3307:3306"
+
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   container_name: finance-phpmyadmin-${NODE_ENV}
+  #   environment:
+  #     PMA_HOST: mysql
+  #     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #   ports:
+  #     - "8080:80"
+  #   depends_on:
+  #     - mysql
+  #   networks:
+  #     - finance-network
+  #   restart: ${RESTART_POLICY}
 
 
   nest:
