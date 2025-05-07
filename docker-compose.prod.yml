@@ -45,7 +45,7 @@ services:
       dockerfile: Dockerfile.prod
     container_name: finance-vite-${NODE_ENV}
     ports:
-      - "80:80"
+      - "8081:80"
     depends_on:
       - nest
     networks:
