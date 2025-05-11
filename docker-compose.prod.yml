@@ -10,6 +10,7 @@ services:
       - finance-network
     ports:
       - "3307:3306"
+    restart: ${RESTART_POLICY}
 
   # phpmyadmin:
   #   image: phpmyadmin/phpmyadmin
