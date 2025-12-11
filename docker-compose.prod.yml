@@ -31,7 +31,7 @@ services:
     env_file:
       - .env
     ports:
-      - "127.0.0.1:4770:80"
+      - "127.0.0.1:4770:3000"
     depends_on:
       - mysql
     networks:
