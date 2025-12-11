@@ -15,14 +15,12 @@ services:
     container_name: finance-phpmyadmin-${NODE_ENV}
     environment:
       PMA_HOST: mysql
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
-      - "127.0.0.1:8082:80"
+      - "127.0.0.1:4760:80"
     depends_on:
       - mysql
     networks:
       - finance-network
-    restart: ${RESTART_POLICY}
 
 
   nest:
@@ -33,7 +31,7 @@ services:
     env_file:
       - .env
     ports:
-      - "127.0.0.1:3000:3000"
+      - "127.0.0.1:4770:80"
     depends_on:
       - mysql
     networks:
@@ -46,7 +44,7 @@ services:
       dockerfile: Dockerfile.prod
     container_name: finance-vite-${NODE_ENV}
     ports:
-      - "127.0.0.1:8081:80"
+      - "127.0.0.1:4750:80"
     depends_on:
       - nest
     networks:
