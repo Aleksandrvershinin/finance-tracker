@@ -50,7 +50,6 @@ services:
       - "5173:5173" # Порт для Vite в дев-режиме (по умолчанию Vite использует 3000)
     volumes:
       - ./frontend:/usr/src/app # Монтируем фронтенд в контейнер
-      - /usr/src/app/node_modules # Чтобы не перезаписывать node_modules в контейнере
     environment:
       - NODE_ENV=development
     command: /bin/bash -c "npm ci && npm run dev"
