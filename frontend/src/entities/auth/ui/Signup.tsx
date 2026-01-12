@@ -9,6 +9,7 @@ import FormSelect from '@/shared/components/form/FormSelect'
 import { useCurrencyStore } from '@/entities/currency/lib/useCurrencyStore'
 import { useEffect } from 'react'
 import Loading from '@/shared/components/Loading'
+import { useSignup } from '../lib/useAuth'
 
 function Signup() {
     const {
@@ -19,20 +20,19 @@ function Signup() {
         resolver: zodResolver(signupFormSchema),
         defaultValues: { email: '', password: '', name: '' },
     })
+    const { mutateAsync, isPending, errorMessage } = useSignup()
     const loadCurrencies = useCurrencyStore((state) => state.loadCurrencies)
     const isLoading = useCurrencyStore((state) => state.isLoading)
     const errorCurrency = useCurrencyStore((state) => state.error)
     const currencies = useCurrencyStore((state) => state.currencies)
     const setComponent = useAuthStore((state) => state.setComponent)
-    const errorSignup = useAuthStore((state) => state.errorSignup)
-    const signup = useAuthStore((state) => state.signup)
 
     useEffect(() => {
         loadCurrencies()
     }, [loadCurrencies])
 
     const onSubmit = (data: TSignupForm) => {
-        signup(data)
+        mutateAsync(data)
     }
     if (errorCurrency) {
         return (
@@ -58,10 +58,14 @@ function Signup() {
                         </button>
                     </div>
                 }
-                buttons={<Button className="w-full">Зарегистрироваться</Button>}
+                buttons={
+                    <Button disabled={isPending} className="w-full">
+                        Зарегистрироваться
+                    </Button>
+                }
                 onSubmit={handleSubmit(onSubmit)}
                 title="Регистрация"
-                error={errorSignup || undefined}
+                error={errorMessage || undefined}
                 fields={[
                     <FormItem
                         error={errors.name}

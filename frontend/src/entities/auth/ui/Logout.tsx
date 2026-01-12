@@ -1,11 +1,11 @@
-import { useAuthStore } from '../lib/useAuthStore'
+import { useLogout } from '../lib/useAuth'
 
 type Props = React.ButtonHTMLAttributes<HTMLButtonElement>
 
 function Logout({ ...rest }: Props) {
-    const logout = useAuthStore((state) => state.logout)
+    const { mutate, isPending } = useLogout()
     return (
-        <button {...rest} onClick={logout}>
+        <button {...rest} onClick={() => mutate()} disabled={isPending}>
             Выход
         </button>
     )

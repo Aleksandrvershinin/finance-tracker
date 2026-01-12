@@ -5,6 +5,7 @@ import { authFormSchema, TAuthForm } from '../types/auth.types'
 import FormItem from '@/shared/components/form/FormInput'
 import Button from '@/shared/components/ui/Button/Button'
 import AuthForm from './form/AuthForm'
+import { useLogin } from '../lib/useAuth'
 
 const Login = () => {
     const {
@@ -15,11 +16,10 @@ const Login = () => {
         resolver: zodResolver(authFormSchema),
         defaultValues: { email: '', password: '' },
     })
-    const login = useAuthStore((state) => state.login)
+    const { mutateAsync, isPending, errorMessage } = useLogin()
     const setComponent = useAuthStore((state) => state.setComponent)
-    const errorLogin = useAuthStore((state) => state.errorLogin)
     const onSubmit = async (data: TAuthForm) => {
-        await login(data)
+        await mutateAsync(data)
     }
 
     return (
@@ -38,10 +38,14 @@ const Login = () => {
                         </button>
                     </div>
                 }
-                buttons={<Button className="w-full">Войти</Button>}
+                buttons={
+                    <Button disabled={isPending} className="w-full">
+                        Войти
+                    </Button>
+                }
                 onSubmit={handleSubmit(onSubmit)}
                 title="Авторизация"
-                error={errorLogin || undefined}
+                error={errorMessage || undefined}
                 fields={[
                     <FormItem
                         error={errors.email}
