@@ -1,13 +1,12 @@
 import MyTable from '@/shared/components/ui/MyTable/MyTable'
-import { useCategoriesStore } from '../lib/useCategoriesStore'
 import { TCategory } from '../types/category.types'
 import { getCategoryType } from '@/shared/lib/getCategoryType'
-import { useFetch } from '@/shared/lib/hooks/useFetch'
-import { categoryApi } from '../api/category.api'
 import { AnimatePresence } from 'framer-motion'
 import Loading from '@/shared/components/Loading'
 import MyAlert from '@/shared/components/MyAlert/MyAlert'
 import { FaEdit, FaTrash } from 'react-icons/fa'
+import { useCategoryList } from '../lib/useCategoryList'
+import { useCategoryDeleteMutation } from '../lib/useCategoryDeleteMutation'
 
 interface Props {
     handleEditClick: (category: TCategory) => void
@@ -17,17 +16,13 @@ interface Props {
 const headers = [<>Название</>, <>Тип</>, <>Действия</>]
 
 function CategoryList({ handleEditClick, handleClose }: Props) {
-    const loadCategories = useCategoriesStore((state) => state.load)
-    const { error, fetchFunction, isLoading, resetError } = useFetch()
-    const categories = useCategoriesStore((state) => state.categories)
+    const { mutateAsync, isPending, errorMessage } = useCategoryDeleteMutation()
+    const { data: categories = [] } = useCategoryList()
     const handleDelete = async (category: TCategory) => {
         const conf = confirm(`Подтвердите удаление категории ${category.name}`)
         if (!conf) return
-        const res = await fetchFunction(async () => {
-            return await categoryApi.delete(category.id)
-        })
+        const res = await mutateAsync(category.id)
         if (res) {
-            loadCategories()
             handleClose()
         }
     }
@@ -63,14 +58,8 @@ function CategoryList({ handleEditClick, handleClose }: Props) {
                     data={[...categories]}
                 />
             </div>
-            <AnimatePresence>{isLoading && <Loading />}</AnimatePresence>
-            {error && (
-                <MyAlert
-                    onCloseCallback={resetError}
-                    type="error"
-                    text={error}
-                />
-            )}
+            <AnimatePresence>{isPending && <Loading />}</AnimatePresence>
+            {errorMessage && <MyAlert type="error" text={errorMessage} />}
         </>
     )
 }

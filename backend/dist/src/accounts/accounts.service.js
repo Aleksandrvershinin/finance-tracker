@@ -39,7 +39,7 @@ let AccountsService = class AccountsService {
         }
         return this.prisma.account.create({
             data: {
-                userId: 1,
+                userId: user.id,
                 balance: data.initialBalance,
                 currencyId: user.currencyId,
                 ...data,

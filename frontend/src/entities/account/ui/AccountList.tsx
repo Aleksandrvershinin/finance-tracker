@@ -1,15 +1,18 @@
-import { useAccountStore } from '../lib/useAccountStore'
-import { useUserStore } from '@/entities/user/lib/useUserStore'
 import Loading from '@/shared/components/Loading'
 import AccountCard from './AccountCard/AccountCard'
+import { useAccountList } from '../lib/useAccountList'
+import { useAuth } from '@/entities/auth/lib/useAuth'
+import { useFilterAccounts } from '@/features/Filter/lib/useFilterAccounts'
+import { useGroupedAccounts } from '../lib/useGroupedAccounts'
+import { useSortedAccounts } from '../lib/useSortedAccounts'
 
 function AccountList() {
-    const { accounts, filteredAccountIds, isLoading } = useAccountStore()
-    const user = useUserStore((state) => state.user)
+    const { data: accounts = [], isLoading } = useAccountList()
+    const { data: user } = useAuth()
+    const filteredAccounts = useFilterAccounts(accounts)
 
-    const filteredAccounts = accounts.filter((a) =>
-        filteredAccountIds.includes(a.id),
-    )
+    const groupedAccounts = useGroupedAccounts(filteredAccounts)
+    const sortedAccounts = useSortedAccounts(groupedAccounts)
 
     const total = filteredAccounts.reduce((acc, item) => acc + item.balance, 0)
 
@@ -22,11 +25,29 @@ function AccountList() {
                     <p>{user?.currency.symbol}</p>
                 </div>
             </div>
-            <div className="flex flex-col gap-y-5">
-                {filteredAccounts.map((item) => (
-                    <AccountCard key={item.id} account={item} />
+
+            <div className="flex flex-col gap-y-8">
+                {sortedAccounts.map((group) => (
+                    <div key={group.name}>
+                        <div className="flex items-center justify-between mb-4">
+                            <h2 className="text-lg font-semibold text-gray-700">
+                                {group.name}
+                            </h2>
+                            <p className="text-green-600 font-bold">
+                                {group.total.toLocaleString()}{' '}
+                                {user?.currency.symbol}
+                            </p>
+                        </div>
+
+                        <div className="flex flex-col gap-y-5">
+                            {group.accounts.map((item) => (
+                                <AccountCard key={item.id} account={item} />
+                            ))}
+                        </div>
+                    </div>
                 ))}
             </div>
+
             <Loading isShow={isLoading} />
         </>
     )

@@ -1,4 +1,4 @@
-import { useUserStore } from '@/entities/user/lib/useUserStore'
+import { useAuth } from '@/entities/auth/lib/useAuth'
 import { TUser } from '@/entities/user/types/user.types'
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
 }
 
 function IsHasRole({ userRole, children }: Props) {
-    const user = useUserStore((state) => state.user)
+    const { data: user } = useAuth()
 
     if (user?.role === userRole) {
         return <>{children}</>

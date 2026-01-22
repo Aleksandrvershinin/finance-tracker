@@ -1,11 +1,11 @@
 import ArrowIcon from '@/shared/components/ui/icons/ArrowIcon'
 import { TTransaction } from '../types/transaction.types'
-import { useAccountStore } from '@/entities/account/lib/useAccountStore'
-import { useCategoriesStore } from '@/entities/category/lib/useCategoriesStore'
 import clsx from 'clsx'
 import { FaEdit } from 'react-icons/fa'
 import DeleteTransaction from './DeleteTransaction'
 import { options } from '@/shared/configs/optionsDate'
+import { useAccountList } from '@/entities/account/lib/useAccountList'
+import { useCategoryList } from '@/entities/category/lib/useCategoryList'
 
 interface Props {
     transaction: TTransaction
@@ -13,9 +13,9 @@ interface Props {
 }
 
 function TransactionCard({ transaction, handleClickEdit }: Props) {
-    const accounts = useAccountStore((state) => state.accounts)
+    const accounts = useAccountList().data || []
     const account = accounts.find((acc) => acc.id === transaction.accountId)
-    const categories = useCategoriesStore((state) => state.categories)
+    const { data: categories = [] } = useCategoryList()
     const category = categories.find((ct) => ct.id === transaction.categoryId)
     const currentDate = new Date(transaction.date)
     const formattedDate = currentDate.toLocaleDateString('ru-RU', options)

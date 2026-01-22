@@ -1,5 +1,5 @@
-import { accountTagSchema } from '@/entities/accountTags/types/accountTags.types'
 import { currencySchema } from '@/entities/currency/types/currency.types'
+import { groupAccountSchema } from '@/entities/groupAccount/types/groupAccount.types'
 import { validationMessages } from '@/shared/configs/validationMessages'
 import { z } from 'zod'
 
@@ -11,8 +11,11 @@ export const accountSchema = z.object({
     initialBalance: z.number(),
     name: z.string(),
     currency: currencySchema,
-    accountTag: accountTagSchema.nullable(),
-})
+    accountTag: groupAccountSchema.nullable(),
+}).transform(({ accountTag, ...rest }) => ({
+    ...rest,
+    groupAccount: accountTag,
+}))
 
 export const accountFormSchema = z.object({
     name: z.string().nonempty({ message: validationMessages.required }),

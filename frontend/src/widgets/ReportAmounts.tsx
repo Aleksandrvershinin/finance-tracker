@@ -1,6 +1,6 @@
+import { useAuth } from '@/entities/auth/lib/useAuth'
 import { TransactionTypeSchema } from '@/entities/category/types/category.types'
 import { TTransaction } from '@/entities/transaction/types/transaction.types'
-import { useUserStore } from '@/entities/user/lib/useUserStore'
 import { getCategoryType } from '@/shared/lib/getCategoryType'
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 const transactionTypes = TransactionTypeSchema.enum
 
 function ReportAmounts({ transactions }: Props) {
-    const user = useUserStore((state) => state.user)
+    const { data: user } = useAuth()
     const totalIncome = transactions
         .filter((t) => t.type === transactionTypes.INCOME)
         .reduce((sum, t) => sum + t.amount, 0)
@@ -28,7 +28,7 @@ function ReportAmounts({ transactions }: Props) {
                 {user?.currency.symbol}
             </p>
             <p className="text-blue-600 text-lg font-semibold">
-                Остаток : {(totalIncome - totalExpense).toLocaleString()}{' '}
+                Разница : {(totalIncome - totalExpense).toLocaleString()}{' '}
                 {user?.currency.symbol}
             </p>
         </div>

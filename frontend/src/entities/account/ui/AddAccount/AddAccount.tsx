@@ -8,13 +8,11 @@ import { useForm } from 'react-hook-form'
 import Button from '@/shared/components/ui/Button/Button'
 import FormItem from '@/shared/components/form/FormInput'
 // import FormSelect from '@/shared/components/form/FormSelect'
-import { useCurrencyStore } from '@/entities/currency/lib/useCurrencyStore'
 import MyForm from '@/shared/components/form/MyForm/MyForm'
-import { useFetch } from '@/shared/lib/hooks/useFetch'
-import { accountApi } from '../../api/account.api'
-import { useAccountStore } from '../../lib/useAccountStore'
 import FormSelect from '@/shared/components/form/FormSelect'
-import { useAccountTagsStore } from '@/entities/accountTags/lib/useAccountTagsStore'
+import { useAccountMutation } from '../../lib/useAccountMutations'
+import { useGroupAccountList } from '@/entities/groupAccount/lib/useGroupAccountList'
+import { useCurrencyList } from '@/entities/currency/lib/useCurrencyList'
 
 interface Props {
     handleClose: () => void
@@ -22,10 +20,13 @@ interface Props {
 }
 
 function AddAccount({ handleClose, account }: Props) {
-    const accountTags = useAccountTagsStore((state) => state.accountTags)
-    const { error, fetchFunction, isLoading } = useFetch()
-    const currencies = useCurrencyStore((state) => state.currencies)
-    const loadAccounts = useAccountStore((state) => state.load)
+    const { data: groups = [] } = useGroupAccountList()
+    const {
+        mutateAsync: saveAccount,
+        errorMessage,
+        isPending,
+    } = useAccountMutation()
+    const { data: currencies } = useCurrencyList()
     const {
         handleSubmit,
         control,
@@ -35,20 +36,13 @@ function AddAccount({ handleClose, account }: Props) {
         defaultValues: {
             initialBalance: account?.initialBalance || 0,
             name: account?.name || '',
-            accountTagId: account?.accountTag?.id,
-            // currencyId:
-            //     account?.currency.id ||
-            //     (currencies ? currencies[0]?.id : undefined),
+            accountTagId: account?.groupAccount?.id,
         },
     })
     const onSubmit = async (data: TAccountForm) => {
-        const res = await fetchFunction(async () => {
-            return await (account
-                ? accountApi.update(data, account.id)
-                : accountApi.store(data))
-        })
+        const res = await saveAccount({ data, id: account?.id })
         if (res) {
-            loadAccounts()
+            saveAccount({ data, id: account?.id })
             handleClose()
         }
     }
@@ -57,7 +51,7 @@ function AddAccount({ handleClose, account }: Props) {
             {currencies && currencies.length > 0 ? (
                 <MyForm
                     hadleClose={handleClose}
-                    error={error}
+                    error={errorMessage}
                     className="lg:min-w-[500px]"
                     myTitle={
                         account
@@ -69,7 +63,7 @@ function AddAccount({ handleClose, account }: Props) {
                         <div className="flex flex-col gap-y-4">
                             <Button
                                 myColor={'green500'}
-                                disabled={isLoading}
+                                disabled={isPending}
                                 className="w-full"
                             >
                                 Сохранить
@@ -102,12 +96,12 @@ function AddAccount({ handleClose, account }: Props) {
                         />,
                         <FormSelect<TAccountForm>
                             isClearable
-                            placeholder="Tag"
-                            options={accountTags.map((tag) => ({
-                                value: tag.id,
-                                label: tag.name,
+                            placeholder="Группа счетов"
+                            options={groups.map((group) => ({
+                                value: group.id,
+                                label: group.name,
                             }))}
-                            label="Tag"
+                            label="Группа счетов"
                             error={errors.accountTagId}
                             control={control}
                             name="accountTagId"

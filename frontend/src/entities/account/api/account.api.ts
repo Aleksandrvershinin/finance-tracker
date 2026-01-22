@@ -1,19 +1,26 @@
 import { apiAxiosWithAuthToken } from '@/shared/api/axiosInstance'
 import { accountSchema, TAccount, TAccountForm } from '../types/account.types'
+import { queryOptions } from '@tanstack/react-query'
 
-class AccountApi {
-    async index() {
-        const res = await apiAxiosWithAuthToken.get('/accounts')
-        return accountSchema.array().parse(res.data)
-    }
-    async store(data: TAccountForm) {
+export const accountApi = {
+    getAccountListQueryOptions: () => {
+        return queryOptions({
+            queryKey: ['accounts', 'list'],
+            queryFn: async () => {
+                const res = await apiAxiosWithAuthToken.get('/accounts')
+                return accountSchema.array().parse(res.data)
+            },
+            refetchOnReconnect: false
+        })
+    },
+
+    store: async (data: TAccountForm) => {
         const res = await apiAxiosWithAuthToken.post('/accounts', data)
         return res.data
-    }
-    async update(data: TAccountForm, id: TAccount['id']) {
+    },
+    update: async (data: TAccountForm, id: TAccount['id']) => {
         const res = await apiAxiosWithAuthToken.put(`/accounts/${id}`, data)
         return res.data
     }
 }
 
-export const accountApi = new AccountApi()

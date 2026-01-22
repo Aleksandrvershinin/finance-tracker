@@ -1,4 +1,4 @@
-import AccountTags from '@/entities/accountTags/ui/AccountTags'
+import AccountTags from '@/entities/groupAccount/ui/GroupAccount'
 
 export default function AccountTagsPage() {
     return (

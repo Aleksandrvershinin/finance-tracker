@@ -3,16 +3,16 @@ import { useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import Portal from '@/shared/components/Portal'
 import ModalOpacity from '@/shared/components/ui/ModalOpacity'
-import AccountTagsForm from './AccountTagsForm'
-import AccountTagsList from './AccountTagsList'
-import { TAccountTag } from '../types/accountTags.types'
+import AccountTagsForm from './GroupAccountForm'
+import AccountTagsList from './GroupAccountList'
+import { TGroupAccount } from '../types/groupAccount.types'
 
-export default function AccountTags() {
+export default function GroupAccount() {
     const [showForm, setShowForm] = useState(false)
-    const [accountTag, setAccountTag] = useState<TAccountTag | undefined>(
+    const [accountTag, setAccountTag] = useState<TGroupAccount | undefined>(
         undefined,
     )
-    const handleEditClick = (accountTag: TAccountTag) => {
+    const handleEditClick = (accountTag: TGroupAccount) => {
         setAccountTag(accountTag)
         setShowForm(true)
     }

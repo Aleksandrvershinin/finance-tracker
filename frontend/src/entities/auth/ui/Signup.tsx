@@ -6,10 +6,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useAuthStore } from '../lib/useAuthStore'
 import FormItem from '@/shared/components/form/FormInput'
 import FormSelect from '@/shared/components/form/FormSelect'
-import { useCurrencyStore } from '@/entities/currency/lib/useCurrencyStore'
-import { useEffect } from 'react'
 import Loading from '@/shared/components/Loading'
 import { useSignup } from '../lib/useAuth'
+import { useCurrencyList } from '@/entities/currency/lib/useCurrencyList'
 
 function Signup() {
     const {
@@ -21,20 +20,17 @@ function Signup() {
         defaultValues: { email: '', password: '', name: '' },
     })
     const { mutateAsync, isPending, errorMessage } = useSignup()
-    const loadCurrencies = useCurrencyStore((state) => state.loadCurrencies)
-    const isLoading = useCurrencyStore((state) => state.isLoading)
-    const errorCurrency = useCurrencyStore((state) => state.error)
-    const currencies = useCurrencyStore((state) => state.currencies)
+    const {
+        data: currencies = [],
+        isLoading: isLoadingCurrencies,
+        error: errorCurrencies,
+    } = useCurrencyList()
     const setComponent = useAuthStore((state) => state.setComponent)
-
-    useEffect(() => {
-        loadCurrencies()
-    }, [loadCurrencies])
 
     const onSubmit = (data: TSignupForm) => {
         mutateAsync(data)
     }
-    if (errorCurrency) {
+    if (errorCurrencies) {
         return (
             <p className="text-red-500 text-xl font-bold fixed inset-0 overflow-auto flex flex-col items-center pt-20 bg-gray-100">
                 Произошла неизвестная ошибка, попробуйте обновить страницу
@@ -43,7 +39,7 @@ function Signup() {
     }
     return (
         <>
-            {isLoading && <Loading />}
+            {isLoadingCurrencies && <Loading />}
             <AuthForm
                 footer={
                     <div className="flex gap-x-2 justify-center">

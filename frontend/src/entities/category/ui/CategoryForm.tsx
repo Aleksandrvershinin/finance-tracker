@@ -1,19 +1,17 @@
-import { useFetch } from '@/shared/lib/hooks/useFetch'
 import {
     categoryFormSchema,
     TCategory,
     TCategoryForm,
     TransactionTypeSchema,
 } from '../types/category.types'
-import { useCategoriesStore } from '../lib/useCategoriesStore'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { categoryApi } from '../api/category.api'
 import MyForm from '@/shared/components/form/MyForm/MyForm'
 import Button from '@/shared/components/ui/Button/Button'
 import FormIput from '@/shared/components/form/FormInput'
 import FormSelect from '@/shared/components/form/FormSelect'
 import { getCategoryType } from '@/shared/lib/getCategoryType'
+import { useCategoryMutation } from '../lib/useCategoryMutation'
 
 type Props = {
     handleClose: () => void
@@ -22,8 +20,7 @@ type Props = {
 const categoryTypes = Object.values(TransactionTypeSchema.enum)
 
 function CategoryForm({ handleClose, data }: Props) {
-    const { error, fetchFunction, isLoading } = useFetch()
-    const loadCategories = useCategoriesStore((state) => state.load)
+    const { errorMessage, mutateAsync, isPending } = useCategoryMutation()
     const {
         handleSubmit,
         control,
@@ -37,26 +34,21 @@ function CategoryForm({ handleClose, data }: Props) {
     })
     const title = data ? 'Редактирование категории' : 'Создание новой категории'
     const onSubmit = async (dataForm: TCategoryForm) => {
-        const res = await fetchFunction(async () => {
-            return await (data
-                ? categoryApi.update(dataForm, data.id)
-                : categoryApi.store(dataForm))
-        })
+        const res = await mutateAsync({ data: dataForm, id: data?.id })
         if (res) {
-            loadCategories()
             handleClose()
         }
     }
     return (
         <MyForm
             hadleClose={handleClose}
-            error={error}
+            error={errorMessage}
             className="lg:min-w-[500px]"
             myTitle={title}
             handlerSubmit={handleSubmit(onSubmit)}
             buttons={
                 <div className="flex flex-col gap-y-4">
-                    <Button disabled={isLoading} className="w-full">
+                    <Button disabled={isPending} className="w-full">
                         Сохранить
                     </Button>
                     <button

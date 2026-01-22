@@ -6,15 +6,20 @@ import CategoriesPage from '@/pages/ctegory/CategoriesPage'
 import TransactionsAndTransfers from '@/pages/TransactionsAndTransfers/TransactionsAndTransfers'
 import Menu from '@/widgets/Menu/Menu'
 import AccountTagsPage from '@/pages/accountTags/AccountTagsPage'
+import DataLoading from './DataLoading'
 function App() {
     return (
         <BrowserRouter>
             <Providers>
+                <DataLoading />
                 <Menu />
                 <Routes>
                     <Route path="/" element={<MainPage />} />
                     <Route path="categories" element={<CategoriesPage />} />
-                    <Route path="account-tags" element={<AccountTagsPage />} />
+                    <Route
+                        path="account-groups"
+                        element={<AccountTagsPage />}
+                    />
                     <Route
                         path="transactions-and-transfers"
                         element={<TransactionsAndTransfers />}

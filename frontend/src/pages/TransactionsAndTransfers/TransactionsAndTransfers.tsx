@@ -1,12 +1,12 @@
-import { AccountFilterPanel } from '@/entities/account/ui/AccountFilterPanel'
+import { FilterPanel } from '@/features/Filter/ui/FilterPanel/FilterPanel'
 import TransactionsWidget from '@/widgets/TransactionsWidget'
 
 function TransactionsAndTransfers() {
     return (
         <div className="container mb-10">
             <h1 className="text-2xl font-bold mb-4">Операции по счетам</h1>
-            <AccountFilterPanel />
-            <TransactionsWidget showReportAmounts={false}></TransactionsWidget>
+            <FilterPanel isShowTransactionFilters={true} />
+            <TransactionsWidget showReportAmounts={true}></TransactionsWidget>
         </div>
     )
 }

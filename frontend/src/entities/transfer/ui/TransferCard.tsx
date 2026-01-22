@@ -1,15 +1,15 @@
 import { options } from '@/shared/configs/optionsDate'
 import { TTransfer } from '../types/transfer.types'
 import ArrowIcon from '@/shared/components/ui/icons/ArrowIcon'
-import { useAccountStore } from '@/entities/account/lib/useAccountStore'
 import TransferDelete from './TransferDelete'
+import { useAccountList } from '@/entities/account/lib/useAccountList'
 
 interface Props {
     transfer: TTransfer
 }
 
 function TransferCard({ transfer }: Props) {
-    const accounts = useAccountStore((state) => state.accounts)
+    const accounts = useAccountList().data || []
     const accountFrom = accounts.find(
         (acc) => acc.id === transfer.fromAccountId,
     )

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { useAccountStore } from '@/entities/account/lib/useAccountStore'
 import {
     transferFormSchema,
     TTransfer,
@@ -7,13 +6,12 @@ import {
 } from '../types/transfer.types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useFetch } from '@/shared/lib/hooks/useFetch'
-import { transferApi } from '../api/transfer.api'
 import MyForm from '@/shared/components/form/MyForm/MyForm'
 import Button from '@/shared/components/ui/Button/Button'
 import FormSelect from '@/shared/components/form/FormSelect'
 import FormIput from '@/shared/components/form/FormInput'
-import { useTransfersStore } from '../lib/useTransfersStore'
+import { useAccountList } from '@/entities/account/lib/useAccountList'
+import { useTransferMutate } from '../lib/useTransferMutate'
 
 interface Props {
     handleClose: () => void
@@ -33,10 +31,8 @@ function TransferForm({
     toAccountId,
     transferId,
 }: Props) {
-    const accounts = useAccountStore((state) => state.accounts)
-    const loadAccounts = useAccountStore((state) => state.load)
-    const loadTransfers = useTransfersStore((state) => state.load)
-    const { error, fetchFunction, isLoading } = useFetch()
+    const accounts = useAccountList().data || []
+    const { isPending, mutateAsync, errorMessage } = useTransferMutate()
     const defaultDate = date ? date : new Date().toISOString().split('T')[0]
     const {
         handleSubmit,
@@ -55,25 +51,22 @@ function TransferForm({
     })
     const title = 'Перевод'
     const onSubmit = async (dataForm: TTransferForm) => {
-        const res = await fetchFunction(async () => {
-            return await transferApi.store(dataForm)
-        })
+        const res = await mutateAsync({ data: dataForm })
         if (res) {
-            loadAccounts()
-            loadTransfers()
             handleClose()
         }
     }
+
     return (
         <MyForm
             hadleClose={handleClose}
-            error={error}
+            error={errorMessage}
             className="lg:min-w-[500px]"
             myTitle={title}
             handlerSubmit={handleSubmit(onSubmit)}
             buttons={
                 <div className="flex flex-col gap-y-4">
-                    <Button disabled={isLoading} className="w-full">
+                    <Button disabled={isPending} className="w-full">
                         Сохранить
                     </Button>
                     <button

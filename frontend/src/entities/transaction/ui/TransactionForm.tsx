@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { useFetch } from '@/shared/lib/hooks/useFetch'
 import { useForm } from 'react-hook-form'
 import {
     transactionFormSchema,
@@ -7,17 +6,16 @@ import {
     TTransactionForm,
 } from '../types/transaction.types'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { transactionApi } from '../api/transaction.api'
 import MyForm from '@/shared/components/form/MyForm/MyForm'
 import Button from '@/shared/components/ui/Button/Button'
-import { useAccountStore } from '@/entities/account/lib/useAccountStore'
 import FormSelect from '@/shared/components/form/FormSelect'
-import { useCategoriesStore } from '@/entities/category/lib/useCategoriesStore'
 import { getCategoryType } from '@/shared/lib/getCategoryType'
 import { TransactionTypeSchema } from '@/entities/category/types/category.types'
 import FormIput from '@/shared/components/form/FormInput'
-import { useTransactionsStore } from '../lib/useTransactionStore'
 import clsx from 'clsx'
+import { useAccountList } from '@/entities/account/lib/useAccountList'
+import { useCategoryList } from '@/entities/category/lib/useCategoryList'
+import { useTransactionMutate } from '../lib/useTransactionMutate'
 
 const categoryTypes = Object.values(TransactionTypeSchema.enum)
 
@@ -41,11 +39,9 @@ function TransactionForm({
     transactionAccountId,
     transactionType,
 }: Props) {
-    const accounts = useAccountStore((state) => state.accounts)
-    const loadTransactions = useTransactionsStore((state) => state.load)
-    const loadAccounts = useAccountStore((state) => state.load)
-    const categories = useCategoriesStore((state) => state.categories)
-    const { error, fetchFunction, isLoading } = useFetch()
+    const { data: accounts = [] } = useAccountList()
+    const { data: categories = [] } = useCategoryList()
+    const { mutateAsync, isPending, errorMessage } = useTransactionMutate()
     const defaultDate = transactionDate
         ? new Date(transactionDate).toISOString().split('T')[0]
         : new Date().toISOString().split('T')[0]
@@ -73,21 +69,15 @@ function TransactionForm({
     const title = 'Создание новой транзакции'
     const titleType = transactionType ? getCategoryType(transactionType) : null
     const onSubmit = async (dataForm: TTransactionForm) => {
-        const res = await fetchFunction(async () => {
-            return await (transactionId
-                ? transactionApi.update(dataForm, transactionId)
-                : transactionApi.store(dataForm))
-        })
+        const res = await mutateAsync({ data: dataForm, id: transactionId })
         if (res) {
-            loadAccounts()
-            loadTransactions()
             handleClose()
         }
     }
     return (
         <MyForm
             hadleClose={handleClose}
-            error={error}
+            error={errorMessage}
             className="lg:min-w-[500px]"
             myTitle={
                 <>
@@ -107,7 +97,7 @@ function TransactionForm({
             handlerSubmit={handleSubmit(onSubmit)}
             buttons={
                 <div className="flex flex-col gap-y-4">
-                    <Button disabled={isLoading} className="w-full">
+                    <Button disabled={isPending} className="w-full">
                         Сохранить
                     </Button>
                     <button

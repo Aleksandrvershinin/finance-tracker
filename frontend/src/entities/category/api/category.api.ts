@@ -4,26 +4,33 @@ import {
     TCategory,
     TCategoryForm,
 } from '../types/category.types'
+import { queryOptions } from '@tanstack/react-query'
 
-class CategoryApi {
-    async getAll() {
-        const res = await apiAxiosWithAuthToken.get('/categories')
-        return categorySchema.array().parse(res.data)
-    }
-    async store(data: TCategoryForm) {
+
+export const categoryApi = {
+    getCategoryListQueryOptions: () => {
+        return queryOptions({
+            queryKey: ['category', 'list'],
+            queryFn: async () => {
+                const res = await apiAxiosWithAuthToken.get('/categories')
+                return categorySchema.array().parse(res.data)
+            },
+            refetchOnReconnect: false,
+            refetchOnWindowFocus: false
+        })
+    },
+    store: async (data: TCategoryForm) => {
         const res = await apiAxiosWithAuthToken.post('/categories', data)
         return res.data
-    }
+    },
 
-    async update(data: TCategoryForm, id: TCategory['id']) {
+    update: async (data: TCategoryForm, id: TCategory['id']) => {
         const res = await apiAxiosWithAuthToken.put(`/categories/${id}`, data)
         return res.data
-    }
+    },
 
-    async delete(id: TCategory['id']) {
+    delete: async (id: TCategory['id']) => {
         const res = await apiAxiosWithAuthToken.delete(`/categories/${id}`)
         return res.data
     }
 }
-
-export const categoryApi = new CategoryApi()

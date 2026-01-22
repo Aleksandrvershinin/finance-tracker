@@ -12,8 +12,8 @@ function Menu() {
                 <Link to="/categories" className={styles.menuLink}>
                     Категории
                 </Link>
-                <Link to="/account-tags" className={styles.menuLink}>
-                    Tags
+                <Link to="/account-groups" className={styles.menuLink}>
+                    Группы счетов
                 </Link>
                 <Link
                     to="/transactions-and-transfers"
