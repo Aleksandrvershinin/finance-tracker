@@ -1,4 +1,3 @@
-import { useFetch } from '@/shared/lib/hooks/useFetch'
 import { FaEdit, FaTrash } from 'react-icons/fa'
 import MyTable from '@/shared/components/ui/MyTable/MyTable'
 import { AnimatePresence } from 'framer-motion'
