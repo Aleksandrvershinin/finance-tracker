@@ -9,6 +9,7 @@ export const useGroupAccountMutation = () => {
     const mutation = useMutation({
         mutationFn: (params: { data: TGroupAccountForm; id?: TGroupAccount['id'] }) => {
             const { data, id } = params
+
             return id
                 ? groupAccountApi.update(data, id)
                 : groupAccountApi.store(data)

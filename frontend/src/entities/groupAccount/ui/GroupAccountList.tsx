@@ -6,6 +6,8 @@ import MyAlert from '@/shared/components/MyAlert/MyAlert'
 import { useGroupAccountList } from '../lib/useGroupAccountList'
 import { TGroupAccount } from '../types/groupAccount.types'
 import { useGroupAccountDeleteMutation } from '../lib/useGroupAccountDeleteMutation'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import { useGroupAccountMutation } from '../lib/useGroupAccountMutation'
 
 interface Props {
     handleEditClick: (groupAccount: TGroupAccount) => void
@@ -17,6 +19,11 @@ export default function AccountTagsList({
     handleClose,
 }: Props) {
     const { data: groups = [], isLoading } = useGroupAccountList()
+    const {
+        mutate: mutateUpdate,
+        isPending: isPendingUpdate,
+        errorMessage: errorMessageUpdate,
+    } = useGroupAccountMutation()
     const {
         mutateAsync,
         isPending: isPendingDelete,
@@ -30,9 +37,31 @@ export default function AccountTagsList({
             handleClose()
         }
     }
+    const handleChangeIsVisible = (groupAccount: TGroupAccount) => {
+        const newVisible = !groupAccount.isVisible
+        mutateUpdate({
+            data: { ...groupAccount, isVisible: newVisible },
+            id: groupAccount.id,
+        })
+    }
     const renderCurrenciesRow = (groupAccount: TGroupAccount) => [
         <>{groupAccount.name}</>,
-        <div className="space-x-4">
+        <div className="flex justify-between">
+            <button
+                disabled={isPendingUpdate}
+                title={
+                    groupAccount.isVisible ? 'Скрыть' : 'Показать' + 'группу'
+                }
+                onClick={() => {
+                    handleChangeIsVisible(groupAccount)
+                }}
+            >
+                {groupAccount.isVisible ? (
+                    <FaEye className="text-blue-500" color="" size={30} />
+                ) : (
+                    <FaEyeSlash className="text-blue-500" color="" size={30} />
+                )}
+            </button>
             <button
                 title="Редактировать"
                 onClick={() => {
@@ -63,6 +92,9 @@ export default function AccountTagsList({
             </div>
             <AnimatePresence>{isLoading && <Loading />}</AnimatePresence>
             {errorMessage && <MyAlert type="error" text={errorMessage} />}
+            {errorMessageUpdate && (
+                <MyAlert type="error" text={errorMessageUpdate} />
+            )}
         </>
     )
 }

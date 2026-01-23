@@ -9,6 +9,7 @@ import {
     TGroupAccountForm,
 } from '../types/groupAccount.types'
 import { useGroupAccountMutation } from '../lib/useGroupAccountMutation'
+import FormSelect from '@/shared/components/form/FormSelect'
 
 type Props = {
     handleClose: () => void
@@ -25,6 +26,9 @@ export default function GroupAccountForm({ handleClose, data }: Props) {
         resolver: zodResolver(groupAccountFormSchema),
         defaultValues: {
             name: data?.name,
+            order: data?.order,
+            // @ts-ignore
+            isVisible: data?.isVisible === false ? 'false' : 'true',
         },
     })
     const title = data ? 'Редактирование группы' : 'Создание новой группы'
@@ -62,6 +66,23 @@ export default function GroupAccountForm({ handleClose, data }: Props) {
                     control={control}
                     placeholder="Название"
                     name="name"
+                />,
+                <FormIput<TGroupAccountForm>
+                    label="Сортировка"
+                    error={errors.order}
+                    control={control}
+                    placeholder="Сортировка"
+                    name="order"
+                />,
+                <FormSelect<TGroupAccountForm>
+                    options={[
+                        { label: 'Показывать', value: 'true' },
+                        { label: 'Скрывать', value: 'false' },
+                    ]}
+                    label="Показывать группу"
+                    error={errors.isVisible}
+                    control={control}
+                    name="isVisible"
                 />,
             ]}
         />

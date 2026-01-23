@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `AccountTag` ADD COLUMN `order` INTEGER NOT NULL DEFAULT 0;

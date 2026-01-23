@@ -11,7 +11,7 @@ import { PrismaService } from 'src/prisma/prisma.service'
 
 @Injectable()
 export class AccountTagsService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(private readonly prisma: PrismaService) { }
 
     async create(data: CreateAccountTagDto, user: User) {
         const uniqueAccount = await this.prisma.accountTag.findFirst({
@@ -27,6 +27,8 @@ export class AccountTagsService {
             data: {
                 userId: user.id,
                 name: data.name,
+                isVisible: data.isVisible,
+                order: data.order
             },
         })
     }
@@ -69,6 +71,8 @@ export class AccountTagsService {
             where: { id },
             data: {
                 name: data.name,
+                isVisible: data.isVisible,
+                order: data.order
             },
         })
     }

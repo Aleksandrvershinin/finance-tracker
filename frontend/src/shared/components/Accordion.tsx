@@ -11,17 +11,28 @@ interface AccordionProps {
         isOpen: boolean,
     ) => React.ReactNode
     className?: string
+    handleSwitch?: () => void
+    isOpen?: boolean
 }
 
 const Accordion: React.FC<AccordionProps> = ({
     renderTitle,
     children,
     className,
+    handleSwitch: handleSwitchProps,
+    isOpen: isOpenProps,
 }) => {
-    const [isOpen, setIsOpen] = useState(false)
+    const [internalOpen, setInternalOpen] = useState(false)
+
+    const isControlled = isOpenProps !== undefined
+    const isOpen = isControlled ? isOpenProps : internalOpen
 
     const handleSwitch = () => {
-        setIsOpen((prev) => !prev)
+        if (isControlled) {
+            handleSwitchProps?.()
+        } else {
+            setInternalOpen((prev) => !prev)
+        }
     }
 
     return (
@@ -37,14 +48,13 @@ const Accordion: React.FC<AccordionProps> = ({
             )}
 
             <motion.div
-                initial={{ height: 0, opacity: 0 }}
+                initial={false}
                 animate={{
+                    overflow: isOpen ? 'visible' : 'hidden',
                     height: isOpen ? 'auto' : 0,
                     opacity: isOpen ? 1 : 0,
                 }}
-                exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="overflow-hidden"
             >
                 {children}
             </motion.div>

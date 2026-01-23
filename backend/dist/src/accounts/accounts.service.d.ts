@@ -20,6 +20,8 @@ export declare class AccountsService {
             createdAt: Date;
             updatedAt: Date;
             userId: number;
+            isVisible: boolean;
+            order: number;
         } | null;
     } & {
         id: number;

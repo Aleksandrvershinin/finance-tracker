@@ -30,6 +30,8 @@ let AccountTagsService = class AccountTagsService {
             data: {
                 userId: user.id,
                 name: data.name,
+                isVisible: data.isVisible,
+                order: data.order
             },
         });
     }
@@ -66,6 +68,8 @@ let AccountTagsService = class AccountTagsService {
             where: { id },
             data: {
                 name: data.name,
+                isVisible: data.isVisible,
+                order: data.order
             },
         });
     }

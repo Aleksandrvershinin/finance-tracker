@@ -17,7 +17,7 @@ function Accounts() {
     return (
         <div className="flex flex-col gap-y-5">
             <h2 className="text-2xl font-bold">Счета</h2>
-            <div className="p-4 rounded-2xl shadow-my-soft bg-white lg:p-0 lg:rounded-none lg:shadow-none lg:bg-none">
+            <div className="">
                 <Button
                     className="w-full mb-4"
                     onClick={handleOpen}

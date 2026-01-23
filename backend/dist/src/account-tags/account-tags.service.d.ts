@@ -6,31 +6,39 @@ export declare class AccountTagsService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     create(data: CreateAccountTagDto, user: User): Promise<{
-        id: number;
         name: string;
+        id: number;
         createdAt: Date;
         updatedAt: Date;
         userId: number;
+        isVisible: boolean;
+        order: number;
     }>;
     findAll(user: User): import(".prisma/client").Prisma.PrismaPromise<{
-        id: number;
         name: string;
+        id: number;
         createdAt: Date;
         updatedAt: Date;
         userId: number;
+        isVisible: boolean;
+        order: number;
     }[]>;
     update(id: number, data: UpdateAccountTagDto, user: User): Promise<{
-        id: number;
         name: string;
+        id: number;
         createdAt: Date;
         updatedAt: Date;
         userId: number;
+        isVisible: boolean;
+        order: number;
     }>;
     remove(id: number, user: User): Promise<{
-        id: number;
         name: string;
+        id: number;
         createdAt: Date;
         updatedAt: Date;
         userId: number;
+        isVisible: boolean;
+        order: number;
     }>;
 }

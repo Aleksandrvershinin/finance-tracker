@@ -10,7 +10,7 @@ interface AccountCardProps {
 
 const AccountCard: React.FC<AccountCardProps> = ({ account }) => {
     return (
-        <div className="p-4 rounded-2xl shadow-my-soft bg-white flex flex-col gap-2 min-w-[300px]">
+        <div className="p-4 rounded-2xl shadow-my-soft bg-white flex flex-col gap-2 min-w-[280px]">
             <div className="flex items-center justify-between gap-x-10">
                 <h2
                     title="Название счета"

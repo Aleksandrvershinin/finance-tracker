@@ -18,7 +18,7 @@ import { User } from '@prisma/client'
 @UseGuards(JwtAuthGuard)
 @Controller('account-tags')
 export class AccountTagsController {
-    constructor(private readonly accountTagsService: AccountTagsService) {}
+    constructor(private readonly accountTagsService: AccountTagsService) { }
 
     @Post()
     create(

@@ -20,6 +20,8 @@ export declare class AccountsController {
             createdAt: Date;
             updatedAt: Date;
             userId: number;
+            isVisible: boolean;
+            order: number;
         } | null;
     } & {
         id: number;

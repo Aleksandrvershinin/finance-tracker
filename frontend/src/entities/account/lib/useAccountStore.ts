@@ -1,39 +1,38 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 interface IStore {
-    filteredAccountIds: number[]
-    selectedAccountIds: number[]
-    selectedTagIds: number[]
-    selectedMonths: string[]
+    hiddenAccountGroupIds: Record<string, boolean>
 
-    setSelectedMonths: (months: string[]) => void
-    filterAccounts: (accountIds: number[], tagIds: number[], allIds: number[]) => void
-    resetFilters: (allIds: number[]) => void
+    toggleAccountGroup: (groupId: string) => void
+    setAccountGroupHidden: (groupId: string, hidden: boolean) => void
 }
 
-export const useAccountStore = create<IStore>((set) => ({
-    filteredAccountIds: [],
-    selectedAccountIds: [],
-    selectedTagIds: [],
-    selectedMonths: [new Date().toISOString().slice(0, 7)],
+export const useAccountStore = create<IStore>()(
+    persist(
+        (set) => ({
+            hiddenAccountGroupIds: {},
 
-    setSelectedMonths: (months) => set({ selectedMonths: months }),
+            toggleAccountGroup(groupId) {
+                set((state) => ({
+                    hiddenAccountGroupIds: {
+                        ...state.hiddenAccountGroupIds,
+                        [groupId]: !state.hiddenAccountGroupIds[groupId],
+                    },
+                }))
+            },
 
-    filterAccounts(accountIds, tagIds, allIds) {
-        set({
-            selectedAccountIds: accountIds,
-            selectedTagIds: tagIds,
-            filteredAccountIds:
-                accountIds.length || tagIds.length ? allIds : allIds,
-        })
-    },
-
-    resetFilters(allIds) {
-        set({
-            selectedAccountIds: [],
-            selectedTagIds: [],
-            selectedMonths: [new Date().toISOString().slice(0, 7)],
-            filteredAccountIds: allIds,
-        })
-    },
-}))
+            setAccountGroupHidden(groupId, hidden) {
+                set((state) => ({
+                    hiddenAccountGroupIds: {
+                        ...state.hiddenAccountGroupIds,
+                        [groupId]: hidden,
+                    },
+                }))
+            },
+        }),
+        {
+            name: 'account-groups-visibility',
+        }
+    )
+)

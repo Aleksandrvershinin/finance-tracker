@@ -18,4 +18,12 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateAccountTagDto.prototype, "name", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], CreateAccountTagDto.prototype, "isVisible", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], CreateAccountTagDto.prototype, "order", void 0);
 //# sourceMappingURL=create-account-tag.dto.js.map

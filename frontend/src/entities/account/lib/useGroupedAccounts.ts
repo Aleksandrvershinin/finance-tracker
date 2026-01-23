@@ -3,7 +3,9 @@ import { TAccount } from '../types/account.types'
 
 
 export interface GroupedAccounts {
+    id: string
     name: string
+    order: number
     accounts: TAccount[]
     total: number
 }
@@ -15,11 +17,11 @@ export function useGroupedAccounts(accounts: TAccount[]): GroupedAccounts[] {
             const groupName = account.groupAccount?.name || 'Без группы'
 
             if (!acc[groupId]) {
-                acc[groupId] = { name: groupName, accounts: [] }
+                acc[groupId] = { id: String(groupId), order: account.groupAccount?.order ?? -1, name: groupName, accounts: [] }
             }
             acc[groupId].accounts.push(account)
             return acc
-        }, {} as Record<string, { name: string; accounts: TAccount[] }>)
+        }, {} as Record<string, { id: string, order: number, name: string; accounts: TAccount[] }>)
 
         const groupedArray = Object.values(grouped)
             .map((group) => ({
