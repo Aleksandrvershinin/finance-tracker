@@ -74,16 +74,16 @@ export default function GroupAccountForm({ handleClose, data }: Props) {
                     placeholder="Сортировка"
                     name="order"
                 />,
-                <FormSelect<TGroupAccountForm>
-                    options={[
-                        { label: 'Показывать', value: 'true' },
-                        { label: 'Скрывать', value: 'false' },
-                    ]}
-                    label="Показывать группу"
-                    error={errors.isVisible}
-                    control={control}
-                    name="isVisible"
-                />,
+                // <FormSelect<TGroupAccountForm>
+                //     options={[
+                //         { label: 'Показывать', value: 'true' },
+                //         { label: 'Скрывать', value: 'false' },
+                //     ]}
+                //     label="Показывать группу"
+                //     error={errors.isVisible}
+                //     control={control}
+                //     name="isVisible"
+                // />,
             ]}
         />
     )

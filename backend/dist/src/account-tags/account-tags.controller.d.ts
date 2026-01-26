@@ -6,8 +6,8 @@ export declare class AccountTagsController {
     private readonly accountTagsService;
     constructor(accountTagsService: AccountTagsService);
     create(createAccountTagDto: CreateAccountTagDto, user: User): Promise<{
-        name: string;
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
         userId: number;
@@ -15,8 +15,8 @@ export declare class AccountTagsController {
         order: number;
     }>;
     findAll(user: User): import(".prisma/client").Prisma.PrismaPromise<{
-        name: string;
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
         userId: number;
@@ -24,8 +24,8 @@ export declare class AccountTagsController {
         order: number;
     }[]>;
     update(id: string, updateAccountTagDto: UpdateAccountTagDto, user: User): Promise<{
-        name: string;
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
         userId: number;
@@ -33,8 +33,8 @@ export declare class AccountTagsController {
         order: number;
     }>;
     remove(id: string, user: User): Promise<{
-        name: string;
         id: number;
+        name: string;
         createdAt: Date;
         updatedAt: Date;
         userId: number;

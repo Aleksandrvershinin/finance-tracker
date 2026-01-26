@@ -6,10 +6,10 @@ export const ACCOUNTS_QUERY_KEY = ['accounts']
 export const useAccountList = () => {
     return useQuery({
         ...accountApi.getAccountListQueryOptions(),
-        select: (data) => {
-            return data.filter(item =>
-                item.groupAccount?.isVisible !== false
-            );
-        },
+        // select: (data) => {
+        //     return data.filter(item =>
+        //         item.groupAccount?.isVisible !== false
+        //     );
+        // },
     });
 }

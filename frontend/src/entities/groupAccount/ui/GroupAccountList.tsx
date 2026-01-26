@@ -6,7 +6,7 @@ import MyAlert from '@/shared/components/MyAlert/MyAlert'
 import { useGroupAccountList } from '../lib/useGroupAccountList'
 import { TGroupAccount } from '../types/groupAccount.types'
 import { useGroupAccountDeleteMutation } from '../lib/useGroupAccountDeleteMutation'
-import { FaEye, FaEyeSlash } from 'react-icons/fa'
+// import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { useGroupAccountMutation } from '../lib/useGroupAccountMutation'
 
 interface Props {
@@ -20,8 +20,8 @@ export default function AccountTagsList({
 }: Props) {
     const { data: groups = [], isLoading } = useGroupAccountList()
     const {
-        mutate: mutateUpdate,
-        isPending: isPendingUpdate,
+        // mutate: mutateUpdate,
+        // isPending: isPendingUpdate,
         errorMessage: errorMessageUpdate,
     } = useGroupAccountMutation()
     const {
@@ -37,17 +37,17 @@ export default function AccountTagsList({
             handleClose()
         }
     }
-    const handleChangeIsVisible = (groupAccount: TGroupAccount) => {
-        const newVisible = !groupAccount.isVisible
-        mutateUpdate({
-            data: { ...groupAccount, isVisible: newVisible },
-            id: groupAccount.id,
-        })
-    }
+    // const handleChangeIsVisible = (groupAccount: TGroupAccount) => {
+    //     const newVisible = !groupAccount.isVisible
+    //     mutateUpdate({
+    //         data: { ...groupAccount, isVisible: newVisible },
+    //         id: groupAccount.id,
+    //     })
+    // }
     const renderCurrenciesRow = (groupAccount: TGroupAccount) => [
         <>{groupAccount.name}</>,
-        <div className="flex justify-between">
-            <button
+        <div className="flex justify-center gap-x-6">
+            {/* <button
                 disabled={isPendingUpdate}
                 title={
                     groupAccount.isVisible ? 'Скрыть' : 'Показать' + 'группу'
@@ -61,7 +61,7 @@ export default function AccountTagsList({
                 ) : (
                     <FaEyeSlash className="text-blue-500" color="" size={30} />
                 )}
-            </button>
+            </button> */}
             <button
                 title="Редактировать"
                 onClick={() => {
