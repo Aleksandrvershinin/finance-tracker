@@ -7,30 +7,30 @@ export const groupAccountApi = {
         return queryOptions({
             queryKey: ['groupAccounts', 'list'],
             queryFn: async () => {
-                const res = await apiAxiosWithAuthToken.get('/account-tags')
+                const res = await apiAxiosWithAuthToken.get('/account-groups')
                 return groupAccountSchema.array().parse(res.data)
             },
             refetchOnReconnect: false
         })
     },
     getAll: async () => {
-        const res = await apiAxiosWithAuthToken.get('/account-tags')
+        const res = await apiAxiosWithAuthToken.get('/account-groups')
         return groupAccountSchema.array().parse(res.data)
     },
     store: async (data: TGroupAccountForm) => {
-        const res = await apiAxiosWithAuthToken.post('/account-tags', data)
+        const res = await apiAxiosWithAuthToken.post('/account-groups', data)
         return res.data
     },
 
     update: async (data: TGroupAccountForm, id: TGroupAccount['id']) => {
         const res = await apiAxiosWithAuthToken.patch(
-            `/account-tags/${id}`,
+            `/account-groups/${id}`,
             data,
         )
         return res.data
     },
     delete: async (id: TGroupAccount['id']) => {
-        const res = await apiAxiosWithAuthToken.delete(`/account-tags/${id}`)
+        const res = await apiAxiosWithAuthToken.delete(`/account-groups/${id}`)
         return res.data
     }
 }

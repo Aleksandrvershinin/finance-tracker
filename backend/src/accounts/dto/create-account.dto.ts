@@ -10,6 +10,10 @@ export class CreateAccountDto {
     @IsNumber()
     accountTagId?: number
 
+    @IsOptional()
+    @IsNumber()
+    groupId?: number
+
     @IsNumber()
     initialBalance?: number
 }

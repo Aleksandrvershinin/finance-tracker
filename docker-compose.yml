@@ -27,20 +27,20 @@ services:
       - finance-network
 
   nest:
-    build:
-      context: ./backend # Путь к папке с приложением NestJS
+    image: node:20
     container_name: finance-nest
+    working_dir: /usr/src/app
     ports:
       - "3000:3000" # Порт, на котором будет доступно приложение
     env_file:
       - .env
     volumes:
-      - ./backend:/usr/src/app # Монтируем локальные файлы для разработки
-      - /usr/src/app/node_modules # Чтобы не перезаписывать node_modules в контейнере
+      - ./backend:/usr/src/app
     depends_on:
       - mysql # NestJS зависит от MySQL
     networks:
       - finance-network # Сеть для взаимодействия с другими контейнерами
+    command: sh -c "npm ci && npm run start:dev"
 
   vite:
     image: node:20 # Теперь используем Node.js 20

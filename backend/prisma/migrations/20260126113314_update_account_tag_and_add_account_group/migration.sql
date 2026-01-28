@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `AccountTag` MODIFY `color` VARCHAR(191) NOT NULL DEFAULT '#000000';

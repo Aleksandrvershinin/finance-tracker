@@ -11,8 +11,8 @@ export const AccountGroupFilterItem = () => {
     const options: Option[] = useMemo(() => {
         const groupMap = new Map<number, string>()
         accounts.forEach((a) => {
-            if (a.groupAccount) {
-                groupMap.set(a.groupAccount.id, a.groupAccount.name)
+            if (a.accountGroup) {
+                groupMap.set(a.accountGroup.id, a.accountGroup.name)
             }
         })
         return Array.from(groupMap.entries()).map(([id, label]) => ({

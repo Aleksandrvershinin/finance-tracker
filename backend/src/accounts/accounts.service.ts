@@ -11,7 +11,7 @@ import { User } from '@prisma/client'
 
 @Injectable()
 export class AccountsService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(private readonly prisma: PrismaService) { }
 
     async findAll(user: User) {
         return this.prisma.account.findMany({
@@ -21,6 +21,7 @@ export class AccountsService {
             include: {
                 currency: true,
                 accountTag: true,
+                accountGroup: true
             },
         })
     }

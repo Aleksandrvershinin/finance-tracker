@@ -10,6 +10,7 @@ import { CategoriesModule } from './categories/categories.module'
 import { TransactionModule } from './transaction/transaction.module'
 import { TransfersModule } from './transfers/transfers.module'
 import { AccountTagsModule } from './account-tags/account-tags.module';
+import { AccountGroupsModule } from './account-groups/account-groups.module'
 
 @Module({
     imports: [
@@ -22,7 +23,8 @@ import { AccountTagsModule } from './account-tags/account-tags.module';
         TransactionModule,
         TransfersModule,
         AccountTagsModule,
+        AccountGroupsModule,
     ],
     providers: [IsUniqueConstraint, IsExistConstraint],
 })
-export class AppModule {}
+export class AppModule { }

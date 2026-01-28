@@ -35,6 +35,7 @@ export declare class TransactionService {
             createdAt: Date;
             updatedAt: Date;
             accountTagId: number | null;
+            groupId: number | null;
             initialBalance: number;
             userId: number;
             balance: number;
@@ -80,6 +81,7 @@ export declare class TransactionService {
             createdAt: Date;
             updatedAt: Date;
             accountTagId: number | null;
+            groupId: number | null;
             initialBalance: number;
             userId: number;
             balance: number;

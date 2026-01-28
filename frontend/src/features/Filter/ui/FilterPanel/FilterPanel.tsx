@@ -1,5 +1,6 @@
 import { AccountFilterItem } from './AccountFilterItem'
 import { AccountGroupFilterItem } from './AccountGroupFilterItem'
+import { AccountTagFilterItem } from './AccountTagFilterItem'
 import { ExpenseTransactionFilterItem } from './ExpenseTransactionFilterItem'
 import { IncomeTransactionFilterItem } from './IncomeTransactionFilterItem'
 import { MonthFilterItem } from './MonthFilterItem'
@@ -14,6 +15,9 @@ export const FilterPanel = ({ isShowTransactionFilters }: Props) => {
         <div className="mb-5 p-4 space-y-4 rounded-2xl shadow-my-soft">
             <h2 className="text-2xl font-bold">Фильтр</h2>
             <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1 max-w-[400px]">
+                    <AccountTagFilterItem />
+                </div>
                 <div className="flex-1 max-w-[400px]">
                     <AccountGroupFilterItem />
                 </div>

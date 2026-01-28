@@ -4,6 +4,7 @@ import { create } from 'zustand'
 export interface FilterState {
     selectedAccountIds: number[]
     selectedGroupIds: number[]
+    selectedTagIds: number[]
     selectedMonths: string[]
     selectedExpenseTransactionIds: number[]
     selectedIncomeTransactionIds: number[]
@@ -11,6 +12,7 @@ export interface FilterState {
 
     setAccountIds: (ids: number[]) => void
     setGroupAccountIds: (ids: number[]) => void
+    setTagAccountIds: (ids: number[]) => void
     setMonths: (months: string[]) => void
     setExpenseTransactionIds: (ids: number[]) => void
     setIncomeTransactionIds: (ids: number[]) => void
@@ -20,6 +22,7 @@ export interface FilterState {
 export const useFilterStore = create<FilterState>((set) => ({
     selectedAccountIds: [],
     selectedGroupIds: [],
+    selectedTagIds: [],
     selectedMonths: [new Date().toISOString().slice(0, 7)],
     selectedExpenseTransactionIds: [],
     selectedIncomeTransactionIds: [],
@@ -27,6 +30,7 @@ export const useFilterStore = create<FilterState>((set) => ({
 
     setAccountIds: (ids) => set({ selectedAccountIds: ids }),
     setGroupAccountIds: (ids) => set({ selectedGroupIds: ids }),
+    setTagAccountIds: (ids) => set({ selectedTagIds: ids }),
     setMonths: (months) => set({ selectedMonths: months }),
     setExpenseTransactionIds: (ids) => set({ selectedExpenseTransactionIds: ids }),
     setIncomeTransactionIds: (ids) => set({ selectedIncomeTransactionIds: ids }),

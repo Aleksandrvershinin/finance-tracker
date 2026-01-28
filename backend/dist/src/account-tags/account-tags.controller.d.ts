@@ -11,8 +11,7 @@ export declare class AccountTagsController {
         createdAt: Date;
         updatedAt: Date;
         userId: number;
-        isVisible: boolean;
-        order: number;
+        color: string;
     }>;
     findAll(user: User): import(".prisma/client").Prisma.PrismaPromise<{
         id: number;
@@ -20,8 +19,7 @@ export declare class AccountTagsController {
         createdAt: Date;
         updatedAt: Date;
         userId: number;
-        isVisible: boolean;
-        order: number;
+        color: string;
     }[]>;
     update(id: string, updateAccountTagDto: UpdateAccountTagDto, user: User): Promise<{
         id: number;
@@ -29,8 +27,7 @@ export declare class AccountTagsController {
         createdAt: Date;
         updatedAt: Date;
         userId: number;
-        isVisible: boolean;
-        order: number;
+        color: string;
     }>;
     remove(id: string, user: User): Promise<{
         id: number;
@@ -38,7 +35,6 @@ export declare class AccountTagsController {
         createdAt: Date;
         updatedAt: Date;
         userId: number;
-        isVisible: boolean;
-        order: number;
+        color: string;
     }>;
 }

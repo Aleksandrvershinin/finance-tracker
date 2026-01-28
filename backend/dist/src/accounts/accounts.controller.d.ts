@@ -8,15 +8,23 @@ export declare class AccountsController {
     findAll(user: User): Promise<({
         currency: {
             symbol: string;
-            id: number;
             name: string;
+            id: number;
             createdAt: Date;
             updatedAt: Date;
             code: string;
         };
         accountTag: {
-            id: number;
             name: string;
+            id: number;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: number;
+            color: string;
+        } | null;
+        accountGroup: {
+            name: string;
+            id: number;
             createdAt: Date;
             updatedAt: Date;
             userId: number;
@@ -24,36 +32,39 @@ export declare class AccountsController {
             order: number;
         } | null;
     } & {
-        id: number;
         name: string;
+        id: number;
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        accountTagId: number | null;
-        initialBalance: number;
         userId: number;
         balance: number;
+        initialBalance: number;
+        accountTagId: number | null;
+        groupId: number | null;
     })[]>;
     create(data: CreateAccountDto, user: User): Promise<{
-        id: number;
         name: string;
+        id: number;
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        accountTagId: number | null;
-        initialBalance: number;
         userId: number;
         balance: number;
+        initialBalance: number;
+        accountTagId: number | null;
+        groupId: number | null;
     }>;
     update(id: number, updateAccountDto: UpdateAccountDto, user: User): Promise<{
-        id: number;
         name: string;
+        id: number;
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        accountTagId: number | null;
-        initialBalance: number;
         userId: number;
         balance: number;
+        initialBalance: number;
+        accountTagId: number | null;
+        groupId: number | null;
     }>;
 }

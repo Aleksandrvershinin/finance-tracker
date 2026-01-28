@@ -19,6 +19,7 @@ const categories_module_1 = require("./categories/categories.module");
 const transaction_module_1 = require("./transaction/transaction.module");
 const transfers_module_1 = require("./transfers/transfers.module");
 const account_tags_module_1 = require("./account-tags/account-tags.module");
+const account_groups_module_1 = require("./account-groups/account-groups.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -34,6 +35,7 @@ exports.AppModule = AppModule = __decorate([
             transaction_module_1.TransactionModule,
             transfers_module_1.TransfersModule,
             account_tags_module_1.AccountTagsModule,
+            account_groups_module_1.AccountGroupsModule,
         ],
         providers: [is_unique_validator_1.IsUniqueConstraint, is_exist_validator_1.IsExistConstraint],
     })

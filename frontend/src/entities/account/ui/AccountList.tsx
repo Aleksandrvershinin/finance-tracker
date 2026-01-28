@@ -7,6 +7,7 @@ import { useGroupedAccounts } from '../lib/useGroupedAccounts'
 import { useSortedAccounts } from '../lib/useSortedAccounts'
 import Accordion from '@/shared/components/Accordion'
 import { useAccountStore } from '../lib/useAccountStore'
+import { SumByTags } from '@/entities/tagAccount/ui/SumByTags'
 
 function AccountList() {
     const hiddenGroups = useAccountStore((s) => s.hiddenAccountGroupIds)
@@ -14,23 +15,25 @@ function AccountList() {
     const toggleGroup = useAccountStore((s) => s.toggleAccountGroup)
     const { data: accounts = [], isLoading } = useAccountList()
     const { data: user } = useAuth()
+
     const filteredAccounts = useFilterAccounts(accounts)
 
     const groupedAccounts = useGroupedAccounts(filteredAccounts)
+
     const sortedAccounts = useSortedAccounts(groupedAccounts)
 
     const total = filteredAccounts.reduce((acc, item) => acc + item.balance, 0)
 
     return (
         <>
-            <div className="mb-5 p-4 space-y-4 rounded-2xl shadow-my-soft bg-green-100">
+            <div className="mb-5 p-4 space-y-4 rounded-2xl shadow-my-soft bg-green-100 text-green-600">
                 <div className="flex items-center gap-x-2 text-xl text-green-600 font-bold px-4">
                     <p>Общая сумма:</p>
                     <p>{total.toLocaleString()}</p>
                     <p>{user?.currency.symbol}</p>
                 </div>
             </div>
-
+            <SumByTags accounts={accounts} />
             <div className="flex flex-col gap-y-8">
                 {sortedAccounts.map((group) => (
                     <div
@@ -68,7 +71,6 @@ function AccountList() {
                     </div>
                 ))}
             </div>
-
             <Loading isShow={isLoading} />
         </>
     )

@@ -8,6 +8,10 @@ export class UpdateAccountDto {
     @IsNumber()
     accountTagId?: number
 
+    @IsOptional()
+    @IsNumber()
+    groupId?: number
+
     @IsNumber()
     initialBalance?: number
 }

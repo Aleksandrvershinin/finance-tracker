@@ -29,18 +29,19 @@ enum TransactionType {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  email       String       @unique
-  name        String
-  currencyId  Int
-  currency    Currency     @relation(fields: [currencyId], references: [id])
-  password    String
-  role        Role         @default(USER)
-  accounts    Account[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  Category    Category[]
-  AccountTags AccountTag[]
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  name          String
+  currencyId    Int
+  currency      Currency       @relation(fields: [currencyId], references: [id])
+  password      String
+  role          Role           @default(USER)
+  accounts      Account[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  Category      Category[]
+  AccountTags   AccountTag[]
+  accountGroups AccountGroup[]
 }
 
 model Currency {
@@ -55,6 +56,17 @@ model Currency {
 }
 
 model AccountTag {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  accounts  Account[]
+  color     String    @default("#000000")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model AccountGroup {
   id        Int       @id @default(autoincrement())
   name      String    @unique
   userId    Int
@@ -82,6 +94,8 @@ model Account {
   updatedAt            DateTime      @updatedAt
   accountTag           AccountTag?   @relation(fields: [accountTagId], references: [id])
   accountTagId         Int?
+  groupId              Int?
+  accountGroup         AccountGroup? @relation(fields: [groupId], references: [id])
 }
 
 model Category {

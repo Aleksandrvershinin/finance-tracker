@@ -24,10 +24,13 @@ export default function GroupAccount() {
         setAccountTag(undefined)
     }
     return (
-        <>
-            <Button className="mb-4" onClick={handleOpen} myColor="green500">
-                Добавить
-            </Button>
+        <div className="space-y-2 border border-collapse p-2 rounded w-full">
+            <div className="flex gap-x-2 items-center mb-4">
+                <Button onClick={handleOpen} myColor="green500">
+                    Добавить
+                </Button>
+                <h2>Группы</h2>
+            </div>
             <AccountTagsList
                 handleClose={handleClose}
                 handleEditClick={handleEditClick}
@@ -46,6 +49,6 @@ export default function GroupAccount() {
                     </Portal>
                 )}
             </AnimatePresence>
-        </>
+        </div>
     )
 }

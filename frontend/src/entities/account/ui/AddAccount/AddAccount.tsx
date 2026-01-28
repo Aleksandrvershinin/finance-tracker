@@ -13,6 +13,7 @@ import FormSelect from '@/shared/components/form/FormSelect'
 import { useAccountMutation } from '../../lib/useAccountMutations'
 import { useGroupAccountList } from '@/entities/groupAccount/lib/useGroupAccountList'
 import { useCurrencyList } from '@/entities/currency/lib/useCurrencyList'
+import { useTagAccountList } from '@/entities/tagAccount/lib/useTagAccountList'
 
 interface Props {
     handleClose: () => void
@@ -21,6 +22,7 @@ interface Props {
 
 function AddAccount({ handleClose, account }: Props) {
     const { data: groups = [] } = useGroupAccountList()
+    const { data: tags = [] } = useTagAccountList()
     const {
         mutateAsync: saveAccount,
         errorMessage,
@@ -36,7 +38,8 @@ function AddAccount({ handleClose, account }: Props) {
         defaultValues: {
             initialBalance: account?.initialBalance || 0,
             name: account?.name || '',
-            accountTagId: account?.groupAccount?.id,
+            accountTagId: account?.accountTag?.id,
+            groupId: account?.accountGroup?.id,
         },
     })
     const onSubmit = async (data: TAccountForm) => {
@@ -102,6 +105,22 @@ function AddAccount({ handleClose, account }: Props) {
                                 label: group.name,
                             }))}
                             label="Группа счетов"
+                            error={errors.groupId}
+                            control={control}
+                            name="groupId"
+                        />,
+                        <FormSelect<TAccountForm>
+                            isClearable
+                            placeholder="Тэг для счета"
+                            options={tags.map((tag) => ({
+                                value: tag.id,
+                                label: (
+                                    <div style={{ color: tag.color }}>
+                                        {tag.name}
+                                    </div>
+                                ),
+                            }))}
+                            label="Тэг для счета"
                             error={errors.accountTagId}
                             control={control}
                             name="accountTagId"

@@ -20,6 +20,14 @@ export declare class AccountsService {
             createdAt: Date;
             updatedAt: Date;
             userId: number;
+            color: string;
+        } | null;
+        accountGroup: {
+            id: number;
+            name: string;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: number;
             isVisible: boolean;
             order: number;
         } | null;
@@ -30,6 +38,7 @@ export declare class AccountsService {
         createdAt: Date;
         updatedAt: Date;
         accountTagId: number | null;
+        groupId: number | null;
         initialBalance: number;
         userId: number;
         balance: number;
@@ -41,6 +50,7 @@ export declare class AccountsService {
         createdAt: Date;
         updatedAt: Date;
         accountTagId: number | null;
+        groupId: number | null;
         initialBalance: number;
         userId: number;
         balance: number;
@@ -52,6 +62,7 @@ export declare class AccountsService {
         createdAt: Date;
         updatedAt: Date;
         accountTagId: number | null;
+        groupId: number | null;
         initialBalance: number;
         userId: number;
         balance: number;
@@ -63,6 +74,7 @@ export declare class AccountsService {
         createdAt: Date;
         updatedAt: Date;
         accountTagId: number | null;
+        groupId: number | null;
         initialBalance: number;
         userId: number;
         balance: number;

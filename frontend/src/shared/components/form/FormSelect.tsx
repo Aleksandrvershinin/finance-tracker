@@ -9,7 +9,7 @@ import Select, { SingleValue } from 'react-select'
 
 interface Option {
     value: string | number | boolean
-    label: string
+    label: string | JSX.Element
 }
 
 interface Props<T extends FieldValues> {

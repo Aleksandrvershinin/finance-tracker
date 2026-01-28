@@ -83,13 +83,15 @@ export default function AccountTagsList({
     ]
     return (
         <>
-            <div className="max-w-[500px]">
-                <MyTable
-                    headers={headers}
-                    renderRow={renderCurrenciesRow}
-                    data={[...groups]}
-                />
-            </div>
+            {groups.length > 0 && (
+                <div className="max-w-[500px]">
+                    <MyTable
+                        headers={headers}
+                        renderRow={renderCurrenciesRow}
+                        data={[...groups]}
+                    />
+                </div>
+            )}
             <AnimatePresence>{isLoading && <Loading />}</AnimatePresence>
             {errorMessage && <MyAlert type="error" text={errorMessage} />}
             {errorMessageUpdate && (

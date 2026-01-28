@@ -24,6 +24,7 @@ let AccountsService = class AccountsService {
             include: {
                 currency: true,
                 accountTag: true,
+                accountGroup: true
             },
         });
     }
