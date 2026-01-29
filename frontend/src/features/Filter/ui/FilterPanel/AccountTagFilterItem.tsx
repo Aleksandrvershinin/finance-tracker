@@ -28,7 +28,7 @@ export const AccountTagFilterItem = () => {
     return (
         <>
             <label className="block mb-2 font-medium">
-                Выберите тэги для счетов:
+                Выберите теги для счетов:
             </label>
             <Select
                 isMulti
@@ -37,7 +37,7 @@ export const AccountTagFilterItem = () => {
                     selectedTagIds.includes(opt.value),
                 )}
                 onChange={handleChange}
-                placeholder="Выберите тэги для счетов"
+                placeholder="Выберите теги для счетов"
                 className="min-w-[240px] text-sm"
             />
         </>

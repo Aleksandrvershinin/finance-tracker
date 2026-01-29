@@ -38,6 +38,9 @@ export class AccountGroupsService {
             where: {
                 userId: user.id,
             },
+            orderBy: {
+                order: 'asc',
+            },
         })
     }
 

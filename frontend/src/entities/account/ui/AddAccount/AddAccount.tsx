@@ -111,7 +111,7 @@ function AddAccount({ handleClose, account }: Props) {
                         />,
                         <FormSelect<TAccountForm>
                             isClearable
-                            placeholder="Тэг для счета"
+                            placeholder="Тег для счета"
                             options={tags.map((tag) => ({
                                 value: tag.id,
                                 label: (
@@ -120,7 +120,7 @@ function AddAccount({ handleClose, account }: Props) {
                                     </div>
                                 ),
                             }))}
-                            label="Тэг для счета"
+                            label="Тег для счета"
                             error={errors.accountTagId}
                             control={control}
                             name="accountTagId"

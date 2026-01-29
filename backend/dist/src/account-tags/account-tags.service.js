@@ -30,7 +30,8 @@ let AccountTagsService = class AccountTagsService {
             data: {
                 userId: user.id,
                 name: data.name,
-                color: data.color
+                color: data.color,
+                order: data.order
             },
         });
     }
@@ -38,6 +39,9 @@ let AccountTagsService = class AccountTagsService {
         return this.prisma.accountTag.findMany({
             where: {
                 userId: user.id,
+            },
+            orderBy: {
+                order: 'asc',
             },
         });
     }
@@ -67,7 +71,8 @@ let AccountTagsService = class AccountTagsService {
             where: { id },
             data: {
                 name: data.name,
-                color: data.color
+                color: data.color,
+                order: data.order
             },
         });
     }

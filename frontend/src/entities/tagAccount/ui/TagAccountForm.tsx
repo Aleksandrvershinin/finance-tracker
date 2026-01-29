@@ -28,6 +28,7 @@ export default function TagAccountForm({ handleClose, data }: Props) {
         defaultValues: {
             name: data?.name,
             color: data?.color,
+            order: data?.order,
         },
     })
     const title = data ? 'Редактирование тега' : 'Создание нового тега'
@@ -65,6 +66,13 @@ export default function TagAccountForm({ handleClose, data }: Props) {
                     control={control}
                     placeholder="Название"
                     name="name"
+                />,
+                <FormIput<TTagAccountForm>
+                    label="Сортировка"
+                    error={errors.order}
+                    control={control}
+                    placeholder="Сортировка"
+                    name="order"
                 />,
                 <div className="flex justify-center">
                     <ColorPickerForm

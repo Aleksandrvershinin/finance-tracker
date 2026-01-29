@@ -61,6 +61,7 @@ model AccountTag {
   userId    Int
   user      User      @relation(fields: [userId], references: [id])
   accounts  Account[]
+  order     Int       @default(0)
   color     String    @default("#000000")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

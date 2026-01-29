@@ -20,6 +20,7 @@ export declare class AccountsService {
             createdAt: Date;
             updatedAt: Date;
             userId: number;
+            order: number;
             color: string;
         } | null;
         accountGroup: {
@@ -28,8 +29,8 @@ export declare class AccountsService {
             createdAt: Date;
             updatedAt: Date;
             userId: number;
-            isVisible: boolean;
             order: number;
+            isVisible: boolean;
         } | null;
     } & {
         id: number;

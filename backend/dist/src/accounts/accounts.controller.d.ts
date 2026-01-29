@@ -8,63 +8,64 @@ export declare class AccountsController {
     findAll(user: User): Promise<({
         currency: {
             symbol: string;
-            name: string;
             id: number;
+            name: string;
             createdAt: Date;
             updatedAt: Date;
             code: string;
         };
         accountTag: {
-            name: string;
             id: number;
+            name: string;
             createdAt: Date;
             updatedAt: Date;
             userId: number;
+            order: number;
             color: string;
         } | null;
         accountGroup: {
-            name: string;
             id: number;
+            name: string;
             createdAt: Date;
             updatedAt: Date;
             userId: number;
-            isVisible: boolean;
             order: number;
+            isVisible: boolean;
         } | null;
     } & {
-        name: string;
         id: number;
+        name: string;
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        userId: number;
-        balance: number;
-        initialBalance: number;
         accountTagId: number | null;
         groupId: number | null;
+        initialBalance: number;
+        userId: number;
+        balance: number;
     })[]>;
     create(data: CreateAccountDto, user: User): Promise<{
-        name: string;
         id: number;
+        name: string;
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        userId: number;
-        balance: number;
-        initialBalance: number;
         accountTagId: number | null;
         groupId: number | null;
+        initialBalance: number;
+        userId: number;
+        balance: number;
     }>;
     update(id: number, updateAccountDto: UpdateAccountDto, user: User): Promise<{
-        name: string;
         id: number;
+        name: string;
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        userId: number;
-        balance: number;
-        initialBalance: number;
         accountTagId: number | null;
         groupId: number | null;
+        initialBalance: number;
+        userId: number;
+        balance: number;
     }>;
 }

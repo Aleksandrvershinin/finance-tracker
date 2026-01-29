@@ -27,7 +27,8 @@ export class AccountTagsService {
             data: {
                 userId: user.id,
                 name: data.name,
-                color: data.color
+                color: data.color,
+                order: data.order
             },
         })
     }
@@ -37,7 +38,10 @@ export class AccountTagsService {
             where: {
                 userId: user.id,
             },
-        })
+            orderBy: {
+                order: 'asc',
+            },
+        });
     }
 
     // findOne(id: number) {
@@ -70,7 +74,8 @@ export class AccountTagsService {
             where: { id },
             data: {
                 name: data.name,
-                color: data.color
+                color: data.color,
+                order: data.order
             },
         })
     }
