@@ -1,17 +1,5 @@
+import { PartialType } from '@nestjs/mapped-types';
 import { IsNumber, IsOptional, IsString } from 'class-validator'
+import { CreateAccountDto } from './create-account.dto';
 
-export class UpdateAccountDto {
-    @IsString()
-    name: string
-
-    @IsOptional()
-    @IsNumber()
-    accountTagId?: number
-
-    @IsOptional()
-    @IsNumber()
-    groupId?: number
-
-    @IsNumber()
-    initialBalance?: number
-}
+export class UpdateAccountDto extends PartialType(CreateAccountDto) { }

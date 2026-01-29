@@ -1,76 +1,70 @@
 import Loading from '@/shared/components/Loading'
-import AccountCard from './AccountCard/AccountCard'
 import { useAccountList } from '../lib/useAccountList'
-import { useAuth } from '@/entities/auth/lib/useAuth'
 import { useFilterAccounts } from '@/features/Filter/lib/useFilterAccounts'
-import { useGroupedAccounts } from '../lib/useGroupedAccounts'
+import { ungroupedName, useGroupedAccounts } from '../lib/useGroupedAccounts'
 import { useSortedAccounts } from '../lib/useSortedAccounts'
-import Accordion from '@/shared/components/Accordion'
-import { useAccountStore } from '../lib/useAccountStore'
 import { SumByTags } from '@/entities/tagAccount/ui/SumByTags'
+import { DndContext, DragEndEvent, closestCenter } from '@dnd-kit/core'
+import { arrayMove } from '@dnd-kit/sortable'
+import { useReorderAccountMutation } from '../lib/useReorderAccountMutation'
+import { TotalBalance } from './TotalBalance'
+import { AccountGroup } from './AccountGroup'
 
 function AccountList() {
-    const hiddenGroups = useAccountStore((s) => s.hiddenAccountGroupIds)
+    const { mutate } = useReorderAccountMutation()
 
-    const toggleGroup = useAccountStore((s) => s.toggleAccountGroup)
     const { data: accounts = [], isLoading } = useAccountList()
-    const { data: user } = useAuth()
 
     const filteredAccounts = useFilterAccounts(accounts)
-
     const groupedAccounts = useGroupedAccounts(filteredAccounts)
-
     const sortedAccounts = useSortedAccounts(groupedAccounts)
-
     const total = filteredAccounts.reduce((acc, item) => acc + item.balance, 0)
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event
+
+        if (!over) return
+        const activeId = active.id
+        const overId = over.id
+        if (activeId === overId) return
+
+        const groupName =
+            accounts.find((a) => a.id === activeId)?.accountGroup ||
+            ungroupedName
+        const groupAccounts = accounts
+            .filter((a) => a.accountGroup?.name ?? ungroupedName === groupName)
+            .sort((a, b) => a.order - b.order)
+
+        const oldIndex = groupAccounts.findIndex((a) => a.id === activeId)
+        const newIndex = groupAccounts.findIndex((a) => a.id === overId)
+
+        const reorderedAccounts = arrayMove(
+            groupAccounts,
+            oldIndex,
+            newIndex,
+        ).map((acc, idx) => ({
+            id: acc.id,
+            order: idx,
+            groupId: acc.accountGroup?.id || null,
+        }))
+
+        mutate(reorderedAccounts)
+    }
 
     return (
         <>
-            <div className="mb-5 p-4 space-y-4 rounded-2xl shadow-my-soft bg-green-100 text-green-600">
-                <div className="flex items-center gap-x-2 text-xl text-green-600 font-bold px-4">
-                    <p>Общая сумма:</p>
-                    <p>{total.toLocaleString()}</p>
-                    <p>{user?.currency.symbol}</p>
-                </div>
-            </div>
+            <TotalBalance total={total} />
             <SumByTags accounts={accounts} />
-            <div className="flex flex-col gap-y-8">
-                {sortedAccounts.map((group) => (
-                    <div
-                        key={group.name}
-                        className="p-4 rounded-2xl shadow-my-soft bg-white"
-                    >
-                        <Accordion
-                            isOpen={!hiddenGroups[group.id]}
-                            handleSwitch={() => toggleGroup(group.id)}
-                            className=""
-                            renderTitle={(handleSwitch, icon) => (
-                                <div
-                                    onClick={handleSwitch}
-                                    className="flex items-center justify-between mb-4 cursor-pointer"
-                                >
-                                    <h2 className="text-lg font-semibold text-gray-700">
-                                        {group.name}
-                                    </h2>
-                                    <div className="flex items-center gap-x-2">
-                                        <p className="text-green-600 font-bold">
-                                            {group.total.toLocaleString()}{' '}
-                                            {user?.currency.symbol}
-                                        </p>
-                                        {icon}
-                                    </div>
-                                </div>
-                            )}
-                        >
-                            <div className="flex flex-col gap-y-5">
-                                {group.accounts.map((item) => (
-                                    <AccountCard key={item.id} account={item} />
-                                ))}
-                            </div>
-                        </Accordion>
-                    </div>
-                ))}
-            </div>
+            <DndContext
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+            >
+                <div className="flex flex-col gap-y-8">
+                    {sortedAccounts.map((group) => (
+                        <AccountGroup key={group.name} group={group} />
+                    ))}
+                </div>
+            </DndContext>
             <Loading isShow={isLoading} />
         </>
     )

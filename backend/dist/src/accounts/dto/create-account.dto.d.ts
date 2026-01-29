@@ -3,4 +3,5 @@ export declare class CreateAccountDto {
     accountTagId?: number;
     groupId?: number;
     initialBalance?: number;
+    order?: number;
 }

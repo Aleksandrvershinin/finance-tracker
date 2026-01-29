@@ -38,6 +38,7 @@ function AddAccount({ handleClose, account }: Props) {
         defaultValues: {
             initialBalance: account?.initialBalance || 0,
             name: account?.name || '',
+            order: account?.order,
             accountTagId: account?.accountTag?.id,
             groupId: account?.accountGroup?.id,
         },
@@ -96,6 +97,13 @@ function AddAccount({ handleClose, account }: Props) {
                             control={control}
                             placeholder="Введите начальный баланс"
                             name="initialBalance"
+                        />,
+                        <FormItem<TAccountForm>
+                            label="Сортировка"
+                            error={errors.order}
+                            control={control}
+                            placeholder="Сортировка"
+                            name="order"
                         />,
                         <FormSelect<TAccountForm>
                             isClearable

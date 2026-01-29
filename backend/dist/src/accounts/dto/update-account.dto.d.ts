@@ -1,6 +1,5 @@
-export declare class UpdateAccountDto {
-    name: string;
-    accountTagId?: number;
-    groupId?: number;
-    initialBalance?: number;
+import { CreateAccountDto } from './create-account.dto';
+declare const UpdateAccountDto_base: import("@nestjs/mapped-types").MappedType<Partial<CreateAccountDto>>;
+export declare class UpdateAccountDto extends UpdateAccountDto_base {
 }
+export {};

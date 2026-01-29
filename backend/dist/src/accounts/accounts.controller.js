@@ -32,6 +32,9 @@ let AccountsController = class AccountsController {
     update(id, updateAccountDto, user) {
         return this.accountsService.update(id, updateAccountDto, user);
     }
+    reorder(dto, user) {
+        return this.accountsService.reorder(dto, user);
+    }
 };
 exports.AccountsController = AccountsController;
 __decorate([
@@ -58,6 +61,14 @@ __decorate([
     __metadata("design:paramtypes", [Number, update_account_dto_1.UpdateAccountDto, Object]),
     __metadata("design:returntype", void 0)
 ], AccountsController.prototype, "update", null);
+__decorate([
+    (0, common_1.Patch)('reorder'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, user_decorator_1.GetUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Array, Object]),
+    __metadata("design:returntype", void 0)
+], AccountsController.prototype, "reorder", null);
 exports.AccountsController = AccountsController = __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Controller)('accounts'),

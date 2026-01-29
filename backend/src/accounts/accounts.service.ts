@@ -8,6 +8,7 @@ import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateAccountDto } from './dto/create-account.dto'
 import { UpdateAccountDto } from './dto/update-account.dto'
 import { User } from '@prisma/client'
+import { ReorderAccountDto } from './dto/reorder-account.dto'
 
 @Injectable()
 export class AccountsService {
@@ -17,6 +18,9 @@ export class AccountsService {
         return this.prisma.account.findMany({
             where: {
                 userId: user.id,
+            },
+            orderBy: {
+                order: 'asc',
             },
             include: {
                 currency: true,
@@ -101,5 +105,17 @@ export class AccountsService {
         return this.prisma.account.delete({
             where: { id },
         })
+    }
+
+    async reorder(dtos: ReorderAccountDto[], user: User) {
+        // используем транзакцию, чтобы все обновления были атомарными
+        await this.prisma.$transaction(
+            dtos.map(dto =>
+                this.prisma.account.update({
+                    where: { id: dto.id, userId: user.id },
+                    data: { ...dto },
+                })
+            )
+        )
     }
 }

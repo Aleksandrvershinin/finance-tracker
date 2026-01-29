@@ -39,6 +39,7 @@ export declare class TransactionService {
             initialBalance: number;
             userId: number;
             balance: number;
+            order: number;
         };
     } & {
         id: number;
@@ -85,6 +86,7 @@ export declare class TransactionService {
             initialBalance: number;
             userId: number;
             balance: number;
+            order: number;
         };
     } & {
         id: number;

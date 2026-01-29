@@ -8,37 +8,37 @@ export declare class AccountTagsController {
     create(createAccountTagDto: CreateAccountTagDto, user: User): Promise<{
         id: number;
         name: string;
+        createdAt: Date;
+        updatedAt: Date;
         userId: number;
         order: number;
         color: string;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     findAll(user: User): import(".prisma/client").Prisma.PrismaPromise<{
         id: number;
         name: string;
+        createdAt: Date;
+        updatedAt: Date;
         userId: number;
         order: number;
         color: string;
-        createdAt: Date;
-        updatedAt: Date;
     }[]>;
     update(id: string, updateAccountTagDto: UpdateAccountTagDto, user: User): Promise<{
         id: number;
         name: string;
+        createdAt: Date;
+        updatedAt: Date;
         userId: number;
         order: number;
         color: string;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
     remove(id: string, user: User): Promise<{
         id: number;
         name: string;
+        createdAt: Date;
+        updatedAt: Date;
         userId: number;
         order: number;
         color: string;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
 }

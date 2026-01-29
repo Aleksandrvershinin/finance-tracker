@@ -5,6 +5,7 @@ import {
     Get,
     Param,
     ParseIntPipe,
+    Patch,
     Post,
     Put,
     UseGuards,
@@ -15,6 +16,7 @@ import { UpdateAccountDto } from './dto/update-account.dto'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { GetUser } from 'src/auth/user.decorator'
 import { User } from '@prisma/client'
+import { ReorderAccountDto } from './dto/reorder-account.dto'
 
 @UseGuards(JwtAuthGuard)
 @Controller('accounts')
@@ -40,6 +42,10 @@ export class AccountsController {
         return this.accountsService.update(id, updateAccountDto, user)
     }
 
+    @Patch('reorder')
+    reorder(@Body() dto: ReorderAccountDto[], @GetUser() user: User,) {
+        return this.accountsService.reorder(dto, user)
+    }
     // @Delete(':id')
     // remove(@Param('id', ParseIntPipe) id: number) {
     //     return this.accountsService.remove(id)

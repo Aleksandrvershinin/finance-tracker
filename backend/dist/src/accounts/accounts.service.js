@@ -21,6 +21,9 @@ let AccountsService = class AccountsService {
             where: {
                 userId: user.id,
             },
+            orderBy: {
+                order: 'asc',
+            },
             include: {
                 currency: true,
                 accountTag: true,
@@ -90,6 +93,12 @@ let AccountsService = class AccountsService {
         return this.prisma.account.delete({
             where: { id },
         });
+    }
+    async reorder(dtos, user) {
+        await this.prisma.$transaction(dtos.map(dto => this.prisma.account.update({
+            where: { id: dto.id, userId: user.id },
+            data: { ...dto },
+        })));
     }
 };
 exports.AccountsService = AccountsService;

@@ -12,6 +12,7 @@ export const accountSchema = z.object({
     initialBalance: z.number(),
     name: z.string(),
     currency: currencySchema,
+    order: z.number(),
     accountGroup: groupAccountSchema.nullable(),
     accountTag: tagAccountSchema.nullable(),
 })
@@ -21,6 +22,10 @@ export const accountFormSchema = z.object({
     initialBalance: z.coerce
         .number({ message: validationMessages.mustNumber })
         .min(0, { message: validationMessages.minLengthNumber(0) }),
+    order: z.coerce
+        .number()
+        .min(0)
+        .default(0),
     accountTagId: z.number().optional().nullable(),
     groupId: z.number().optional().nullable(),
     // currencyId: z
@@ -31,5 +36,12 @@ export const accountFormSchema = z.object({
     //     }),
 })
 
+const reorderAccountSchema = z.object({
+    id: accountSchema.shape.id,
+    order: accountSchema.shape.order,
+    groupId: groupAccountSchema.shape.id.nullable(),
+});
+
 export type TAccount = z.infer<typeof accountSchema>
 export type TAccountForm = z.infer<typeof accountFormSchema>
+export type TReorderAccount = z.infer<typeof reorderAccountSchema>

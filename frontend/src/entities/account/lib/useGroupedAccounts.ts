@@ -9,12 +9,13 @@ export interface GroupedAccounts {
     accounts: TAccount[]
     total: number
 }
-
+export const ungrouped = 'ungrouped'
+export const ungroupedName = 'Без группы'
 export function useGroupedAccounts(accounts: TAccount[]): GroupedAccounts[] {
     return useMemo(() => {
         const grouped = accounts.reduce((acc, account) => {
-            const groupId = account.accountGroup?.id || 'ungrouped'
-            const groupName = account.accountGroup?.name || 'Без группы'
+            const groupId = account.accountGroup?.id || ungrouped
+            const groupName = account.accountGroup?.name || ungroupedName
 
             if (!acc[groupId]) {
                 acc[groupId] = { id: String(groupId), order: account.accountGroup?.order ?? -1, name: groupName, accounts: [] }
