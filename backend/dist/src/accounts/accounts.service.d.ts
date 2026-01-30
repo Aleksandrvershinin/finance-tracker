@@ -9,81 +9,81 @@ export declare class AccountsService {
     findAll(user: User): Promise<({
         currency: {
             symbol: string;
-            name: string;
             id: number;
+            name: string;
             createdAt: Date;
             updatedAt: Date;
             code: string;
         };
         accountTag: {
-            name: string;
             id: number;
+            name: string;
             createdAt: Date;
             updatedAt: Date;
-            userId: number;
             order: number;
+            userId: number;
             color: string;
         } | null;
         accountGroup: {
-            name: string;
             id: number;
+            name: string;
             createdAt: Date;
             updatedAt: Date;
-            userId: number;
             order: number;
+            userId: number;
             isVisible: boolean;
         } | null;
     } & {
-        name: string;
         id: number;
+        name: string;
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        userId: number;
-        balance: number;
-        initialBalance: number;
         accountTagId: number | null;
         groupId: number | null;
+        initialBalance: number;
         order: number;
+        userId: number;
+        balance: number;
     })[]>;
     create(data: CreateAccountDto, user: User): Promise<{
-        name: string;
         id: number;
+        name: string;
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        userId: number;
-        balance: number;
-        initialBalance: number;
         accountTagId: number | null;
         groupId: number | null;
+        initialBalance: number;
         order: number;
+        userId: number;
+        balance: number;
     }>;
     update(id: number, data: UpdateAccountDto, user: User): Promise<{
-        name: string;
         id: number;
+        name: string;
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        userId: number;
-        balance: number;
-        initialBalance: number;
         accountTagId: number | null;
         groupId: number | null;
+        initialBalance: number;
         order: number;
+        userId: number;
+        balance: number;
     }>;
     remove(id: number): Promise<{
-        name: string;
         id: number;
+        name: string;
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        userId: number;
-        balance: number;
-        initialBalance: number;
         accountTagId: number | null;
         groupId: number | null;
+        initialBalance: number;
         order: number;
+        userId: number;
+        balance: number;
     }>;
     reorder(dtos: ReorderAccountDto[], user: User): Promise<void>;
 }

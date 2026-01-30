@@ -37,9 +37,9 @@ export declare class TransactionService {
             accountTagId: number | null;
             groupId: number | null;
             initialBalance: number;
+            order: number;
             userId: number;
             balance: number;
-            order: number;
         };
     } & {
         id: number;
@@ -84,9 +84,9 @@ export declare class TransactionService {
             accountTagId: number | null;
             groupId: number | null;
             initialBalance: number;
+            order: number;
             userId: number;
             balance: number;
-            order: number;
         };
     } & {
         id: number;

@@ -10,8 +10,8 @@ export declare class AccountTagsService {
         name: string;
         createdAt: Date;
         updatedAt: Date;
-        userId: number;
         order: number;
+        userId: number;
         color: string;
     }>;
     findAll(user: User): import(".prisma/client").Prisma.PrismaPromise<{
@@ -19,8 +19,8 @@ export declare class AccountTagsService {
         name: string;
         createdAt: Date;
         updatedAt: Date;
-        userId: number;
         order: number;
+        userId: number;
         color: string;
     }[]>;
     update(id: number, data: UpdateAccountTagDto, user: User): Promise<{
@@ -28,8 +28,8 @@ export declare class AccountTagsService {
         name: string;
         createdAt: Date;
         updatedAt: Date;
-        userId: number;
         order: number;
+        userId: number;
         color: string;
     }>;
     remove(id: number, user: User): Promise<{
@@ -37,8 +37,8 @@ export declare class AccountTagsService {
         name: string;
         createdAt: Date;
         updatedAt: Date;
-        userId: number;
         order: number;
+        userId: number;
         color: string;
     }>;
 }

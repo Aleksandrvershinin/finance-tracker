@@ -7,6 +7,7 @@ import TransactionsAndTransfers from '@/pages/TransactionsAndTransfers/Transacti
 import Menu from '@/widgets/Menu/Menu'
 import AccountTagsPage from '@/pages/accountTags/AccountTagsPage'
 import DataLoading from './DataLoading'
+import Test from './Test'
 function App() {
     return (
         <BrowserRouter>
@@ -15,6 +16,7 @@ function App() {
                 <Menu />
                 <Routes>
                     <Route path="/" element={<MainPage />} />
+                    <Route path="test" element={<Test />} />
                     <Route path="categories" element={<CategoriesPage />} />
                     <Route
                         path="account-groups"

@@ -13,6 +13,8 @@ export const accountSchema = z.object({
     name: z.string(),
     currency: currencySchema,
     order: z.number(),
+    groupId: groupAccountSchema.shape.id.nullable(),
+    accountTagId: tagAccountSchema.shape.id.nullable(),
     accountGroup: groupAccountSchema.nullable(),
     accountTag: tagAccountSchema.nullable(),
 })

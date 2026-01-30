@@ -19,11 +19,11 @@ const AccountCard: React.FC<AccountCardProps> = ({
 }) => {
     return (
         <div className="p-4 rounded-2xl shadow-my-soft bg-white flex flex-col gap-2 min-w-[280px]">
-            <div className="flex gap-x-2">
+            <div>
                 <div
                     {...listeners}
                     {...attributes}
-                    className="cursor-grab flex items-center"
+                    className="cursor-grab flex justify-center"
                 >
                     ⠿
                 </div>
