@@ -8,6 +8,7 @@ import { CreateAccountTagDto } from './dto/create-account-tag.dto'
 import { UpdateAccountTagDto } from './dto/update-account-tag.dto'
 import { User } from '@prisma/client'
 import { PrismaService } from 'src/prisma/prisma.service'
+import { ReorderAccountTagDto } from './dto/reorder-account-tag.dto'
 
 @Injectable()
 export class AccountTagsService {
@@ -93,5 +94,17 @@ export class AccountTagsService {
         return this.prisma.accountTag.delete({
             where: { id: accountTag.id },
         })
+    }
+
+    async reorder(dtos: ReorderAccountTagDto[], user: User) {
+        // используем транзакцию, чтобы все обновления были атомарными
+        await this.prisma.$transaction(
+            dtos.map(dto =>
+                this.prisma.accountTag.update({
+                    where: { id: dto.id, userId: user.id },
+                    data: { ...dto },
+                })
+            )
+        )
     }
 }

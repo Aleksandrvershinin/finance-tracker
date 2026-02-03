@@ -3,7 +3,7 @@ import { useAccountList } from '../lib/useAccountList'
 import { useFilterAccounts } from '@/features/Filter/lib/useFilterAccounts'
 import { groupingAccounts } from '../lib/groupingAccounts'
 import { sortingGroupedAccounts } from '../lib/sortingGroupedAccounts'
-import { SumByTags } from '@/entities/tagAccount/ui/SumByTags'
+import { SumByTags } from '@/entities/tagAccount/ui/SumByTags/SumByTags'
 import { TotalBalance } from './TotalBalance'
 import { DraggableAccountList } from './DraggableAccountList'
 

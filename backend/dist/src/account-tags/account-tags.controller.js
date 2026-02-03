@@ -29,6 +29,9 @@ let AccountTagsController = class AccountTagsController {
     findAll(user) {
         return this.accountTagsService.findAll(user);
     }
+    reorder(dto, user) {
+        return this.accountTagsService.reorder(dto, user);
+    }
     update(id, updateAccountTagDto, user) {
         return this.accountTagsService.update(+id, updateAccountTagDto, user);
     }
@@ -52,6 +55,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AccountTagsController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Patch)('reorder'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, user_decorator_1.GetUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Array, Object]),
+    __metadata("design:returntype", void 0)
+], AccountTagsController.prototype, "reorder", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),

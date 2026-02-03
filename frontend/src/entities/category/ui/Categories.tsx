@@ -1,11 +1,11 @@
 import Button from '@/shared/components/ui/Button/Button'
 import { useState } from 'react'
-import CategoryList from './CategoryList'
 import { AnimatePresence } from 'framer-motion'
 import Portal from '@/shared/components/Portal'
 import ModalOpacity from '@/shared/components/ui/ModalOpacity'
 import CategoryForm from './CategoryForm'
 import { TCategory } from '../types/category.types'
+import CategoryTable from './CategoryTable'
 
 function Categories() {
     const [showForm, setShowForm] = useState(false)
@@ -26,10 +26,10 @@ function Categories() {
             <Button className="mb-4" onClick={handleOpen} myColor="green500">
                 Добавить
             </Button>
-            <CategoryList
+            <CategoryTable
                 handleClose={handleClose}
                 handleEditClick={handleEditClick}
-            ></CategoryList>
+            />
             <AnimatePresence>
                 {showForm && (
                     <Portal>

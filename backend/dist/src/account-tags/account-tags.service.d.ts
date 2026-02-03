@@ -2,6 +2,7 @@ import { CreateAccountTagDto } from './dto/create-account-tag.dto';
 import { UpdateAccountTagDto } from './dto/update-account-tag.dto';
 import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { ReorderAccountTagDto } from './dto/reorder-account-tag.dto';
 export declare class AccountTagsService {
     private readonly prisma;
     constructor(prisma: PrismaService);
@@ -41,4 +42,5 @@ export declare class AccountTagsService {
         userId: number;
         color: string;
     }>;
+    reorder(dtos: ReorderAccountTagDto[], user: User): Promise<void>;
 }

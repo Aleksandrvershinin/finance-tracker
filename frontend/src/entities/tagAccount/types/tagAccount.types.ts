@@ -19,6 +19,10 @@ export const tagAccountFormSchema = z.object({
         .min(0)
         .default(0),
 })
-
+const reorderAccountTagSchema = z.object({
+    id: tagAccountSchema.shape.id,
+    order: tagAccountSchema.shape.order,
+});
 export type TTagAccount = z.infer<typeof tagAccountSchema>
 export type TTagAccountForm = z.infer<typeof tagAccountFormSchema>
+export type TReorderAccountTag = z.infer<typeof reorderAccountTagSchema>

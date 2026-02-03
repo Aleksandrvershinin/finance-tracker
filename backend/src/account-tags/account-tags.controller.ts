@@ -14,6 +14,7 @@ import { UpdateAccountTagDto } from './dto/update-account-tag.dto'
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'
 import { GetUser } from 'src/auth/user.decorator'
 import { User } from '@prisma/client'
+import { ReorderAccountTagDto } from './dto/reorder-account-tag.dto'
 
 @UseGuards(JwtAuthGuard)
 @Controller('account-tags')
@@ -37,6 +38,10 @@ export class AccountTagsController {
     // findOne(@Param('id') id: string) {
     //     return this.accountTagsService.findOne(+id)
     // }
+    @Patch('reorder')
+    reorder(@Body() dto: ReorderAccountTagDto[], @GetUser() user: User,) {
+        return this.accountTagsService.reorder(dto, user)
+    }
 
     @Patch(':id')
     update(

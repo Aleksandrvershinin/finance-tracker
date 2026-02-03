@@ -1,6 +1,6 @@
 import { apiAxiosWithAuthToken } from '@/shared/api/axiosInstance'
 import { queryOptions } from '@tanstack/react-query'
-import { tagAccountSchema, TTagAccount, TTagAccountForm } from '../types/tagAccount.types'
+import { tagAccountSchema, TReorderAccountTag, TTagAccount, TTagAccountForm } from '../types/tagAccount.types'
 
 export const tagAccountApi = {
     getTagAccountListQueryOptions: () => {
@@ -30,8 +30,12 @@ export const tagAccountApi = {
         return res.data
     },
     delete: async (id: TTagAccount['id']) => {
-        const res = await apiAxiosWithAuthToken.delete(`/account-groups/${id}`)
+        const res = await apiAxiosWithAuthToken.delete(`/account-tags/${id}`)
         return res.data
-    }
+    },
+    reorder: async (data: TReorderAccountTag[]) => {
+        const res = await apiAxiosWithAuthToken.patch('/account-tags/reorder', data)
+        return res.data
+    },
 }
 

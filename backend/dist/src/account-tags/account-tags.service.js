@@ -90,6 +90,12 @@ let AccountTagsService = class AccountTagsService {
             where: { id: accountTag.id },
         });
     }
+    async reorder(dtos, user) {
+        await this.prisma.$transaction(dtos.map(dto => this.prisma.accountTag.update({
+            where: { id: dto.id, userId: user.id },
+            data: { ...dto },
+        })));
+    }
 };
 exports.AccountTagsService = AccountTagsService;
 exports.AccountTagsService = AccountTagsService = __decorate([

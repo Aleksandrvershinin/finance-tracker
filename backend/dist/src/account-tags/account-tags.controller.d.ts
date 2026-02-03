@@ -2,6 +2,7 @@ import { AccountTagsService } from './account-tags.service';
 import { CreateAccountTagDto } from './dto/create-account-tag.dto';
 import { UpdateAccountTagDto } from './dto/update-account-tag.dto';
 import { User } from '@prisma/client';
+import { ReorderAccountTagDto } from './dto/reorder-account-tag.dto';
 export declare class AccountTagsController {
     private readonly accountTagsService;
     constructor(accountTagsService: AccountTagsService);
@@ -23,6 +24,7 @@ export declare class AccountTagsController {
         userId: number;
         color: string;
     }[]>;
+    reorder(dto: ReorderAccountTagDto[], user: User): Promise<void>;
     update(id: string, updateAccountTagDto: UpdateAccountTagDto, user: User): Promise<{
         id: number;
         name: string;
