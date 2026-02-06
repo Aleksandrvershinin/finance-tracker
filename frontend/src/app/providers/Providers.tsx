@@ -1,4 +1,3 @@
-import AuthProvider from './AuthProvider'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
@@ -9,7 +8,7 @@ type Props = { children: React.ReactNode }
 function Providers({ children }: Props) {
     return (
         <QueryClientProvider client={queryClient}>
-            <AuthProvider>{children}</AuthProvider>
+            {children}
             <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     )

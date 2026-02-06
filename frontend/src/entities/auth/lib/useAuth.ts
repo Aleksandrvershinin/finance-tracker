@@ -1,6 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { authApi } from '../api/auth.api'
-import { TAuthForm, TSignupForm } from '../types/auth.types'
+import {
+    TAuthForm,
+    TConfirmCodeEmailForm,
+    TSignupForm,
+} from '../types/auth.types'
 import { accessToken } from '@/shared/api/accessToken.api'
 import { userApi } from '@/entities/user/api/user.api'
 import { getErrorMessage } from '@/shared/lib/getErrorMessage'
@@ -16,7 +20,7 @@ export const useAuth = () => {
             return user // null | User
         },
         retry: false,
-        refetchOnWindowFocus: false
+        refetchOnWindowFocus: false,
     })
 }
 
@@ -26,6 +30,24 @@ export const useLogin = () => {
 
     const mutation = useMutation({
         mutationFn: (data: TAuthForm) => authApi.login(data),
+        onSuccess: (data) => {
+            accessToken.setToken(data.accessToken)
+            queryClient.setQueryData(AUTH_QUERY_KEY, data.user)
+        },
+    })
+
+    return {
+        ...mutation,
+        errorMessage: mutation.error ? getErrorMessage(mutation.error) : null,
+    }
+}
+
+/* ---------- login ---------- */
+export const useLoginBycode = () => {
+    const queryClient = useQueryClient()
+
+    const mutation = useMutation({
+        mutationFn: (data: TConfirmCodeEmailForm) => authApi.loginByCode(data),
         onSuccess: (data) => {
             accessToken.setToken(data.accessToken)
             queryClient.setQueryData(AUTH_QUERY_KEY, data.user)

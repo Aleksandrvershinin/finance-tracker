@@ -10,6 +10,10 @@ export declare class UsersService {
         currencyId: number;
         password: string;
         role: import(".prisma/client").$Enums.Role;
+        loginCodeHash: string | null;
+        loginCodeExpire: Date | null;
+        loginAttempts: number;
+        loginBlockedUntil: Date | null;
         createdAt: Date;
         updatedAt: Date;
     } | null>;
@@ -20,6 +24,10 @@ export declare class UsersService {
         currencyId: number;
         password: string;
         role: import(".prisma/client").$Enums.Role;
+        loginCodeHash: string | null;
+        loginCodeExpire: Date | null;
+        loginAttempts: number;
+        loginBlockedUntil: Date | null;
         createdAt: Date;
         updatedAt: Date;
     } | null>;
@@ -30,6 +38,10 @@ export declare class UsersService {
         currencyId: number;
         password: string;
         role: import(".prisma/client").$Enums.Role;
+        loginCodeHash: string | null;
+        loginCodeExpire: Date | null;
+        loginAttempts: number;
+        loginBlockedUntil: Date | null;
         createdAt: Date;
         updatedAt: Date;
     }[]>;
@@ -49,6 +61,10 @@ export declare class UsersService {
         currencyId: number;
         password: string;
         role: import(".prisma/client").$Enums.Role;
+        loginCodeHash: string | null;
+        loginCodeExpire: Date | null;
+        loginAttempts: number;
+        loginBlockedUntil: Date | null;
         createdAt: Date;
         updatedAt: Date;
     }) | null>;

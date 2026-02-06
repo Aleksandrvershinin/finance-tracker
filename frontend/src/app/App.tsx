@@ -4,26 +4,38 @@ import NotFound from '@/shared/components/ui/NotFound'
 import MainPage from '@/pages/main/MainPage'
 import CategoriesPage from '@/pages/ctegory/CategoriesPage'
 import TransactionsAndTransfers from '@/pages/TransactionsAndTransfers/TransactionsAndTransfers'
-import Menu from '@/widgets/Menu/Menu'
 import AccountTagsPage from '@/pages/accountTags/AccountTagsPage'
-import DataLoading from './DataLoading'
+import AuthController from '@/entities/auth/ui/AuthController'
+import SignupController from '@/entities/auth/ui/SignupController'
+import { Layout } from './Layout/Layout'
+import ProtectedRoute from './Layout/ProtectedRoute'
+import { AuthRoute } from './Layout/AuthRoute'
 function App() {
     return (
         <BrowserRouter>
             <Providers>
-                <DataLoading />
-                <Menu />
                 <Routes>
-                    <Route path="/" element={<MainPage />} />
-                    <Route path="categories" element={<CategoriesPage />} />
-                    <Route
-                        path="account-groups"
-                        element={<AccountTagsPage />}
-                    />
-                    <Route
-                        path="transactions-and-transfers"
-                        element={<TransactionsAndTransfers />}
-                    />
+                    <Route element={<AuthRoute />}>
+                        <Route path="/login" element={<AuthController />} />
+                        <Route path="/signup" element={<SignupController />} />
+                    </Route>
+                    <Route element={<ProtectedRoute />}>
+                        <Route element={<Layout />}>
+                            <Route path="/" element={<MainPage />} />
+                            <Route
+                                path="categories"
+                                element={<CategoriesPage />}
+                            />
+                            <Route
+                                path="account-groups"
+                                element={<AccountTagsPage />}
+                            />
+                            <Route
+                                path="transactions-and-transfers"
+                                element={<TransactionsAndTransfers />}
+                            />
+                        </Route>
+                    </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Providers>

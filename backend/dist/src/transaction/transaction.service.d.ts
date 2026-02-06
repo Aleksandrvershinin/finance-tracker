@@ -34,12 +34,12 @@ export declare class TransactionService {
             currencyId: number;
             createdAt: Date;
             updatedAt: Date;
-            accountTagId: number | null;
-            groupId: number | null;
-            initialBalance: number;
-            order: number;
             userId: number;
             balance: number;
+            initialBalance: number;
+            accountTagId: number | null;
+            groupId: number | null;
+            order: number;
         };
     } & {
         id: number;
@@ -81,12 +81,12 @@ export declare class TransactionService {
             currencyId: number;
             createdAt: Date;
             updatedAt: Date;
-            accountTagId: number | null;
-            groupId: number | null;
-            initialBalance: number;
-            order: number;
             userId: number;
             balance: number;
+            initialBalance: number;
+            accountTagId: number | null;
+            groupId: number | null;
+            order: number;
         };
     } & {
         id: number;

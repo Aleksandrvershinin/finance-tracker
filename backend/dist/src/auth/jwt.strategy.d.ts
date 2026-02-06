@@ -13,6 +13,10 @@ export declare class JwtStrategy extends JwtStrategy_base {
         currencyId: number;
         password: string;
         role: import(".prisma/client").$Enums.Role;
+        loginCodeHash: string | null;
+        loginCodeExpire: Date | null;
+        loginAttempts: number;
+        loginBlockedUntil: Date | null;
         createdAt: Date;
         updatedAt: Date;
     }>;

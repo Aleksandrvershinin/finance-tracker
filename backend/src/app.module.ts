@@ -9,11 +9,13 @@ import { AuthModule } from './auth/auth.module'
 import { CategoriesModule } from './categories/categories.module'
 import { TransactionModule } from './transaction/transaction.module'
 import { TransfersModule } from './transfers/transfers.module'
-import { AccountTagsModule } from './account-tags/account-tags.module';
+import { AccountTagsModule } from './account-tags/account-tags.module'
 import { AccountGroupsModule } from './account-groups/account-groups.module'
+import { MailModule } from './mail/mail.module'
 
 @Module({
     imports: [
+        MailModule,
         PrismaModule,
         AuthModule,
         UsersModule,
@@ -27,4 +29,4 @@ import { AccountGroupsModule } from './account-groups/account-groups.module'
     ],
     providers: [IsUniqueConstraint, IsExistConstraint],
 })
-export class AppModule { }
+export class AppModule {}

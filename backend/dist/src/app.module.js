@@ -20,12 +20,14 @@ const transaction_module_1 = require("./transaction/transaction.module");
 const transfers_module_1 = require("./transfers/transfers.module");
 const account_tags_module_1 = require("./account-tags/account-tags.module");
 const account_groups_module_1 = require("./account-groups/account-groups.module");
+const mail_module_1 = require("./mail/mail.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            mail_module_1.MailModule,
             prisma_module_1.PrismaModule,
             auth_module_1.AuthModule,
             users_module_1.UsersModule,

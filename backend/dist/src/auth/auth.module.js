@@ -14,14 +14,18 @@ const users_module_1 = require("../users/users.module");
 const jwt_1 = require("@nestjs/jwt");
 const passport_1 = require("@nestjs/passport");
 const jwt_strategy_1 = require("./jwt.strategy");
+const mail_module_1 = require("../mail/mail.module");
+const cache_module_1 = require("../cache/cache.module");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            cache_module_1.CacheModule,
             users_module_1.UsersModule,
             passport_1.PassportModule,
+            mail_module_1.MailModule,
             jwt_1.JwtModule.register({
                 secret: process.env.JWT_SECRET || 'super-secret-key',
             }),

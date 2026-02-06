@@ -3,14 +3,17 @@ import { validationMessages } from '@/shared/configs/validationMessages'
 import { z } from 'zod'
 
 const MIN_PASSWORD_LENGTH = 4
-
+export const emailSchema = z.string().email('Некорректный email')
+export const requestCodeEmailResponseSchema = z.object({
+    success: z.boolean(),
+})
 export const loginResponseSchema = z.object({
     accessToken: z.string().nonempty(),
     user: userSchema,
 })
 
 export const authFormSchema = z.object({
-    email: z.string().email('Некорректный email'),
+    email: emailSchema,
     password: z
         .string()
         .min(
@@ -19,6 +22,14 @@ export const authFormSchema = z.object({
         ),
 })
 
+export const requestCodeEmailFormSchema = z.object({
+    email: emailSchema,
+})
+
+export const confirmCodeEmailFormSchema = z.object({
+    email: emailSchema,
+    code: z.string().length(6, 'код должен состоять из 6 символов'),
+})
 export const signupFormSchema = z.object({
     name: z.string().nonempty({ message: 'Имя обязательно' }),
     email: z.string().email('Некорректный email'),
@@ -37,6 +48,8 @@ export const signupFormSchema = z.object({
 })
 
 export type TAuthForm = z.infer<typeof authFormSchema>
+export type TEmailAuth = z.infer<typeof emailSchema>
+export type TRequestCodeEmailForm = z.infer<typeof requestCodeEmailFormSchema>
+export type TConfirmCodeEmailForm = z.infer<typeof confirmCodeEmailFormSchema>
 export type TSignupForm = z.infer<typeof signupFormSchema>
 export type TLoginResponse = z.infer<typeof loginResponseSchema>
-export type TTypeComponent = 'login' | 'signup'

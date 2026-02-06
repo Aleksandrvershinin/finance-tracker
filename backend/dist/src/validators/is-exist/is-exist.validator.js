@@ -34,7 +34,7 @@ let IsExistConstraint = class IsExistConstraint {
         return !!record;
     }
     defaultMessage(args) {
-        return `${args.property} not found`;
+        return `${args.property} не найдено`;
     }
 };
 exports.IsExistConstraint = IsExistConstraint;

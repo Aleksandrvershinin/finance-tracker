@@ -20,8 +20,8 @@ export declare class AccountsService {
             name: string;
             createdAt: Date;
             updatedAt: Date;
-            order: number;
             userId: number;
+            order: number;
             color: string;
         } | null;
         accountGroup: {
@@ -29,8 +29,8 @@ export declare class AccountsService {
             name: string;
             createdAt: Date;
             updatedAt: Date;
-            order: number;
             userId: number;
+            order: number;
             isVisible: boolean;
         } | null;
     } & {
@@ -39,12 +39,12 @@ export declare class AccountsService {
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        accountTagId: number | null;
-        groupId: number | null;
-        initialBalance: number;
-        order: number;
         userId: number;
         balance: number;
+        initialBalance: number;
+        accountTagId: number | null;
+        groupId: number | null;
+        order: number;
     })[]>;
     create(data: CreateAccountDto, user: User): Promise<{
         id: number;
@@ -52,12 +52,12 @@ export declare class AccountsService {
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        accountTagId: number | null;
-        groupId: number | null;
-        initialBalance: number;
-        order: number;
         userId: number;
         balance: number;
+        initialBalance: number;
+        accountTagId: number | null;
+        groupId: number | null;
+        order: number;
     }>;
     update(id: number, data: UpdateAccountDto, user: User): Promise<{
         id: number;
@@ -65,12 +65,12 @@ export declare class AccountsService {
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        accountTagId: number | null;
-        groupId: number | null;
-        initialBalance: number;
-        order: number;
         userId: number;
         balance: number;
+        initialBalance: number;
+        accountTagId: number | null;
+        groupId: number | null;
+        order: number;
     }>;
     remove(id: number): Promise<{
         id: number;
@@ -78,12 +78,12 @@ export declare class AccountsService {
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        accountTagId: number | null;
-        groupId: number | null;
-        initialBalance: number;
-        order: number;
         userId: number;
         balance: number;
+        initialBalance: number;
+        accountTagId: number | null;
+        groupId: number | null;
+        order: number;
     }>;
     reorder(dtos: ReorderAccountDto[], user: User): Promise<void>;
 }

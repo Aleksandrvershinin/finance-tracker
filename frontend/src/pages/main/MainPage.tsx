@@ -10,7 +10,7 @@ function MainPage() {
                 <div className="lg:flex-1 w-full lg:w-auto">
                     <FinancialReport></FinancialReport>
                 </div>
-                <div className="w-full lg:w-auto lg:min-w-[300px] lg:max-w-[350px]">
+                <div className="w-full max-w-[350px]">
                     <Accounts></Accounts>
                 </div>
             </div>

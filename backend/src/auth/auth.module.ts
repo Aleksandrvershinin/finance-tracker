@@ -5,11 +5,15 @@ import { UsersModule } from '../users/users.module' // Предполагает�
 import { JwtModule, JwtService } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
 import { JwtStrategy } from './jwt.strategy'
+import { MailModule } from 'src/mail/mail.module'
+import { CacheModule } from 'src/cache/cache.module'
 
 @Module({
     imports: [
+        CacheModule,
         UsersModule, // Импортируем модуль пользователей
         PassportModule, // Импортируем Passport для аутентификации
+        MailModule,
         JwtModule.register({
             secret: process.env.JWT_SECRET || 'super-secret-key', // Настройки JWT
         }),

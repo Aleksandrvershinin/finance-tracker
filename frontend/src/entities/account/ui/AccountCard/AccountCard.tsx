@@ -18,7 +18,7 @@ const AccountCard: React.FC<AccountCardProps> = ({
     attributes,
 }) => {
     return (
-        <div className="p-4 rounded-2xl shadow-my-soft bg-white flex flex-col gap-2 min-w-[280px]">
+        <div className="p-4 rounded-2xl shadow-my-soft bg-white flex flex-col gap-2">
             <div>
                 <div
                     {...listeners}

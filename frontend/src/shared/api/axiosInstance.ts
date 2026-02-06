@@ -8,7 +8,7 @@ const axiosDefault = {
         process.env.NODE_ENV === 'development'
             ? 'http://localhost:3000/api'
             : 'https://control-finance.top/api',
-    timeout: 5000,
+    timeout: 30000,
     headers: { 'Content-Type': 'application/json' },
 }
 

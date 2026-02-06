@@ -39,6 +39,6 @@ export class IsExistConstraint implements ValidatorConstraintInterface {
     }
 
     defaultMessage(args: ValidationArguments) {
-        return `${args.property} not found`
+        return `${args.property} не найдено`
     }
 }

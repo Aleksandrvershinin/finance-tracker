@@ -13,6 +13,7 @@ interface PropsFormItem<T extends FieldValues> {
     id?: string
     toLocaleStr?: boolean
     removeZero?: boolean
+    readOnly?: boolean
 }
 
 function FormIput<T extends FieldValues>(props: PropsFormItem<T>) {
@@ -26,6 +27,7 @@ function FormIput<T extends FieldValues>(props: PropsFormItem<T>) {
         type = 'text',
         toLocaleStr = false,
         removeZero = false,
+        readOnly,
     } = props
 
     return (
@@ -49,6 +51,7 @@ function FormIput<T extends FieldValues>(props: PropsFormItem<T>) {
                     return (
                         <MyInput
                             {...field}
+                            readOnly={readOnly}
                             type={type}
                             myColor={error ? 'error' : 'primary'}
                             {...(placeholder && { placeholder })}

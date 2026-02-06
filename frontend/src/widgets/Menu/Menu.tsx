@@ -13,7 +13,8 @@ function Menu() {
                     Категории
                 </Link>
                 <Link to="/account-groups" className={styles.menuLink}>
-                    Группы и теги для счетов
+                    Группы <span className="hidden sm:inline">и теги </span>
+                    счетов
                 </Link>
                 <Link
                     to="/transactions-and-transfers"
