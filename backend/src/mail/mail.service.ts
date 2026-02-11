@@ -19,7 +19,6 @@ export class MailService {
 
     async sendLoginCode(email: string, code: string): Promise<void> {
         const html = this.buildLoginCodeTemplate(code)
-        console.log(process.env.MAIL_HOST)
 
         await this.transporter.sendMail({
             from: process.env.MAIL_FROM,

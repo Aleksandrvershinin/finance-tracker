@@ -23,6 +23,8 @@ const account_groups_module_1 = require("./account-groups/account-groups.module"
 const mail_module_1 = require("./mail/mail.module");
 const recaptcha_module_1 = require("./recaptcha/recaptcha.module");
 const config_1 = require("@nestjs/config");
+const throttler_1 = require("@nestjs/throttler");
+const core_1 = require("@nestjs/core");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -31,6 +33,14 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
+            }),
+            throttler_1.ThrottlerModule.forRoot({
+                throttlers: [
+                    {
+                        ttl: 60000,
+                        limit: 30,
+                    },
+                ],
             }),
             mail_module_1.MailModule,
             prisma_module_1.PrismaModule,
@@ -45,7 +55,14 @@ exports.AppModule = AppModule = __decorate([
             account_groups_module_1.AccountGroupsModule,
             recaptcha_module_1.RecaptchaModule,
         ],
-        providers: [is_unique_validator_1.IsUniqueConstraint, is_exist_validator_1.IsExistConstraint],
+        providers: [
+            is_unique_validator_1.IsUniqueConstraint,
+            is_exist_validator_1.IsExistConstraint,
+            {
+                provide: core_1.APP_GUARD,
+                useClass: throttler_1.ThrottlerGuard,
+            },
+        ],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
