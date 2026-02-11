@@ -20,8 +20,8 @@ export declare class AccountsController {
             name: string;
             createdAt: Date;
             updatedAt: Date;
-            userId: number;
             order: number;
+            userId: number;
             color: string;
         } | null;
         accountGroup: {
@@ -29,8 +29,8 @@ export declare class AccountsController {
             name: string;
             createdAt: Date;
             updatedAt: Date;
-            userId: number;
             order: number;
+            userId: number;
             isVisible: boolean;
         } | null;
     } & {
@@ -39,12 +39,12 @@ export declare class AccountsController {
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        userId: number;
-        balance: number;
-        initialBalance: number;
         accountTagId: number | null;
         groupId: number | null;
+        initialBalance: number;
         order: number;
+        userId: number;
+        balance: number;
     })[]>;
     create(data: CreateAccountDto, user: User): Promise<{
         id: number;
@@ -52,12 +52,12 @@ export declare class AccountsController {
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        userId: number;
-        balance: number;
-        initialBalance: number;
         accountTagId: number | null;
         groupId: number | null;
+        initialBalance: number;
         order: number;
+        userId: number;
+        balance: number;
     }>;
     update(id: number, updateAccountDto: UpdateAccountDto, user: User): Promise<{
         id: number;
@@ -65,12 +65,12 @@ export declare class AccountsController {
         currencyId: number;
         createdAt: Date;
         updatedAt: Date;
-        userId: number;
-        balance: number;
-        initialBalance: number;
         accountTagId: number | null;
         groupId: number | null;
+        initialBalance: number;
         order: number;
+        userId: number;
+        balance: number;
     }>;
     reorder(dto: ReorderAccountDto[], user: User): Promise<void>;
 }

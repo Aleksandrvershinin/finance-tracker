@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react'
-import { useAuthStore } from '../lib/useAuthStore'
 
 interface ResendButtonProps {
     children: React.ReactNode
+    nextSendAt: number | null
+    renderWrap?: (timeLeftSec: number) => React.ReactNode
 }
 
-export const ResendButton = ({ children }: ResendButtonProps) => {
-    const nextSendAt = useAuthStore((s) => s.nextSendAt)
+export const WrapResendButton = ({
+    children,
+    nextSendAt,
+    renderWrap,
+}: ResendButtonProps) => {
     const [, forceUpdate] = useState(0)
 
     const timeLeftMs = nextSendAt ? Math.max(0, nextSendAt - Date.now()) : 0
@@ -27,9 +31,13 @@ export const ResendButton = ({ children }: ResendButtonProps) => {
     return (
         <>
             {isDisabled ? (
-                <div className="text-blue-500 mx-auto">
-                    Повторная отправка через {timeLeftSec} сек
-                </div>
+                renderWrap ? (
+                    renderWrap(timeLeftSec)
+                ) : (
+                    <div className="text-blue-500 mx-auto">
+                        Повторная отправка через {timeLeftSec} сек
+                    </div>
+                )
             ) : (
                 children
             )}

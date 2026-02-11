@@ -12,6 +12,10 @@ export const loginResponseSchema = z.object({
     user: userSchema,
 })
 
+export const requestCodeEmailFormSchema = z.object({
+    email: emailSchema,
+})
+
 export const authFormSchema = z.object({
     email: emailSchema,
     password: z
@@ -20,10 +24,6 @@ export const authFormSchema = z.object({
             MIN_PASSWORD_LENGTH,
             `Пароль должен содержать минимум ${MIN_PASSWORD_LENGTH} символов`,
         ),
-})
-
-export const requestCodeEmailFormSchema = z.object({
-    email: emailSchema,
 })
 
 export const confirmCodeEmailFormSchema = z.object({
@@ -49,7 +49,7 @@ export const signupFormSchema = z.object({
 
 export type TAuthForm = z.infer<typeof authFormSchema>
 export type TEmailAuth = z.infer<typeof emailSchema>
-export type TRequestCodeEmailForm = z.infer<typeof requestCodeEmailFormSchema>
 export type TConfirmCodeEmailForm = z.infer<typeof confirmCodeEmailFormSchema>
+export type TRequestCodeEmailForm = z.infer<typeof requestCodeEmailFormSchema>
 export type TSignupForm = z.infer<typeof signupFormSchema>
 export type TLoginResponse = z.infer<typeof loginResponseSchema>

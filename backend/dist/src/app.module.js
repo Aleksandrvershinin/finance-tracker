@@ -21,12 +21,17 @@ const transfers_module_1 = require("./transfers/transfers.module");
 const account_tags_module_1 = require("./account-tags/account-tags.module");
 const account_groups_module_1 = require("./account-groups/account-groups.module");
 const mail_module_1 = require("./mail/mail.module");
+const recaptcha_module_1 = require("./recaptcha/recaptcha.module");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            config_1.ConfigModule.forRoot({
+                isGlobal: true,
+            }),
             mail_module_1.MailModule,
             prisma_module_1.PrismaModule,
             auth_module_1.AuthModule,
@@ -38,6 +43,7 @@ exports.AppModule = AppModule = __decorate([
             transfers_module_1.TransfersModule,
             account_tags_module_1.AccountTagsModule,
             account_groups_module_1.AccountGroupsModule,
+            recaptcha_module_1.RecaptchaModule,
         ],
         providers: [is_unique_validator_1.IsUniqueConstraint, is_exist_validator_1.IsExistConstraint],
     })

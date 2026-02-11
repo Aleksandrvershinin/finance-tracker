@@ -9,22 +9,22 @@ export declare class TransactionService {
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        date: Date;
         type: import(".prisma/client").$Enums.TransactionType;
         accountId: number;
         categoryId: number;
         amount: number;
-        date: Date;
         comment: string | null;
     }>;
     findAllForUser(userId: User['id']): Promise<{
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        date: Date;
         type: import(".prisma/client").$Enums.TransactionType;
         accountId: number;
         categoryId: number;
         amount: number;
-        date: Date;
         comment: string | null;
     }[]>;
     findOne(userId: User['id'], id: Transaction['id']): Promise<{
@@ -34,44 +34,44 @@ export declare class TransactionService {
             currencyId: number;
             createdAt: Date;
             updatedAt: Date;
-            userId: number;
-            balance: number;
-            initialBalance: number;
             accountTagId: number | null;
             groupId: number | null;
+            initialBalance: number;
             order: number;
+            userId: number;
+            balance: number;
         };
     } & {
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        date: Date;
         type: import(".prisma/client").$Enums.TransactionType;
         accountId: number;
         categoryId: number;
         amount: number;
-        date: Date;
         comment: string | null;
     }>;
     update(userId: User['id'], id: Transaction['id'], dto: UpdateTransactionDto): Promise<{
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        date: Date;
         type: import(".prisma/client").$Enums.TransactionType;
         accountId: number;
         categoryId: number;
         amount: number;
-        date: Date;
         comment: string | null;
     }>;
     remove(userId: User['id'], id: Transaction['id']): Promise<{
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        date: Date;
         type: import(".prisma/client").$Enums.TransactionType;
         accountId: number;
         categoryId: number;
         amount: number;
-        date: Date;
         comment: string | null;
     }>;
     validateUserTransaction(userId: User['id'], transactionId: Transaction['id']): Promise<{
@@ -81,22 +81,22 @@ export declare class TransactionService {
             currencyId: number;
             createdAt: Date;
             updatedAt: Date;
-            userId: number;
-            balance: number;
-            initialBalance: number;
             accountTagId: number | null;
             groupId: number | null;
+            initialBalance: number;
             order: number;
+            userId: number;
+            balance: number;
         };
     } & {
         id: number;
         createdAt: Date;
         updatedAt: Date;
+        date: Date;
         type: import(".prisma/client").$Enums.TransactionType;
         accountId: number;
         categoryId: number;
         amount: number;
-        date: Date;
         comment: string | null;
     }>;
 }

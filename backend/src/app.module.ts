@@ -12,9 +12,14 @@ import { TransfersModule } from './transfers/transfers.module'
 import { AccountTagsModule } from './account-tags/account-tags.module'
 import { AccountGroupsModule } from './account-groups/account-groups.module'
 import { MailModule } from './mail/mail.module'
+import { RecaptchaModule } from './recaptcha/recaptcha.module'
+import { ConfigModule } from '@nestjs/config'
 
 @Module({
     imports: [
+        ConfigModule.forRoot({
+            isGlobal: true,
+        }),
         MailModule,
         PrismaModule,
         AuthModule,
@@ -26,6 +31,7 @@ import { MailModule } from './mail/mail.module'
         TransfersModule,
         AccountTagsModule,
         AccountGroupsModule,
+        RecaptchaModule,
     ],
     providers: [IsUniqueConstraint, IsExistConstraint],
 })

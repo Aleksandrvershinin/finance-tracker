@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import type { FieldValues, Path, FieldError, Control } from 'react-hook-form'
+import type { FieldValues, Path, Control } from 'react-hook-form'
 import { Controller } from 'react-hook-form'
 import MyInput from '../ui/inputs/MyInput/MyInput'
 
 interface PropsFormItem<T extends FieldValues> {
     control: Control<T>
-    error?: FieldError
+    error?: { message?: string }
     name: Path<T>
     label?: string
     placeholder?: string

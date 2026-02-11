@@ -1,25 +1,21 @@
-import { useForm } from 'react-hook-form'
-import { useAuthStore } from '../lib/useAuthStore'
+import { useAuthStore } from '../../lib/useAuthStore'
 import {
     confirmCodeEmailFormSchema,
     TConfirmCodeEmailForm,
-} from '../types/auth.types'
+} from '../../types/auth.types'
 import { zodResolver } from '@hookform/resolvers/zod'
-import AuthForm from './form/AuthForm'
+import AuthForm from '../form/AuthForm'
 import { Link, useNavigate } from 'react-router-dom'
 import Button from '@/shared/components/ui/Button/Button'
 import { ImSpinner2 } from 'react-icons/im'
 import FormIput from '@/shared/components/form/FormInput'
-import { useLoginBycode } from '../lib/useAuth'
-import { ResendButton } from './ResendButton'
-import { authApi } from '../api/auth.api'
-import { getErrorMessage } from '@/shared/lib/getErrorMessage'
-import { useState } from 'react'
+import { useLoginBycode } from '../../lib/useAuth'
+import { ResendCodeButton } from './ResendCodeButton'
+import { useFormWithRecaptcha } from '@/shared/lib/hooks/useReCaptchaForm'
+import { WithRecaptcha } from '@/shared/types/WithRecaptcha'
 
 export const ConfirmCodeEmail = () => {
-    const [isPendingResendCode, setIsPendingResendCode] = useState(false)
     const navigate = useNavigate()
-    const setNextSendAt = useAuthStore((s) => s.setNextSendAt)
     const email = useAuthStore((s) => s.email)
     const setEmailAuth = useAuthStore((s) => s.setEmailAuth)
     const setStep = useAuthStore((s) => s.setStep)
@@ -28,12 +24,14 @@ export const ConfirmCodeEmail = () => {
         handleSubmit,
         control,
         formState: { errors },
-        setError,
-    } = useForm<TConfirmCodeEmailForm>({
-        resolver: zodResolver(confirmCodeEmailFormSchema),
-        defaultValues: { email: email ?? '' },
+    } = useFormWithRecaptcha<TConfirmCodeEmailForm>({
+        formProps: {
+            resolver: zodResolver(confirmCodeEmailFormSchema),
+            defaultValues: { email: email ?? '' },
+        },
+        action: 'loginCodeConfirm',
     })
-    const onSubmit = async (data: TConfirmCodeEmailForm) => {
+    const onSubmit = async (data: WithRecaptcha<TConfirmCodeEmailForm>) => {
         await mutateAsync(data, {
             onSuccess: () => {
                 navigate('/', { replace: true })
@@ -46,21 +44,7 @@ export const ConfirmCodeEmail = () => {
         setStep('request code')
         setEmailAuth(null)
     }
-    const handleClickResendCode = async () => {
-        if (!email) return
-        setIsPendingResendCode(true)
-        try {
-            const res = await authApi.requestCodeEmail({ email })
-            if (res.success) {
-                setNextSendAt()
-            }
-        } catch (error) {
-            const errorMessage = getErrorMessage(error)
-            setError('email', { message: errorMessage })
-        } finally {
-            setIsPendingResendCode(false)
-        }
-    }
+
     return (
         <AuthForm
             footer={
@@ -100,20 +84,7 @@ export const ConfirmCodeEmail = () => {
                         )}
                         {isPending ? 'Отправка...' : 'Войти'}
                     </Button>
-                    <ResendButton>
-                        <Button
-                            onClick={handleClickResendCode}
-                            disabled={isPendingResendCode}
-                            className="w-full flex items-center justify-center"
-                        >
-                            {isPendingResendCode && (
-                                <ImSpinner2 className="mr-2 h-4 w-4 animate-spin" />
-                            )}
-                            {isPendingResendCode
-                                ? 'Отправка...'
-                                : 'Отправить код еще раз'}
-                        </Button>
-                    </ResendButton>
+                    <ResendCodeButton />
                 </>
             }
             onSubmit={handleSubmit(onSubmit)}

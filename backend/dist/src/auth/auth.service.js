@@ -82,14 +82,14 @@ let AuthService = class AuthService {
     async loginByCode(dto) {
         const user = await this.usersService.findByEmail(dto.email);
         if (!user || !user.loginCodeHash || !user.loginCodeExpire) {
-            throw new common_1.UnauthorizedException('Invalid code');
+            throw new common_1.UnauthorizedException('Неверный код');
         }
         if (user.loginBlockedUntil && user.loginBlockedUntil > new Date()) {
             const diff = Math.ceil((user.loginBlockedUntil.getTime() - Date.now()) / 60000);
-            throw new common_1.UnauthorizedException(`Too many attempts. Try again in ${diff} min`);
+            throw new common_1.UnauthorizedException(`Слишком много попыток`);
         }
         if (user.loginCodeExpire < new Date()) {
-            throw new common_1.UnauthorizedException('Code expired');
+            throw new common_1.UnauthorizedException('Время действия кода истекло');
         }
         const isValid = await bcrypt.compare(dto.code, user.loginCodeHash);
         if (!isValid) {
@@ -103,7 +103,7 @@ let AuthService = class AuthService {
                 where: { id: user.id },
                 data: { loginAttempts, loginBlockedUntil },
             });
-            throw new common_1.UnauthorizedException('Invalid code');
+            throw new common_1.UnauthorizedException('Неверный код');
         }
         await this.prisma.user.update({
             where: { id: user.id },

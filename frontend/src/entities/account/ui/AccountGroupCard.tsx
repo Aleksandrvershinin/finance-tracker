@@ -2,7 +2,7 @@ import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { GroupedAccounts } from '../lib/groupingAccounts'
 import SortableAccountCard from './AccountCard/SortableAccountCard'
 import Accordion from '@/shared/components/Accordion'
-import { useAuth } from '@/entities/auth/lib/useAuth'
+import { useAuth } from '@/features/auth/lib/useAuth'
 import { useAccountStore } from '../lib/useAccountStore'
 
 type Props = {

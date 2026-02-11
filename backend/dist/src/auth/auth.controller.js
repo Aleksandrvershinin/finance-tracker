@@ -19,6 +19,8 @@ const login_user_dto_1 = require("./dto/login-user.dto");
 const signup_user_dto_1 = require("./dto/signup-user.dto");
 const request_login_code_dto_1 = require("./dto/request-login-code.dto");
 const confirm_login_code_dto_1 = require("./dto/confirm-login-code.dto");
+const recaptcha_guard_1 = require("../recaptcha/recaptcha.guard");
+const recaptcha_decorator_1 = require("../recaptcha/recaptcha.decorator");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -42,13 +44,17 @@ let AuthController = class AuthController {
 };
 exports.AuthController = AuthController;
 __decorate([
+    (0, common_1.UseGuards)(recaptcha_guard_1.RecaptchaGuard),
     (0, common_1.Post)('login'),
+    (0, recaptcha_decorator_1.Recaptcha)('login'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [login_user_dto_1.LoginUserDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 __decorate([
+    (0, common_1.UseGuards)(recaptcha_guard_1.RecaptchaGuard),
+    (0, recaptcha_decorator_1.Recaptcha)('signup'),
     (0, common_1.Post)('signup'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -56,7 +62,9 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "signup", null);
 __decorate([
+    (0, common_1.UseGuards)(recaptcha_guard_1.RecaptchaGuard),
     (0, common_1.Post)('login/code/request'),
+    (0, recaptcha_decorator_1.Recaptcha)('loginCodeRequest'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -64,6 +72,8 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "requestCode", null);
 __decorate([
+    (0, common_1.UseGuards)(recaptcha_guard_1.RecaptchaGuard),
+    (0, recaptcha_decorator_1.Recaptcha)('loginCodeConfirm'),
     (0, common_1.Post)('login/code/confirm'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),

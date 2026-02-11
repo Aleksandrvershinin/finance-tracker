@@ -1,23 +1,26 @@
 import Button from '@/shared/components/ui/Button/Button'
 import AuthForm from './form/AuthForm'
-import { useForm } from 'react-hook-form'
 import { signupFormSchema, TSignupForm } from '../types/auth.types'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useAuthStore } from '../lib/useAuthStore'
 import FormItem from '@/shared/components/form/FormInput'
 import FormSelect from '@/shared/components/form/FormSelect'
 import Loading from '@/shared/components/Loading'
 import { useSignup } from '../lib/useAuth'
 import { useCurrencyList } from '@/entities/currency/lib/useCurrencyList'
+import { Link } from 'react-router-dom'
+import { useFormWithRecaptcha } from '@/shared/lib/hooks/useReCaptchaForm'
 
 function Signup() {
     const {
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm<TSignupForm>({
-        resolver: zodResolver(signupFormSchema),
-        defaultValues: { email: '', password: '', name: '' },
+    } = useFormWithRecaptcha<TSignupForm>({
+        action: 'signup',
+        formProps: {
+            resolver: zodResolver(signupFormSchema),
+            defaultValues: { email: '', password: '', name: '' },
+        },
     })
     const { mutateAsync, isPending, errorMessage } = useSignup()
     const {
@@ -25,7 +28,6 @@ function Signup() {
         isLoading: isLoadingCurrencies,
         error: errorCurrencies,
     } = useCurrencyList()
-    const setComponent = useAuthStore((state) => state.setComponent)
 
     const onSubmit = (data: TSignupForm) => {
         mutateAsync(data)
@@ -44,14 +46,9 @@ function Signup() {
                 footer={
                     <div className="flex gap-x-2 justify-center">
                         <p>Уже есть уккаунт?</p>
-                        <button
-                            onClick={() => {
-                                setComponent('login')
-                            }}
-                            className="text-blue-500"
-                        >
+                        <Link to={'/login'} className="text-blue-500">
                             Войти
-                        </button>
+                        </Link>
                     </div>
                 }
                 buttons={

@@ -7,6 +7,7 @@ import {
     TRequestCodeEmailForm,
     TSignupForm,
 } from '../types/auth.types'
+import { WithRecaptcha } from '@/shared/types/WithRecaptcha'
 
 class AuthApi {
     async login(data: TAuthForm) {
@@ -29,7 +30,7 @@ class AuthApi {
         const res = await apiAxios.post('/auth/signup', data)
         return loginResponseSchema.parse(res.data)
     }
-    async requestCodeEmail(data: TRequestCodeEmailForm) {
+    async requestCodeEmail(data: WithRecaptcha<TRequestCodeEmailForm>) {
         const res = await apiAxios.post('/auth/login/code/request', data)
         return requestCodeEmailResponseSchema.parse(res.data)
     }

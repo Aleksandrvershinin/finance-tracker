@@ -97,20 +97,18 @@ export class AuthService {
     async loginByCode(dto: ConfirmLoginCodeDto) {
         const user = await this.usersService.findByEmail(dto.email)
         if (!user || !user.loginCodeHash || !user.loginCodeExpire) {
-            throw new UnauthorizedException('Invalid code')
+            throw new UnauthorizedException('Неверный код')
         }
 
         if (user.loginBlockedUntil && user.loginBlockedUntil > new Date()) {
             const diff = Math.ceil(
                 (user.loginBlockedUntil.getTime() - Date.now()) / 60000,
             )
-            throw new UnauthorizedException(
-                `Too many attempts. Try again in ${diff} min`,
-            )
+            throw new UnauthorizedException(`Слишком много попыток`)
         }
 
         if (user.loginCodeExpire < new Date()) {
-            throw new UnauthorizedException('Code expired')
+            throw new UnauthorizedException('Время действия кода истекло')
         }
 
         const isValid = await bcrypt.compare(dto.code, user.loginCodeHash)
@@ -130,7 +128,7 @@ export class AuthService {
                 data: { loginAttempts, loginBlockedUntil },
             })
 
-            throw new UnauthorizedException('Invalid code')
+            throw new UnauthorizedException('Неверный код')
         }
 
         // если код правильный, сбрасываем счетчик

@@ -1,4 +1,4 @@
-import { useAuth } from '@/entities/auth/lib/useAuth'
+import { useAuth } from '@/features/auth/lib/useAuth'
 import Loading from '@/shared/components/Loading'
 import { Navigate, Outlet } from 'react-router-dom'
 

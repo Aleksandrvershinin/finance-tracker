@@ -1,7 +1,7 @@
 import { TUser } from '@/entities/user/types/user.types'
 import { Outlet } from 'react-router-dom'
 import NotFound from './ui/NotFound'
-import { useAuth } from '@/entities/auth/lib/useAuth'
+import { useAuth } from '@/features/auth/lib/useAuth'
 
 type Props = {
     userRole: TUser['role']

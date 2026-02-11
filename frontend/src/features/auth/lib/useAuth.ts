@@ -8,6 +8,7 @@ import {
 import { accessToken } from '@/shared/api/accessToken.api'
 import { userApi } from '@/entities/user/api/user.api'
 import { getErrorMessage } from '@/shared/lib/getErrorMessage'
+import { WithRecaptcha } from '@/shared/types/WithRecaptcha'
 
 export const AUTH_QUERY_KEY = ['auth', 'me']
 
@@ -29,7 +30,7 @@ export const useLogin = () => {
     const queryClient = useQueryClient()
 
     const mutation = useMutation({
-        mutationFn: (data: TAuthForm) => authApi.login(data),
+        mutationFn: (data: WithRecaptcha<TAuthForm>) => authApi.login(data),
         onSuccess: (data) => {
             accessToken.setToken(data.accessToken)
             queryClient.setQueryData(AUTH_QUERY_KEY, data.user)
@@ -47,7 +48,8 @@ export const useLoginBycode = () => {
     const queryClient = useQueryClient()
 
     const mutation = useMutation({
-        mutationFn: (data: TConfirmCodeEmailForm) => authApi.loginByCode(data),
+        mutationFn: (data: WithRecaptcha<TConfirmCodeEmailForm>) =>
+            authApi.loginByCode(data),
         onSuccess: (data) => {
             accessToken.setToken(data.accessToken)
             queryClient.setQueryData(AUTH_QUERY_KEY, data.user)

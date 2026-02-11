@@ -1,4 +1,4 @@
-import { useAuth } from '@/entities/auth/lib/useAuth'
+import { useAuth } from '@/features/auth/lib/useAuth'
 import { TransactionTypeSchema } from '@/entities/category/types/category.types'
 import { TTransaction } from '@/entities/transaction/types/transaction.types'
 import { getCategoryType } from '@/shared/lib/getCategoryType'

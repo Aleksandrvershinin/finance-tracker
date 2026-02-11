@@ -1,4 +1,4 @@
-import { useAuth } from '@/entities/auth/lib/useAuth'
+import { useAuth } from '@/features/auth/lib/useAuth'
 
 export function TotalBalance({ total }: { total: number }) {
     const { data: user } = useAuth()

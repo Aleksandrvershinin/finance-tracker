@@ -1,6 +1,6 @@
 import { TagAccountsWithSum } from '@/entities/account/lib/useAccountsByTag'
 import { TTagAccount } from '../../types/tagAccount.types'
-import { useAuth } from '@/entities/auth/lib/useAuth'
+import { useAuth } from '@/features/auth/lib/useAuth'
 import { FaEdit } from 'react-icons/fa'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'

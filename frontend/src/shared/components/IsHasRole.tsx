@@ -1,4 +1,4 @@
-import { useAuth } from '@/entities/auth/lib/useAuth'
+import { useAuth } from '@/features/auth/lib/useAuth'
 import { TUser } from '@/entities/user/types/user.types'
 
 type Props = {

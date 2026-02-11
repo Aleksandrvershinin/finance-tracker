@@ -1,29 +1,38 @@
-import { useForm } from 'react-hook-form'
 import { authFormSchema, TAuthForm } from '../types/auth.types'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useLogin } from '../lib/useAuth'
 import AuthForm from './form/AuthForm'
 import Button from '@/shared/components/ui/Button/Button'
 import FormIput from '@/shared/components/form/FormInput'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useFormWithRecaptcha } from '@/shared/lib/hooks/useReCaptchaForm'
+import { WithRecaptcha } from '@/shared/types/WithRecaptcha'
+import { getErrorMessage } from '@/shared/lib/getErrorMessage'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export const LoginByPass = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const from = (location.state as { from?: Location })?.from?.pathname || '/'
     const {
-        handleSubmit,
-        control,
         formState: { errors },
-    } = useForm<TAuthForm>({
-        resolver: zodResolver(authFormSchema),
-        defaultValues: { email: '', password: '' },
+        handleSubmit,
+        setError,
+        control,
+    } = useFormWithRecaptcha<TAuthForm>({
+        formProps: {
+            resolver: zodResolver(authFormSchema),
+            defaultValues: { email: '', password: '' },
+        },
+        action: 'login',
     })
-    const { mutateAsync, isPending, errorMessage } = useLogin()
-    const onSubmit = async (data: TAuthForm) => {
+    const { mutateAsync, isPending } = useLogin()
+    const onSubmit = async (data: WithRecaptcha<TAuthForm>) => {
         await mutateAsync(data, {
             onSuccess: () => {
                 navigate(from, { replace: true })
+            },
+            onError: (error) => {
+                setError('root', { message: getErrorMessage(error) })
             },
         })
     }
@@ -56,7 +65,7 @@ export const LoginByPass = () => {
                 }
                 onSubmit={handleSubmit(onSubmit)}
                 title="Авторизация"
-                error={errorMessage || undefined}
+                error={errors.root?.message || undefined}
                 fields={[
                     <FormIput
                         error={errors.email}

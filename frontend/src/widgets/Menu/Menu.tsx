@@ -1,4 +1,4 @@
-import Logout from '@/entities/auth/ui/Logout'
+import Logout from '@/features/auth/ui/Logout'
 import { Link } from 'react-router-dom'
 import styles from './menu.module.scss'
 
